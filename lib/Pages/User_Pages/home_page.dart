@@ -3,6 +3,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/all_reservation_page.dart';
 import 'package:mahloula/Pages/User_Pages/my_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/original_page.dart';
+import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   int index = 2;
   Map<int,Widget> Screens = {
     1 : AllReservationPage(),
-    0 : MyProfilePage(),
+    0 : UserProfilePage(),
   };
   @override
   Widget build(BuildContext context) {

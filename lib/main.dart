@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
+import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/welcome_page_one.dart';
 
 void main() {
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: MainColor
       ),
-      home:WelcomePageOne(),
-      //ServiceProviderMainPage(name: "Ahmed") 
+      home://HomePage(name: "ahmed")
+      //WelcomePageOne(),
+      ServiceProviderMainPage(name: "Ahmed") 
     );
   }
 }

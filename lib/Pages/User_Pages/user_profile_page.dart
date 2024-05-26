@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 
-class ServiceProviderProfilePage extends StatelessWidget {
-  const ServiceProviderProfilePage({super.key});
+class UserProfilePage extends StatelessWidget {
+  const UserProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -139,22 +139,6 @@ class ServiceProviderProfilePage extends StatelessWidget {
               OptionCardtext: "الاشعارات",
               OptionFunction: () {},
             ),
-             OptionCard(
-              OptionCardIcon: Icon(
-                Icons.rate_review_rounded,
-                size: 32,
-              ),
-              OptionCardtext: "تقيمات العملاء",
-              OptionFunction: () {},
-            ),
-            OptionCard(
-              OptionCardIcon: Icon(
-                Icons.preview_rounded,
-                size: 32,
-              ),
-              OptionCardtext: "الأعمال السابقة",
-              OptionFunction: () {},
-            ),
             OptionCard(
               OptionCardIcon: Icon(
                 Icons.security_rounded,
@@ -162,7 +146,8 @@ class ServiceProviderProfilePage extends StatelessWidget {
               ),
               OptionCardtext: "الامان",
               OptionFunction: () {},
-            ), OptionCard(
+            ),
+            OptionCard(
               OptionCardIcon: Icon(
                 Icons.lock_person,
                 size: 32,
