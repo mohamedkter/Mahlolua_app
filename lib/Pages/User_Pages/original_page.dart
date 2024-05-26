@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/all_services_page.dart';
 import 'package:mahloula/Pages/User_Pages/bookmark_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
@@ -125,7 +126,7 @@ class OriginalPage extends StatelessWidget {
                         child: Text(
                           'الكل',
                           style: TextStyle(
-                              color: Colors.grey.shade800,
+                              color: MainColor,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'cairo',
                               fontSize: 16),
@@ -160,7 +161,7 @@ class OriginalPage extends StatelessWidget {
                         child: Text(
                           'الكل',
                           style: TextStyle(
-                              color: Colors.grey.shade800,
+                              color: MainColor,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'cairo',
                               fontSize: 16),
