@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: MainColor
       ),
-      home://HomePage(name: "ahmed")
+      home:HomePage(name: "ahmed")
       //WelcomePageOne(),
-      ServiceProviderMainPage(name: "Ahmed") 
+      //ServiceProviderMainPage(name: "Ahmed") 
     );
   }
 }
