@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/help_center_page.dart';
+import 'package:mahloula/Pages/privacy_policy_page.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
@@ -141,13 +143,18 @@ class UserProfilePage extends StatelessWidget {
               OptionCardtext: "الامان",
               OptionFunction: () {},
             ),
-            OptionCard(
+          OptionCard(
               OptionCardIcon: Icon(
                 Icons.lock_person,
                 size: 32,
               ),
               OptionCardtext: "سياسة الخصوصية",
-              OptionFunction: () {},
+              OptionFunction: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),
+                );
+              },
             ),
             OptionCard(
               OptionCardIcon: Icon(
@@ -155,7 +162,12 @@ class UserProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "مركز المساعدة",
-              OptionFunction: () {},
+              OptionFunction: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HelpCenterPage()),
+                );
+              },
             ),
 
 ////////////Log out Button //////////
