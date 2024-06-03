@@ -22,10 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: MainColor
       ),
-      home://NotificationsPage()
-      //HelpCenterPage1()
-      //PrivacyPolicyPage()
-      HelpCenterPage()
+      home:WelcomePageTwo()
       //HomePage(name: "ahmed")
       //WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed") 

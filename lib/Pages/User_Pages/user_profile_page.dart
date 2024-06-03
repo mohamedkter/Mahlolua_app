@@ -9,20 +9,11 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 70, left: 15, right: 15),
+      appBar: AppBar(title:  Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.pending_outlined),
-                    color: Colors.black,
-                    iconSize: 35,
-                  ),
                   Row(
                     children: [
                       const Text(
@@ -46,7 +37,10 @@ class UserProfilePage extends StatelessWidget {
                   )
                 ],
               ),
-            ),
+            ),),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
             const SizedBox(
               height: 20,
             ),

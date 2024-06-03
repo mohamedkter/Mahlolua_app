@@ -27,14 +27,35 @@ class _AllReservationPageState extends State<AllReservationPage>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title:
-          const Text(
-            'الحجوزات',
-            style: TextStyle(
-                fontSize: 27.0,
-                fontFamily: 'cairo',
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-          ),
+              Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        " الحجوزات",
+                        style: TextStyle(
+                            fontFamily: 'cairo',
+                            fontSize: 23.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: MainColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: 30,
+                        height: 30,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
         centerTitle: true,
         bottom: TabBar(
           indicatorSize: TabBarIndicatorSize.tab,
