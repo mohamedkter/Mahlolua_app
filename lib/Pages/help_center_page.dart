@@ -43,16 +43,22 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
             ),
           ),
           bottom: TabBar(
-            indicatorColor: Colors.blue,
-            indicatorSize: TabBarIndicatorSize.label, // زيادة عرض الـ indicator
+            
+            indicatorColor: MainColor,
+            indicatorSize: TabBarIndicatorSize.tab, // زيادة عرض الـ indicator
             indicatorWeight: 3.0,
+            labelStyle: TextStyle(
+              fontSize: 19.0,
+              fontFamily: 'cairo',
+              color: MainColor,
+              fontWeight: FontWeight.bold),
               // زيادة طول الخط
             tabs: [
               Tab(
                 child: Text(
                   "تواصل معنا",
                   style: TextStyle(
-                    color: const Color(0xFF32589C),
+                    color: MainColor,
                     fontFamily: 'Cairo',
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
@@ -137,19 +143,26 @@ class HelpCenterBox extends StatelessWidget {
             ),
           ],
         ),
-        child: Center(
-          child: Text(
-            text,
-            textAlign: TextAlign.right, // تحديد محاذاة النص
-            style: TextStyle(
-              fontFamily: 'Cairo',
-              fontSize: 15.0,
-              fontWeight: FontWeight.bold,
-              height: 1.47,
-              letterSpacing: -0.40799999237060547,
-              color: Colors.black,
-            ),
-            textDirection: TextDirection.rtl, // تغيير محاذاة النص هنا
+        child: Padding(
+          padding: const EdgeInsets.only(right: 50.0),
+          child: Row(
+            
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                text,
+                textAlign: TextAlign.right, // تحديد محاذاة النص
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                  height: 1.47,
+                  letterSpacing: -0.40799999237060547,
+                  color: Colors.black,
+                ),
+                textDirection: TextDirection.rtl, // تغيير محاذاة النص هنا
+              ),
+            ],
           ),
         ),
       ),
