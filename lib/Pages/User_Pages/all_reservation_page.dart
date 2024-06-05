@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Pages/User_Pages/home_page.dart';
+import '../../Constants/Color_Constants.dart';
 import '../../Widgets/custom_reserve_card.dart';
 
 class AllReservationPage extends StatefulWidget {

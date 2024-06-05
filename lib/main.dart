@@ -25,11 +25,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primaryColor: MainColor
       ),
       
-      home:ServiceProviderProfilePage()
+      home://ServiceProviderProfilePage()
       //HelpCenterPage()
       //WelcomePageTwo()
       //HomePage(name: "ahmed")
-      //WelcomePageOne(),
+      WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed") 
     );
   }

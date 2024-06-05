@@ -277,7 +277,7 @@ class CardButton extends StatelessWidget {
             backgroundColor: btn_backgroung,
             side: BorderSide(color: mainColor),
             elevation: 0,
-            fixedSize: Size(165, 25)),
+            fixedSize: Size(155, 25)),
         child: Text(
           btn_text,
           style: TextStyle(
