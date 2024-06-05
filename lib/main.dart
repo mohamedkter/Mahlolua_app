@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: MainColor
       ),
-      home:WelcomePageTwo()
+      home://WelcomePageTwo()
       //HomePage(name: "ahmed")
-      //WelcomePageOne(),
+      WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed") 
     );
   }

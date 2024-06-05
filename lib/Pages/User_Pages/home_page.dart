@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
+import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_reservation_page.dart';
 import 'package:mahloula/Pages/User_Pages/my_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/original_page.dart';
@@ -24,7 +26,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: index == 2 ? OriginalPage(name: widget.name == null ? 'No Name' : widget.name!) : Screens[index],
+      body: 
+     index == 2 ? OriginalPage(name: widget.name == null ? 'No Name' : widget.name!) : Screens[index],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         iconSize: 27,

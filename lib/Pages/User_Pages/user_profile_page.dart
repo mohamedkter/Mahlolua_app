@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Widgets/model_bottom_sheet.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
@@ -165,7 +166,14 @@ class UserProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return ModalBottomSheet();
+                              });
+                    },
                     child: Container(
                       width: 150,
                       height: 50,

@@ -1,10 +1,30 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
 import 'package:mahloula/Widgets/service_card.dart';
 import 'package:mahloula/Pages/User_Pages/service_provider_page.dart';
 
-class SpecificServicePage extends StatelessWidget {
+class SpecificServicePage extends StatefulWidget {
   const SpecificServicePage({Key? key, required this.name}) : super(key: key);
   final String name;
+
+  @override
+  State<SpecificServicePage> createState() => _SpecificServicePageState();
+}
+
+class _SpecificServicePageState extends State<SpecificServicePage> {
+  bool isloading=true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(
+      const Duration(seconds: 3),() {setState(() {
+        isloading=false;
+      });},
+      );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +43,7 @@ class SpecificServicePage extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           Text(
-            name,
+            widget.name,
             style: TextStyle(
               fontFamily: 'cairo',
               fontSize: 27.0,
@@ -39,7 +59,7 @@ class SpecificServicePage extends StatelessWidget {
               ))
         ],
       ),
-      body: Padding(
+      body:isloading?CardLoadingPage():Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView.builder(
             itemBuilder: (context, index) => GestureDetector(

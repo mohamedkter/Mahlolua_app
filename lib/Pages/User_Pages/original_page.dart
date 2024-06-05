@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_services_page.dart';
 import 'package:mahloula/Pages/User_Pages/bookmark_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
@@ -63,7 +64,10 @@ class OriginalPage extends StatelessWidget {
             ],
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => OriginalLoadingPage()));
+
+            },
             icon: Icon(
               Icons.account_circle,
               size: 45,
