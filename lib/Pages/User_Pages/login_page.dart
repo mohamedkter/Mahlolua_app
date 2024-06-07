@@ -3,6 +3,8 @@ import 'package:mahloula/Pages/User_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/User_Pages/regester_page.dart';
 
+import 'home_page.dart';
+
 
 
 
@@ -134,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                             {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => CreateProfilePage())
+                                  MaterialPageRoute(builder: (context) => HomePage(name: '',))
                               );
                             }
                         },

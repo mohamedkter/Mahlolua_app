@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_edit_profile.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_security_page.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
 
@@ -126,7 +129,12 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "تعديل الملف",
-              OptionFunction: () {},
+              OptionFunction: ()
+              {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return EditProfile();
+                }));
+              },
             ),
             OptionCard(
               OptionCardIcon: Icon(
@@ -134,7 +142,12 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: () {},
+              OptionFunction: ()
+              {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return NotificationSettingsScreen();
+                }));
+              },
             ),
              OptionCard(
               OptionCardIcon: Icon(
@@ -158,7 +171,12 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الامان",
-              OptionFunction: () {},
+              OptionFunction: ()
+              {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return SecuritySettingsScreen();
+                }));
+              },
             ), OptionCard(
               OptionCardIcon: Icon(
                 Icons.lock_person,
