@@ -28,8 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc: ^8.1.4
   chips_choice: ^3.0.1
   cupertino_icons: ^1.0.6
+  dio: ^5.4.3+1
   dots_indicator: ^3.0.0
   flutter:
     sdk: flutter
@@ -71,7 +73,5 @@ flutter:
         - asset: assets/fonts/Cairo-Bold.ttf
         - asset: assets/fonts/Cairo-Light.ttf
         - asset: assets/fonts/Cairo-Medium.ttf
-   
-  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
