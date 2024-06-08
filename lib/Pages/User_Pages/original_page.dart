@@ -1,20 +1,35 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Models/offer_model.dart';
 import 'package:mahloula/Models/order_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_services_page.dart';
 import 'package:mahloula/Pages/User_Pages/bookmark_page.dart';
+import 'package:mahloula/Pages/User_Pages/specific_offer_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Pages/User_Pages/offers_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Widgets/custom_all_services.dart';
 import 'package:mahloula/Widgets/custom_offer_item.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class OriginalPage extends StatelessWidget {
   OriginalPage({required this.name});
   final String name;
   TextEditingController searchController = TextEditingController();
+
+  ///////// Offer Slider Data /////////////
+  List<Offer> offers = [
+    Offer(id: 2, image: "assets/photo/offer7.jfif", desc: "all done"),
+    Offer(id: 3, image: "assets/photo/offerone.jpg", desc: "all done"),
+    Offer(id: 4, image: "assets/photo/offertwo.jfif", desc: "all done"),
+  ];
+
+//////////////////////////////////////
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +41,7 @@ class OriginalPage extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
+                  print(TimeOfDay.now());
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => BookmarkPage()));
                 },
@@ -52,7 +68,8 @@ class OriginalPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'صباح الخير',
+                TimeOfDay.now().hour<12?
+                'صباح الخير':'مساء الخير',
                 style: TextStyle(
                     color: Colors.grey, fontFamily: 'cairo', fontSize: 16),
               ),
@@ -102,8 +119,8 @@ class OriginalPage extends StatelessWidget {
                             // services.contains(searchController.text) ? print('success') : Navigator.push(context, MaterialPageRoute(builder: (context){
                             //   return NoResults();
                             // }));
-                            
-                          GetMethods.getUserOrders(1);
+
+                            GetMethods.getUserOrders(1);
                           },
                           icon: const Icon(
                             Icons.search_rounded,
@@ -157,11 +174,18 @@ class OriginalPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                CustomOfferItem(
-                  text1: '30%',
-                  text2: 'عروض اليوم',
-                  text3: ' احصل علي عرض لكل طلب, صالح لليوم',
-                ),
+
+///////////////////////// Offer Slider Section ///////////////////////////////////////////////
+
+                OfferSlider(offers: offers),
+
+///////////////////////////////////////////////////////////////////////////////////
+
+                // CustomOfferItem(
+                //   text1: '30%',
+                //   text2: 'عروض اليوم',
+                //   text3: ' احصل علي عرض لكل طلب, صالح لليوم',
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -199,6 +223,80 @@ class OriginalPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class OfferSlider extends StatefulWidget {
+  const OfferSlider({
+    super.key,
+    required this.offers,
+  });
+
+  final List<Offer> offers;
+
+  @override
+  State<OfferSlider> createState() => _OfferSliderState();
+}
+
+class _OfferSliderState extends State<OfferSlider> {
+  final CarouselController carouselController = CarouselController();
+
+  int currentId = 1;
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 11),
+      child: Stack(
+        children: [
+          InkWell(
+            onTap: () {
+             Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SpecificOfferPage(offer:widget.offers[currentIndex])));
+            },
+            child: CarouselSlider(
+                items: widget.offers
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 7),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              e.image,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                options: CarouselOptions(
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentIndex = index;
+                      });
+                      currentId = widget.offers[index].id;
+                    },
+                    aspectRatio: 2,
+                    viewportFraction: 1,
+                    autoPlay: true,
+                    scrollPhysics: const BouncingScrollPhysics())),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: DotsIndicator(
+              dotsCount: widget.offers.length,
+              position: currentIndex,
+              decorator:
+                  DotsDecorator(activeColor: MainColor, color: Colors.white,activeSize: Size.square(11),size:Size.square(11) ),
+            ),
+          )
+        ],
       ),
     );
   }

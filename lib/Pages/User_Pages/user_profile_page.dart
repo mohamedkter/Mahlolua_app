@@ -134,7 +134,9 @@ class UserProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: () {},
+              OptionFunction: () {
+                
+              },
             ),
             OptionCard(
               OptionCardIcon: Icon(

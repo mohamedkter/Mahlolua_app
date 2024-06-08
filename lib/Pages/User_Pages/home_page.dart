@@ -3,7 +3,6 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_reservation_page.dart';
-import 'package:mahloula/Pages/User_Pages/my_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/original_page.dart';
 import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
 
