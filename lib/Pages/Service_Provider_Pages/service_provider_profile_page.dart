@@ -7,6 +7,7 @@ import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notificat
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_security_page.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 
 class ServiceProviderProfilePage extends StatelessWidget {
   const ServiceProviderProfilePage({super.key});
@@ -211,7 +212,14 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+                       showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return const LogoutBottomSheet();
+                              });
+                    },
                     child: Container(
                       width: 150,
                       height: 50,

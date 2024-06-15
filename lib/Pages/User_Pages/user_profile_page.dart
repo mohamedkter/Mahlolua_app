@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 import 'package:mahloula/Widgets/model_bottom_sheet.dart';
 
 class UserProfilePage extends StatelessWidget {
@@ -185,7 +186,7 @@ class UserProfilePage extends StatelessWidget {
                               isScrollControlled: true,
                               context: context,
                               builder: (context) {
-                                return ModalBottomSheet();
+                                return LogoutBottomSheet();
                               });
                     },
                     child: Container(
