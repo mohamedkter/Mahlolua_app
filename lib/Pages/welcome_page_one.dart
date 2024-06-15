@@ -95,7 +95,7 @@ class _WelcomePageOneState extends State<WelcomePageOne> {
           Text(
             text,
             textDirection: TextDirection.rtl,
-            style: TextStyle(fontSize: 35,fontWeight: FontWeight.w600,fontFamily: 'cairo'),
+            style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600,fontFamily: 'cairo'),
           ),
         ],
       ),

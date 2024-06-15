@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/User_Pages/regester_page.dart';
@@ -145,8 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: 650, // استخدام كل المساحة الأفقية المتاحة
                           padding: EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(
-                                255, 20, 120, 226), // لون الخلفية
+                            color: MainColor, // لون الخلفية
                             borderRadius:
                                 BorderRadius.circular(30.0), // زوايا مستديرة
                           ),

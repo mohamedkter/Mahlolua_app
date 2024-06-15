@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_credentials_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
@@ -22,16 +23,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: MainColor
+      theme: ThemeData(
+        primaryColor: MainColor,
+        inputDecorationTheme: InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MainColor, width: 2.0),
+          ),
+        ),
       ),
-      
-      home://ServiceProviderProfilePage()
+
+      home: //ServiceProviderCredentials(),
       //HelpCenterPage()
       //WelcomePageTwo()
-      HomePage(name: "ahmed")
-      //WelcomePageOne(),
-      //ServiceProviderMainPage(name: "Ahmed") 
+      // HomePage(name: "ahmed")
+      WelcomePageOne(),
+      //ServiceProviderMainPage(name: "Ahmed")
     );
   }
 }
-

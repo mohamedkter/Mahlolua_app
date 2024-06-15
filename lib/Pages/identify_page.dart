@@ -28,13 +28,13 @@ class IdentifyPage extends StatelessWidget {
             Spacer(flex: 1,),
             Image.asset('assets/photo/download.png',width: 350,),
             Spacer(flex: 1,),
-            Text('انضمام',style:
+            Text(' انضمام',style:
             TextStyle(
                 fontSize: 27.0,
                 fontFamily: 'cairo',
                 fontWeight: FontWeight.bold
             ),),
-            SizedBox(height: 10,),
+            SizedBox(height: 15,),
             Directionality(
               textDirection: TextDirection.rtl,
               child: ElevatedButton(
@@ -46,8 +46,8 @@ class IdentifyPage extends StatelessWidget {
                     backgroundColor: MaterialStatePropertyAll(MainColor)
                   ),
                   child: Container(
-                    height: 50,
-                    width: widthOfScreen/1.4,
+                    height: 60,
+                    width: widthOfScreen/1.3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -78,8 +78,8 @@ class IdentifyPage extends StatelessWidget {
                     backgroundColor: MaterialStatePropertyAll(MainColor)
                   ),
                   child: Container(
-                    height: 50,
-                    width: widthOfScreen/1.4,
+                    height: 60,
+                    width: widthOfScreen/1.3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
