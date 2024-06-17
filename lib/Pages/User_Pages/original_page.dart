@@ -7,6 +7,7 @@ import 'package:mahloula/Models/order_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_services_page.dart';
 import 'package:mahloula/Pages/User_Pages/bookmark_page.dart';
+import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Pages/User_Pages/specific_offer_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Pages/User_Pages/offers_page.dart';
@@ -68,8 +69,7 @@ class OriginalPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                TimeOfDay.now().hour<12?
-                'صباح الخير':'مساء الخير',
+                TimeOfDay.now().hour < 12 ? 'صباح الخير' : 'مساء الخير',
                 style: TextStyle(
                     color: Colors.grey, fontFamily: 'cairo', fontSize: 16),
               ),
@@ -90,7 +90,7 @@ class OriginalPage extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => OriginalLoadingPage()));
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.account_circle,
               size: 45,
             ),
@@ -105,41 +105,33 @@ class OriginalPage extends StatelessWidget {
               children: [
                 Directionality(
                   textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                        labelText: 'بحث',
-                        labelStyle: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 24,
-                          fontFamily: 'cairo',
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchPage()));
+                    },
+                    child: Container(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 15,),
+                            Icon(Icons.search_rounded,size: 20,color: Color(0xffB1B1B1),),
+                            SizedBox(width: 5,),
+                            Text(
+                              "بحث",
+                              style: TextStyle(
+                                  fontFamily: 'cairo',
+                                  fontSize: 17.0,
+                                  color: Color(0xffB1B1B1)),
+                            ),
+                          ],
                         ),
-                        prefixIcon: IconButton(
-                          onPressed: () {
-                            // services.contains(searchController.text) ? print('success') : Navigator.push(context, MaterialPageRoute(builder: (context){
-                            //   return NoResults();
-                            // }));
-
-                            GetMethods.getUserOrders(1);
-                          },
-                          icon: const Icon(
-                            Icons.search_rounded,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.black54,
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10),
-                        )),
+                        width: MediaQuery.of(context).size.width / 1.1,
+                        height: 56,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Color(0xffF5F5F5))),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
@@ -152,7 +144,7 @@ class OriginalPage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => OffersPage()));
                       },
-                      child: Text(
+                      child: const Text(
                         'الكل',
                         style: TextStyle(
                             color: MainColor,
@@ -196,7 +188,7 @@ class OriginalPage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => AllServicesPage()));
                       },
-                      child: Text(
+                      child: const Text(
                         'الكل',
                         style: TextStyle(
                             color: MainColor,
@@ -206,7 +198,7 @@ class OriginalPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal:  8.0),
                       child: Text(
                         'الخدمات',
                         style: TextStyle(
@@ -217,6 +209,9 @@ class OriginalPage extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 CustomAllSercivces()
               ],
@@ -254,15 +249,16 @@ class _OfferSliderState extends State<OfferSlider> {
         children: [
           InkWell(
             onTap: () {
-             Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SpecificOfferPage(offer:widget.offers[currentIndex])));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SpecificOfferPage(
+                          offer: widget.offers[currentIndex])));
             },
             child: CarouselSlider(
                 items: widget.offers
                     .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 7),
+                          padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 7),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Image.asset(
@@ -292,8 +288,11 @@ class _OfferSliderState extends State<OfferSlider> {
             child: DotsIndicator(
               dotsCount: widget.offers.length,
               position: currentIndex,
-              decorator:
-                  DotsDecorator(activeColor: MainColor, color: Colors.white,activeSize: Size.square(11),size:Size.square(11) ),
+              decorator: const DotsDecorator(
+                  activeColor: MainColor,
+                  color: Colors.white,
+                  activeSize: Size.square(11),
+                  size: Size.square(11)),
             ),
           )
         ],

@@ -16,17 +16,15 @@ class OriginalLoadingPage extends StatelessWidget {
         title: Row(
           children: [
             IconButton(
-                onPressed: ()
-                {
-                 // Navigator.push(context, MaterialPageRoute(builder: (context) => BookmarkPage()));
+                onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => BookmarkPage()));
                 },
                 icon: const Icon(
                   Icons.bookmark_border,
                   size: 27,
                 )),
             IconButton(
-                onPressed: ()
-                {
+                onPressed: () {
                   //Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
                 },
                 icon: const Icon(
@@ -105,7 +103,7 @@ class OriginalLoadingPage extends StatelessWidget {
                           fontSize: 16),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
                         'عروض خاصة',
                         style: TextStyle(
@@ -140,7 +138,7 @@ class OriginalLoadingPage extends StatelessWidget {
                           fontSize: 16),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 15),
                       child: Text(
                         'الخدمات',
                         style: TextStyle(
@@ -152,10 +150,14 @@ class OriginalLoadingPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(    
-                        crossAxisCount: 3,),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4, mainAxisExtent: 110),
                     itemBuilder: (context, index) => Column(
                       children: [
                         Container(
@@ -170,7 +172,7 @@ class OriginalLoadingPage extends StatelessWidget {
                         Container(width: 50, height: 5, color: Colors.black)
                       ],
                     ),
-                    itemCount: 6,
+                    itemCount: 8,
                   ),
                 )
               ],

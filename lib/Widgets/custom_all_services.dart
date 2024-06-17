@@ -12,9 +12,7 @@ class CustomAllSercivces extends StatelessWidget {
     Service(id: 5, name: 'نقل', desc: "", image: 'assets/photo/truck.png'),
     Service(id: 6, name: 'دهانات', desc: "", image: 'assets/photo/painting.png'),
     Service(id: 7, name: 'نظافة', desc: "", image: 'assets/photo/mop.png'),
-    Service(id: 8, name: 'نظافة', desc: "", image: 'assets/photo/mop.png'),
-    Service(id: 7, name: 'نظافة', desc: "", image: 'assets/photo/mop.png'),
-    
+    Service(id: 8, name: 'المزيد', desc: "", image: 'assets/photo/mop.png'),
   ];
   CustomAllSercivces({
     super.key,
@@ -26,6 +24,7 @@ class CustomAllSercivces extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
+        mainAxisExtent: 110
       ),
       itemBuilder: (context, index) => CustomServiceItem(
         serviceName: services[index].name,
