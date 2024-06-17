@@ -107,7 +107,7 @@ class OriginalPage extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchPage()));
+                    showSearch(context: context, delegate: SearchPage());
                     },
                     child: Container(
                         child: Row(
