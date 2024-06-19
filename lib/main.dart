@@ -3,6 +3,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
+import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
 import 'package:mahloula/Pages/help_center1_page.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: MainColor
       ),
-      home:ServiceProviderProfilePage()
+      home:UserProfilePage()
+      //ServiceProviderProfilePage()
       //HelpCenterPage()
       //WelcomePageTwo()
       //HomePage(name: "ahmed")
