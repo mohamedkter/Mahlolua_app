@@ -35,23 +35,44 @@ class PostMethods {
 
 
   ///////////////////////////// Create User Method //////////////////////////
-  static Future<void> createUser(User user) async {
-    const String url = 'https://mahllola.online/api/register';
-    try {
-      final Response response = await dio.post(
-        url,
-        options: Options(headers: headers),
-        data: user.toMap(),
-      );
-      if (response.statusCode == 200) {
-        print('User created successfully: ${response.data}');
+  static Future<void> createUser(User user, FormData? image) async {
+  const String url = 'https://mahllola.online/api/register'; 
+
+  try {
+    
+    if (user.name == null || user.email == null || !user.email.contains('@')) {
+      throw Exception('Missing required user data');
+    }
+
+    final formData = FormData.fromMap(user.toMap());
+    if (image != null && image.files.isNotEmpty) {
+      final imageFile = image.files.first;
+        formData.files.addAll([imageFile]);
+    }
+    final response = await Dio().post(
+      url,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+      data: formData,
+    );
+
+    
+    if (response.statusCode == 200) {
+      print('User created successfully: ${response.data}');
+    } else {
+      if (response.statusCode == 400) {
+        print('Bad request: ${response.data}');
       } else {
         print('Failed to create user: ${response.statusCode}');
       }
-    } catch (e) {
-      print('Error creating user: $e');
     }
+  } catch (e) {
+    print('Error creating user: $e');
   }
+}
 
 ////////////////////////////////// Make Employee Profile Method ///////////////////////
 

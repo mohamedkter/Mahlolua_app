@@ -1,18 +1,21 @@
+
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Functions/image_converter.dart';
 import 'package:mahloula/Models/user_model.dart';
 import 'package:mahloula/Pages/User_Pages/login_page.dart';
-
+import 'package:mime/mime.dart';
 import '../../Services/Api/post_methods.dart';
 import '../Service_Provider_Pages/service_provider_credentials_page.dart';
 
 class SignupPage extends StatefulWidget {
-   SignupPage({this.type, super.key});
+  SignupPage({this.type, super.key});
 
-   final String? type;
+  final String? type;
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
@@ -31,7 +34,10 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(' انشاء الحساب',style: TextStyle(fontFamily: 'cairo'),),
+        title: const Text(
+          ' انشاء الحساب',
+          style: TextStyle(fontFamily: 'cairo'),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,13 +49,12 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+                const Text(
                   'قم بانشاء\nحسابك',
                   style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'cairo'
-                  ),
+                      fontSize: 35,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'cairo'),
                   textAlign: TextAlign.right,
                 ),
                 SizedBox(height: 20),
@@ -65,7 +70,6 @@ class _SignupPageState extends State<SignupPage> {
                     },
                     decoration: InputDecoration(
                         labelText: 'الاسم الاول',
-
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(
@@ -201,20 +205,23 @@ class _SignupPageState extends State<SignupPage> {
                     _image == null
                         ? Text('لم يتم اختيار صورة')
                         : Image.file(_image!),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _pickImage,
                       child: Text('اضغط لاختيار الصورة'),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('تذكرني',style: TextStyle(fontFamily: 'cairo'),),
+                        Text(
+                          'تذكرني',
+                          style: TextStyle(fontFamily: 'cairo'),
+                        ),
                         Checkbox(
                           value: _rememberMe,
                           onChanged: (value) {
@@ -227,33 +234,34 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     SizedBox(height: 20),
                     GestureDetector(
-                        onTap: () {
-                          if(formKey.currentState!.validate())
-                            {
-                              if(widget.type == 'user'){
-                                User obj = User(
-                                    name: _nameController.text,
-                                    email: _usernameController.text,
-                                    password: _passwordController.text,
-                                    phone: _phoneController.text,
-                                    image: 'E:/Proooooooooject/pic.jpg',
-                                    userType: '${widget.type}'
-                                );
-                                PostMethods.createUser(obj);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
-                                );
-                              }else{
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ServiceProviderCredentials()),
-                                );
-                              }
-
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            if (widget.type == 'user') {
+                              User obj = User(
+                                name: _nameController.text,
+                                email: _usernameController.text,
+                                password: _passwordController.text,
+                                phone: _phoneController.text,
+                                userType: widget.type,
+                              );
+                              FormData? image = _image == null
+                                  ? null
+                                  : await imageConverter(_image!);
+                              await PostMethods.createUser(obj, image);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ServiceProviderCredentials()),
+                              );
                             }
+                          }
                         },
                         child: Container(
                           height: 60,
@@ -265,13 +273,12 @@ class _SignupPageState extends State<SignupPage> {
                                 BorderRadius.circular(30.0), // زوايا مستديرة
                           ),
                           child: Center(
-                            child: Text(
-                              'تسجيل الدخول',
+                            child: Text("انشاء حساب",
                               style: TextStyle(
-                                fontSize: 24.0, // حجم النص
-                                color: Colors.white,
-                                fontFamily: "cairo" // لون النص
-                              ),
+                                  fontSize: 20.0, // حجم النص
+                                  color: Colors.white,
+                                  fontFamily: "cairo" // لون النص
+                                  ),
                             ),
                           ),
                         )),
@@ -283,10 +290,9 @@ class _SignupPageState extends State<SignupPage> {
                   'تسجيل بواسطة',
                   textAlign: TextAlign.center, // تحديث النص هنا
                   style: TextStyle(
-                    fontSize: 18, // تكبير حجم النص إن كنت ترغب
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "cairo"
-                  ),
+                      fontSize: 18, // تكبير حجم النص إن كنت ترغب
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "cairo"),
                 ),
                 SizedBox(height: 10),
                 Row(
@@ -311,15 +317,14 @@ class _SignupPageState extends State<SignupPage> {
 
   //---------Pick Image Function------------
 
-
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
-        //_image = File(pickedFile.path);
-        _image = File('E:/Proooooooooject/pic.jpg');
+        _image = File(pickedFile.path);
+        //  _image = File('E:/Proooooooooject/pic.jpg');
       });
     } else {
       print('No image selected.');
@@ -347,3 +352,6 @@ class Socialimage extends StatelessWidget {
     );
   }
 }
+
+
+

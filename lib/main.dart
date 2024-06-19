@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_credentials_page.dart';
@@ -12,8 +13,9 @@ import 'package:mahloula/Pages/privacy_policy_page.dart';
 import 'package:mahloula/Pages/welcome_page_one.dart';
 import 'package:mahloula/Pages/welcome_page_two.dart';
 
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -35,11 +37,11 @@ class MyApp extends StatelessWidget {
       ),
 
       home:
-      //GetLocationPage(),
-      //ServiceProviderCredentials(),
-      //HelpCenterPage()
-      //WelcomePageTwo()
-       //HomePage(name: "ahmed"),
+          //GetLocationPage(),
+          //ServiceProviderCredentials(),
+          //HelpCenterPage()
+          //WelcomePageTwo()
+        //  HomePage(name: "ahmed"),
       WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed")
     );

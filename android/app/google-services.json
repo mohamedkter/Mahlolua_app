@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "808847051953",
+    "project_id": "mahloula-79c19",
+    "storage_bucket": "mahloula-79c19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808847051953:android:1e6f3dd4f771264d23a690",
+        "android_client_info": {
+          "package_name": "com.example.mahloula"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqyt24wGLagU_zihTKvMGHv6zeKY4cYuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

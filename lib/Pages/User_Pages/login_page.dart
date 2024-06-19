@@ -151,11 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius:
                                 BorderRadius.circular(30.0), // زوايا مستديرة
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'تسجيل الدخول',
                               style: TextStyle(
-                                fontSize: 24.0, // حجم النص
+                                fontSize: 20.0, // حجم النص
                                 color: Colors.white, 
                                 fontFamily: "cairo"// لون النص
                               ),
