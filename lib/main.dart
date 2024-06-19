@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
       //ServiceProviderCredentials(),
       //HelpCenterPage()
       //WelcomePageTwo()
-       HomePage(name: "ahmed"),
-      //WelcomePageOne(),
+       //HomePage(name: "ahmed"),
+      WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed")
     );
   }

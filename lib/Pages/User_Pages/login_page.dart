@@ -3,6 +3,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/User_Pages/regester_page.dart';
+import 'package:mahloula/Pages/identify_page.dart';
 
 import 'home_page.dart';
 
@@ -206,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignupPage()),
+                          MaterialPageRoute(builder: (context) => const IdentifyPage()),
                         );
                       },
                       child: Text(

@@ -3,6 +3,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:mahloula/Pages/identify_page.dart';
 import 'package:mahloula/Pages/welcome_page_two.dart';
 
+import 'User_Pages/login_page.dart';
+
 class WelcomePageOne extends StatefulWidget {
   const WelcomePageOne({super.key});
 
@@ -52,7 +54,7 @@ class _WelcomePageOneState extends State<WelcomePageOne> {
                 if (currentPageIndex == 2) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const IdentifyPage()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
                 } else {
                   _pageController.nextPage(

@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Services/Api/post_methods.dart';
+
+import '../../Models/employee_profile_model.dart';
 
 // ignore: must_be_immutable
 class ServiceProviderCredentials extends StatefulWidget {
@@ -20,6 +23,7 @@ class _ServiceProviderCredentialsState
   ImagePicker picker = ImagePicker();
   final formKey = GlobalKey<FormState>();
   TextEditingController personalIdNumber = TextEditingController();
+  TextEditingController priceController = TextEditingController();
   TextEditingController serviceproviderDecs = TextEditingController();
   File? personalImage;
   File? idImage;
@@ -112,6 +116,12 @@ class _ServiceProviderCredentialsState
                       TextFormFieldWidget(
                           textEditingController: personalIdNumber,
                           textFormFieldTitel: "الرقم القومي"),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormFieldWidget(
+                          textEditingController: priceController,
+                          textFormFieldTitel: "سعر المعاينة"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -262,6 +272,20 @@ class _ServiceProviderCredentialsState
               ElevatedButton(
                 onPressed: () {
                   formKey.currentState?.validate();
+                  EmployeeProfile obj = EmployeeProfile(
+                      desc: serviceproviderDecs.text,
+                      imageSSN: 'E:/Proooooooooject/pic.jpg',
+                      imageLive: 'E:/Proooooooooject/pic.jpg',
+                      SSN: int.parse(personalIdNumber.text),
+                      minPrice: int.parse(priceController.text),
+                      image1: 'E:/Proooooooooject/pic.jpg',
+                      image2: 'E:/Proooooooooject/pic.jpg',
+                      image3: 'E:/Proooooooooject/pic.jpg',
+                      image4: 'E:/Proooooooooject/pic.jpg',
+                      userId: 5,
+                      serviceId: 1
+                  );
+                  PostMethods.createEmployee(obj);
                   print(serviceproviderDecs.text+"---"+personalIdNumber.text+"----");
                 },
                 style: ElevatedButton.styleFrom(

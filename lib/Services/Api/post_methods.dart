@@ -36,7 +36,7 @@ class PostMethods {
 
   ///////////////////////////// Create User Method //////////////////////////
   static Future<void> createUser(User user) async {
-    const String url = 'https://mahllola.online/api/createUser';
+    const String url = 'https://mahllola.online/api/register';
     try {
       final Response response = await dio.post(
         url,
@@ -56,7 +56,7 @@ class PostMethods {
 ////////////////////////////////// Make Employee Profile Method ///////////////////////
 
   static Future<void> createEmployee(EmployeeProfile employee) async {
-  const String url = 'https://mahllola.online/api/createEmployee';
+  const String url = 'https://mahllola.online/api/employee/addEmployee';
   try {
     final Response response = await dio.post(
       url,

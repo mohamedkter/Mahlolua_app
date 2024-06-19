@@ -1,16 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Models/user_model.dart';
 import 'package:mahloula/Pages/User_Pages/login_page.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+import '../../Services/Api/post_methods.dart';
+import '../Service_Provider_Pages/service_provider_credentials_page.dart';
 
+class SignupPage extends StatefulWidget {
+   SignupPage({this.type, super.key});
+
+   final String? type;
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
   bool _isPasswordVisible = false;
+  File? _image;
   bool _rememberMe = false;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
@@ -187,6 +196,20 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 SizedBox(height: 10),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _image == null
+                        ? Text('لم يتم اختيار صورة')
+                        : Image.file(_image!),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      child: Text('اضغط لاختيار الصورة'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -207,11 +230,29 @@ class _SignupPageState extends State<SignupPage> {
                         onTap: () {
                           if(formKey.currentState!.validate())
                             {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
-                              );
+                              if(widget.type == 'user'){
+                                User obj = User(
+                                    name: _nameController.text,
+                                    email: _usernameController.text,
+                                    password: _passwordController.text,
+                                    phone: _phoneController.text,
+                                    image: 'E:/Proooooooooject/pic.jpg',
+                                    userType: '${widget.type}'
+                                );
+                                PostMethods.createUser(obj);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()),
+                                );
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ServiceProviderCredentials()),
+                                );
+                              }
+
                             }
                         },
                         child: Container(
@@ -266,6 +307,23 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  //---------Pick Image Function------------
+
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        //_image = File(pickedFile.path);
+        _image = File('E:/Proooooooooject/pic.jpg');
+      });
+    } else {
+      print('No image selected.');
+    }
   }
 }
 
