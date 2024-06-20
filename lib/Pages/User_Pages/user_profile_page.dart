@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
+import 'package:mahloula/Widgets/model_bottom_sheet.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
@@ -133,7 +135,9 @@ class UserProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: () {},
+              OptionFunction: () {
+                
+              },
             ),
             OptionCard(
               OptionCardIcon: Icon(
@@ -177,7 +181,14 @@ class UserProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return LogoutBottomSheet();
+                              });
+                    },
                     child: Container(
                       width: 150,
                       height: 50,

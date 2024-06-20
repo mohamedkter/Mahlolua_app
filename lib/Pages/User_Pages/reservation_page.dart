@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Models/voucher_model.dart';
 import 'package:mahloula/Pages/User_Pages/add_discount_page.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
-
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
@@ -16,6 +16,8 @@ class ReservationPage extends StatefulWidget {
 class _ReservationPageState extends State<ReservationPage> {
   final List<String> Houres = ["09:00", "10:00", "11:00", "12:00", "01:00"];
   late int Selected_Houres = 0;
+  Voucher? selectedVouche;
+  TextEditingController addVoucher=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,128 +52,155 @@ class _ReservationPageState extends State<ReservationPage> {
               ))
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const Text(
-              "اختر التاريخ",
-              style: TextStyle(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Text(
+                "اختر التاريخ",
+                style: TextStyle(
+                    fontFamily: "Cairo",
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                child: CalendarDatePicker(
+                    initialDate: DateTime(2020),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2040),
+                    onDateChanged: (value) {}),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const Text(
+                "اختر وقت المعاينه",
+                style: TextStyle(
                   fontFamily: "Cairo",
                   fontSize: 20,
                   color: Colors.black,
-                  fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              child: CalendarDatePicker(
-                  initialDate: DateTime(2020),
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime(2040),
-                  onDateChanged: (value) {}),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Text(
-              "اختر وقت المعاينه",
-              style: TextStyle(
-                fontFamily: "Cairo",
-                fontSize: 20,
-                color: Colors.black,
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ChipsChoice.single(
+                      choiceCheckmark: true,
+                      choiceStyle: C2ChipStyle.filled(
+                          selectedStyle: const C2ChipStyle(
+                            backgroundColor: MainColor,
+                          ),
+                          // Border width for the filled chip
+                          color: SecondaryColor,
+                          height: 40,
+                          borderRadius: BorderRadius.circular(20),
+                          borderWidth: 3,
+                          padding: EdgeInsets.symmetric(horizontal: 20)),
+                      value: Selected_Houres,
+                      onChanged: (value) {
+                        setState(() {
+                          Selected_Houres = value;
+                        });
+                      },
+                      choiceItems: C2Choice.listFrom(
+                          source: Houres,
+                          value: (i, v) => i,
+                          label: (i, v) => v),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "كود الخصم",
+                style: TextStyle(
+                  fontFamily: "Cairo",
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ChipsChoice.single(
-                    choiceCheckmark: true,
-                    choiceStyle: C2ChipStyle.filled(
-                        selectedStyle: const C2ChipStyle(
-                          backgroundColor: MainColor,
+                  IconButton(
+                      onPressed: () async {
+                        Voucher ?voucher = await Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => AddDiscountPage()));
+                        setState(() {
+                          selectedVouche = voucher;
+                        });
+                        addVoucher.text=selectedVouche==null?"":selectedVouche!.voucher_Text;
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        color: MainColor,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          alignment: Alignment.center,
+                          backgroundColor: Color(0xfff1E7ff),
+                          minimumSize: Size(45, 45),
+                          fixedSize: const Size(45, 45),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0)))),
+                  Container(
+                    padding: EdgeInsets.only(right: 10),
+                    width: 290,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Color(0xfff1E7ff),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: TextFormField(
+                        controller: addVoucher,
+                        style: TextStyle(
+                          fontFamily: "Cairo",
+                          fontSize: 18,
+                          color: Colors.black,
                         ),
-                        // Border width for the filled chip
-                        color: SecondaryColor,
-                        height: 40,
-                        borderRadius: BorderRadius.circular(20),
-                        borderWidth: 3,
-                        padding: EdgeInsets.symmetric(horizontal: 20)),
-                    value: Selected_Houres,
-                    onChanged: (value) {
-                      setState(() {
-                        Selected_Houres = value;
-                      });
-                    },
-                    choiceItems: C2Choice.listFrom(
-                        source: Houres, value: (i, v) => i, label: (i, v) => v),
+                        decoration: InputDecoration(
+
+                          hintStyle: TextStyle(
+                            fontFamily: "Cairo",
+                            fontSize: 18,
+                            color: const Color.fromARGB(255, 118, 115, 115),
+                          ),
+                          hintText: "ادخل كود الخضم",
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none),
+                          border: InputBorder.none,
+                          fillColor: Color(0xfff1E7ff),
+                          filled: true,
+                        ),
+                      ),
+                    ),
                   )
                 ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "كود الخصم",
-              style: TextStyle(
-                fontFamily: "Cairo",
-                fontSize: 20,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AddDiscountPage()));
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      color: MainColor,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        alignment: Alignment.center,
-                        backgroundColor: Color(0xfff1E7ff),
-                        minimumSize: Size(45, 45),
-                        fixedSize: const Size(45, 45),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)))),
-                Container(
-                  padding: EdgeInsets.only(right: 15),
-                  alignment: Alignment.centerRight,
-                  width: 290,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Color(0xfff1E7ff),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: const Text(
-                    "ادخل كود الخضم",
-                    style: TextStyle(
-                      fontFamily: "Cairo",
-                      fontSize: 15,
-                      color: Colors.grey,
-                    ),
-                  ),
-                )
-              ],
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomBottomAppBar(
         buttonText: "100\$  -الحجز ",
         buttonFunction: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const GetLocationPage()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const GetLocationPage()));
         },
       ),
     );

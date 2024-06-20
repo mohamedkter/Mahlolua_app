@@ -3,6 +3,8 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
 import 'package:mahloula/Pages/welcome_page_two.dart';
 
+import 'User_Pages/regester_page.dart';
+
 
 class IdentifyPage extends StatelessWidget {
   const IdentifyPage({Key? key}) : super(key: key);
@@ -28,26 +30,26 @@ class IdentifyPage extends StatelessWidget {
             Spacer(flex: 1,),
             Image.asset('assets/photo/download.png',width: 350,),
             Spacer(flex: 1,),
-            Text('انضمام',style:
+            Text(' انضمام',style:
             TextStyle(
                 fontSize: 27.0,
                 fontFamily: 'cairo',
                 fontWeight: FontWeight.bold
             ),),
-            SizedBox(height: 10,),
+            SizedBox(height: 15,),
             Directionality(
               textDirection: TextDirection.rtl,
               child: ElevatedButton(
                   onPressed: ()
                   {
-                    Navigator.push(context, MaterialPageRoute(builder: (context){return WelcomePageTwo();}));
+                    Navigator.push(context, MaterialPageRoute(builder: (context){return SignupPage(type: 'user',);}));
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(MainColor)
                   ),
                   child: Container(
-                    height: 50,
-                    width: widthOfScreen/1.4,
+                    height: 60,
+                    width: widthOfScreen/1.3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -72,14 +74,14 @@ class IdentifyPage extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: ()
                   {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ServiceProviderMainPage(name: "Ahmed")));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignupPage(type: 'employee',)));
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(MainColor)
                   ),
                   child: Container(
-                    height: 50,
-                    width: widthOfScreen/1.4,
+                    height: 60,
+                    width: widthOfScreen/1.3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

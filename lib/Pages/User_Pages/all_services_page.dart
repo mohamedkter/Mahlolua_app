@@ -38,7 +38,7 @@ class AllServicesPage extends StatelessWidget {
               ))
         ],
       ),
-      body: const Padding(
+      body:  Padding(
         padding: EdgeInsets.all(8.0),
         child: CustomAllSercivces(),
       ),

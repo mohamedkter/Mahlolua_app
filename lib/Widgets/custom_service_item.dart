@@ -21,7 +21,7 @@ class CustomServiceItem extends StatelessWidget {
             }));
           },
           icon: CircleAvatar(
-            radius: 33,
+            radius: 25,
             child: Image.asset(
               imageSource,
               width: 55,

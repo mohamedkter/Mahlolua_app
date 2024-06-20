@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/User_Pages/regester_page.dart';
+import 'package:mahloula/Pages/identify_page.dart';
+
+import 'home_page.dart';
 
 
 
@@ -134,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => CreateProfilePage())
+                                  MaterialPageRoute(builder: (context) => HomePage(name: '',))
                               );
                             }
                         },
@@ -143,16 +147,15 @@ class _LoginPageState extends State<LoginPage> {
                           width: 650, // استخدام كل المساحة الأفقية المتاحة
                           padding: EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(
-                                255, 20, 120, 226), // لون الخلفية
+                            color: MainColor, // لون الخلفية
                             borderRadius:
                                 BorderRadius.circular(30.0), // زوايا مستديرة
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'تسجيل الدخول',
                               style: TextStyle(
-                                fontSize: 24.0, // حجم النص
+                                fontSize: 20.0, // حجم النص
                                 color: Colors.white, 
                                 fontFamily: "cairo"// لون النص
                               ),
@@ -204,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignupPage()),
+                          MaterialPageRoute(builder: (context) => const IdentifyPage()),
                         );
                       },
                       child: Text(

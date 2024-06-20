@@ -1,7 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
+import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_reservation_page.dart';
-import 'package:mahloula/Pages/User_Pages/my_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/original_page.dart';
 import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
 
@@ -13,8 +15,21 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+gettoken() async {
+  String? token=await FirebaseMessaging.instance.getToken();
+  print("================================================");
+  print(token);
+  print("================================================");
+
+}
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    gettoken();
+  }
   int index = 2;
   Map<int,Widget> Screens = {
     1 : AllReservationPage(),
@@ -24,7 +39,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: index == 2 ? OriginalPage(name: widget.name == null ? 'No Name' : widget.name!) : Screens[index],
+      body: 
+     index == 2 ? OriginalPage(name: widget.name == null ? 'No Name' : widget.name!) : Screens[index],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         iconSize: 27,
