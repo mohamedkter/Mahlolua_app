@@ -3,6 +3,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_all_resevation_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_home_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_profile_page.dart';
+import 'package:mahloula/Pages/all_reservation_page.dart';
 
 class ServiceProviderMainPage extends StatefulWidget {
   ServiceProviderMainPage({required this.name});
@@ -15,7 +16,7 @@ class ServiceProviderMainPage extends StatefulWidget {
 class _ServiceProviderMainPageState extends State<ServiceProviderMainPage> {
   int index = 2;
   Map<int,Widget> Screens = {
-    1 : ServiceProviderAllReserviationPage(),
+    1 : AllReservationPage(),
     0 : ServiceProviderProfilePage(),
   };
   @override

@@ -36,17 +36,15 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-<<<<<<< HEAD
-      home:UserProfilePage()
+      home://UserProfilePage()
       //ServiceProviderProfilePage()
       //HelpCenterPage()
       //WelcomePageTwo()
       //HomePage(name: "ahmed")
       //WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed") 
-=======
 
-      home:
+      
           //GetLocationPage(),
           //ServiceProviderCredentials(),
           //HelpCenterPage()
@@ -54,7 +52,6 @@ class MyApp extends StatelessWidget {
         //  HomePage(name: "ahmed"),
       WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed")
->>>>>>> cb052b2eed7df7c206a2f360f2141640803b2d86
     );
   }
 }
