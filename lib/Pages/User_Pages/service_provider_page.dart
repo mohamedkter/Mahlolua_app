@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Models/order_model.dart';
 import 'package:read_more_text/read_more_text.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/reservation_page.dart';
 
 class ServiceProviderPage extends StatelessWidget {
-  const ServiceProviderPage({super.key});
-
+   ServiceProviderPage({this.nameSerivce, super.key});
+  final String? nameSerivce;
+  int price = 30;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +15,7 @@ class ServiceProviderPage extends StatelessWidget {
           backgroundColor: MainColor,
         ),
         bottomNavigationBar: ClipRRect(
-          borderRadius: const BorderRadius.only(
+          borderRadius:  BorderRadius.only(
               topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
           child: BottomAppBar(
             child: Row(
@@ -26,8 +28,11 @@ class ServiceProviderPage extends StatelessWidget {
                         elevation: 1,
                         fixedSize: Size(170, 50)),
                     onPressed: () {
+                      Order obj = Order(
+                          price: price,
+                      );
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ReservationPage()));
+                          builder: (context) => ReservationPage(object: obj)));
                     },
                     child: const Text(
                       "حجز معاينه",
@@ -66,7 +71,7 @@ class ServiceProviderPage extends StatelessWidget {
                 color: MainColor,
               ),
             ),
-            const SliverToBoxAdapter(
+             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Column(
@@ -80,7 +85,7 @@ class ServiceProviderPage extends StatelessWidget {
                           size: 35,
                         ),
                         Text(
-                          "صيانه تكيف",
+                          nameSerivce!,
                           style: TextStyle(
                               fontFamily: "Cairo",
                               fontSize: 30,
@@ -152,7 +157,7 @@ class ServiceProviderPage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(3)),
                           child: Text(
-                            "صيانه تكيف",
+                            nameSerivce!,
                             style: TextStyle(
                               backgroundColor: Color(0xfff1e7ff),
                               fontFamily: "Cairo",
@@ -178,7 +183,7 @@ class ServiceProviderPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "100\$",
+                          " 30",
                           style: TextStyle(
                               fontFamily: "Cairo",
                               fontSize: 35,
@@ -260,13 +265,13 @@ class ServiceProviderPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                     EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: GridView.builder(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics:  NeverScrollableScrollPhysics(),
                     itemCount: 20,
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                         SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
                             crossAxisCount: 2),

@@ -6,9 +6,12 @@ import 'package:mahloula/Pages/User_Pages/add_discount_page.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
 
-class ReservationPage extends StatefulWidget {
-  const ReservationPage({super.key});
+import '../../Models/order_model.dart';
 
+class ReservationPage extends StatefulWidget {
+  const ReservationPage({this.object, super.key});
+
+  final Order? object;
   @override
   State<ReservationPage> createState() => _ReservationPageState();
 }
@@ -16,8 +19,11 @@ class ReservationPage extends StatefulWidget {
 class _ReservationPageState extends State<ReservationPage> {
   final List<String> Houres = ["09:00", "10:00", "11:00", "12:00", "01:00"];
   late int Selected_Houres = 0;
+  TextEditingController _controller = TextEditingController();
   Voucher? selectedVouche;
   TextEditingController addVoucher=TextEditingController();
+
+  String DateAndTime = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +63,7 @@ class _ReservationPageState extends State<ReservationPage> {
           padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 "اختر التاريخ",
@@ -74,10 +81,15 @@ class _ReservationPageState extends State<ReservationPage> {
                     initialDate: DateTime(2020),
                     firstDate: DateTime(2020),
                     lastDate: DateTime(2040),
-                    onDateChanged: (value) {}),
+                    onDateChanged: (value)
+                    {
+                      String x = value.toString();
+                      print(x.substring(0,10));
+                      DateAndTime = x.substring(0,10) + ' ';
+                    }),
               ),
               const SizedBox(
-                height: 40,
+                height: 10,
               ),
               const Text(
                 "اختر وقت المعاينه",
@@ -87,36 +99,49 @@ class _ReservationPageState extends State<ReservationPage> {
                   color: Colors.black,
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    ChipsChoice.single(
-                      choiceCheckmark: true,
-                      choiceStyle: C2ChipStyle.filled(
-                          selectedStyle: const C2ChipStyle(
-                            backgroundColor: MainColor,
-                          ),
-                          // Border width for the filled chip
-                          color: SecondaryColor,
-                          height: 40,
-                          borderRadius: BorderRadius.circular(20),
-                          borderWidth: 3,
-                          padding: EdgeInsets.symmetric(horizontal: 20)),
-                      value: Selected_Houres,
-                      onChanged: (value) {
-                        setState(() {
-                          Selected_Houres = value;
-                        });
-                      },
-                      choiceItems: C2Choice.listFrom(
-                          source: Houres,
-                          value: (i, v) => i,
-                          label: (i, v) => v),
-                    )
-                  ],
+              Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(
+                //labelText: 'Select Date and Time',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  onPressed: () => _selectDateTime(context),
                 ),
               ),
+            ),
+          ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Row(
+              //     children: [
+              //       ChipsChoice.single(
+              //         choiceCheckmark: true,
+              //         choiceStyle: C2ChipStyle.filled(
+              //             selectedStyle: const C2ChipStyle(
+              //               backgroundColor: MainColor,
+              //             ),
+              //             // Border width for the filled chip
+              //             color: SecondaryColor,
+              //             height: 40,
+              //             borderRadius: BorderRadius.circular(20),
+              //             borderWidth: 3,
+              //             padding: EdgeInsets.symmetric(horizontal: 20)),
+              //         value: Selected_Houres,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             Selected_Houres = value;
+              //           });
+              //         },
+              //         choiceItems: C2Choice.listFrom(
+              //             source: Houres,
+              //             value: (i, v) => i,
+              //             label: (i, v) => v),
+              //       )
+              //     ],
+              //   ),
+              // ),
               const SizedBox(
                 height: 10,
               ),
@@ -143,6 +168,10 @@ class _ReservationPageState extends State<ReservationPage> {
                           selectedVouche = voucher;
                         });
                         addVoucher.text=selectedVouche==null?"":selectedVouche!.code;
+                        selectedVouche?.discount;
+                        DateAndTime += _controller.text;
+                        widget.object?.voucherCode = selectedVouche?.discount;
+                        widget.object?.dateOfDelivery = DateAndTime;
                       },
                       icon: const Icon(
                         Icons.add,
@@ -200,9 +229,42 @@ class _ReservationPageState extends State<ReservationPage> {
         buttonText: "100\$  -الحجز ",
         buttonFunction: () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const GetLocationPage()));
+              MaterialPageRoute(builder: (context) =>  GetLocationPage(obj: widget.object,)));
         },
       ),
     );
+  }
+
+  void _selectDateTime(BuildContext context) async {
+    // DateTime? pickedDate = await showDatePicker(
+    //   context: context,
+    //   initialDate: DateTime.now(),
+    //   firstDate: DateTime(2000),
+    //   lastDate: DateTime(2101),
+    // );
+
+    //if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        DateTime finalDateTime = DateTime(
+          // pickedDate.year,
+          // pickedDate.month,
+          // pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        setState(() {
+          String x = pickedTime.toString();
+          
+          _controller.text = x.substring(10,15);
+          widget.object?.dateOfDelivery ;
+        });
+      }
+    //}
   }
 }

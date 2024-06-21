@@ -116,7 +116,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ServiceProviderPage()));
+                              builder: (context) =>  ServiceProviderPage()));
                         },
                       ),
                 ),

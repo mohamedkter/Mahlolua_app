@@ -5,6 +5,8 @@ import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/User_Pages/login_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
+import 'Pages/User_Pages/welcome_page_one.dart';
+
 
 
 Future<void> main() async {
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
 
       home:
@@ -41,9 +43,9 @@ class MyApp extends StatelessWidget {
         //  HomePage(name: "ahmed"),
       WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed")
-=======
-      home:CacheData.getData(key:"token")==null?const LoginPage():HomePage(name:"${CacheData.getData(key: "name")}"),
->>>>>>> 448418d73d0a152ee01f8714c534a73203de07db
+// =======
+//       home:CacheData.getData(key:"token")==null?const LoginPage():HomePage(name:"${CacheData.getData(key: "name")}"),
+// >>>>>>> 448418d73d0a152ee01f8714c534a73203de07db
     );
   }
 }

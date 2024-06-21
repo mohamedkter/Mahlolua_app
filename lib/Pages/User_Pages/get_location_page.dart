@@ -4,11 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mahloula/Services/Api/post_methods.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 
-class GetLocationPage extends StatefulWidget {
-  const GetLocationPage({super.key});
+import '../../Models/order_model.dart';
+import '../all_reservation_page.dart';
 
+class GetLocationPage extends StatefulWidget {
+  const GetLocationPage({this.obj, super.key});
+
+  final Order? obj;
   @override
   State<GetLocationPage> createState() => _GetLocationPageState();
 }
@@ -42,6 +48,8 @@ class _GetLocationPageState extends State<GetLocationPage> {
 
   TextEditingController textEditingController = TextEditingController();
   List<Marker> marker = [];
+
+  TextEditingController descController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -123,7 +131,7 @@ class _GetLocationPageState extends State<GetLocationPage> {
                     List<Placemark> placemarks = await placemarkFromCoordinates(
                         location.latitude, location.longitude);
                     Placemark place = placemarks[0];
-                    textEditingController.text = "${place.street},";
+                    textEditingController.text = "${place.street}";
                   },
                   markers: marker.toSet(),
                   mapType: MapType.normal,
@@ -212,13 +220,29 @@ class _GetLocationPageState extends State<GetLocationPage> {
                               await placemarkFromCoordinates(
                                   myLocation.latitude, myLocation.longitude);
                           Placemark place = placemarks[0];
-                          textEditingController.text = "${place.street},";
+                          textEditingController.text = "${place.street}";
                         },
                         child: Icon(
                           Icons.location_on_outlined,
                           color: Color(0xff31589B),
                         ),
                       ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextFormField(
+                    controller: descController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)
+                      ),
+                      labelText: 'اكتب وصف المشكلة',
+                      labelStyle: TextStyle(fontFamily: 'cairo')
                     ),
                   ),
                 ),
@@ -230,8 +254,15 @@ class _GetLocationPageState extends State<GetLocationPage> {
       bottomNavigationBar: CustomBottomAppBar(
         buttonText: "تاكيد الحجز - \$100 ",
         buttonFunction: () {
+          widget.obj?.location = textEditingController.text;
+          //ابقي حط ال  id انا هفترض بي 1
+          //widget.obj?.userId = CacheData.getData(key:"token");
+          widget.obj?.userId = 5;
+          widget.obj?.orderDescriptions = descController.text;
+          widget.obj?.employeeId = 6;
+          PostMethods.makeOrder(widget.obj!);
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => GetLocationPage()));
+              .push(MaterialPageRoute(builder: (context) => AllReservationPage()));
         },
       ),
     );

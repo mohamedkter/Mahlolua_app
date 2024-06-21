@@ -63,10 +63,10 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView.builder(
             itemBuilder: (context, index) => GestureDetector(
-              child: ServiceCard(NumberResidents: 1200,Price: 135,ProvidedService: "صيانه تكيف",rate: 3.5,ServiceProviderName: "محمد محمود",ToDoFunction: (){print("bookmarked");},),
+              child: ServiceCard(NumberResidents: 1200,Price: 135,ProvidedService: widget.name,rate: 3.5,ServiceProviderName: "محمد محمود",ToDoFunction: (){print("bookmarked");},),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ServiceProviderPage()));
+                    builder: (context) =>  ServiceProviderPage(nameSerivce: widget.name)));
               },
             ),
             itemCount: 50,
