@@ -1,21 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_credentials_page.dart';
-import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
-import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_profile_page.dart';
-import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/User_Pages/login_page.dart';
-import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
-import 'package:mahloula/Pages/help_center1_page.dart';
-import 'package:mahloula/Pages/help_center_page.dart';
-import 'package:mahloula/Pages/notifications_page.dart';
-import 'package:mahloula/Pages/privacy_policy_page.dart';
-import 'package:mahloula/Pages/welcome_page_one.dart';
-import 'package:mahloula/Pages/welcome_page_two.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 Future<void> main() async {
@@ -41,24 +30,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-<<<<<<< HEAD
-      home:UserProfilePage()
-      //ServiceProviderProfilePage()
-      //HelpCenterPage()
-      //WelcomePageTwo()
-      //HomePage(name: "ahmed")
-      //WelcomePageOne(),
-      //ServiceProviderMainPage(name: "Ahmed") 
-=======
-
-      home:
-          //GetLocationPage(),
-          //ServiceProviderCredentials(),
-          //HelpCenterPage()
-          //WelcomePageTwo()
-        //  HomePage(name: "ahmed"),
-      WelcomePageOne(),
-      //ServiceProviderMainPage(name: "Ahmed")
+      home:CacheData.getData(key:"token")==null?const LoginPage():HomePage(name:"${CacheData.getData(key: "name")}"),
     );
   }
 }
