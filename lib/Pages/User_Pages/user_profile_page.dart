@@ -118,7 +118,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
             ////////// Name and Email Section /////////////////
             Text(
-              "Ahmed Aymen",
+              "${CacheData.getData(key: "name")}",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'cairo',
@@ -126,7 +126,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   fontWeight: FontWeight.bold),
             ),
             Text(
-              "ahmedaynen@gmail.com",
+              "${CacheData.getData(key: "email")}",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'cairo',
