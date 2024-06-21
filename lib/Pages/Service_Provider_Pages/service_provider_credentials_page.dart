@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,11 +8,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 
+import '../../Functions/image_converter.dart';
 import '../../Models/employee_profile_model.dart';
 
 // ignore: must_be_immutable
 class ServiceProviderCredentials extends StatefulWidget {
-  ServiceProviderCredentials({super.key});
+  int id;
+  ServiceProviderCredentials({super.key, required this.id});
 
   @override
   State<ServiceProviderCredentials> createState() =>
@@ -148,44 +151,45 @@ class _ServiceProviderCredentialsState
                       const SizedBox(
                         height: 10,
                       ),
-                     Material(
-                          borderRadius: BorderRadius.circular(15),
-                          elevation: 5,
-                          child: DropdownButtonFormField<String>(
-                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
+                      Material(
+                        borderRadius: BorderRadius.circular(15),
+                        elevation: 5,
+                        child: DropdownButtonFormField<String>(
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.black),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            value: serviceType,
-                            items: <String>[
-                              'Option 1',
-                              'Option 2',
-                              'Option 3',
-                              'Option 4',
-                              'ho',
-                              'Option 5',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                serviceType = newValue;
-                              });
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select an option';
-                              }
-                              return null;
-                            },
                           ),
+                          value: serviceType,
+                          items: <String>[
+                            'Option 1',
+                            'Option 2',
+                            'Option 3',
+                            'Option 4',
+                            'ho',
+                            'Option 5',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              serviceType = newValue;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select an option';
+                            }
+                            return null;
+                          },
                         ),
+                      ),
                     ],
                   )),
               const SizedBox(
@@ -193,22 +197,22 @@ class _ServiceProviderCredentialsState
               ),
 
               ////////////////// pick work image section /////////////////
-           const Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "صور اعمال سابقة",
-              style: TextStyle(
-                  fontFamily: 'cairo',
-                  color: MainColor,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "صور اعمال سابقة",
+                    style: TextStyle(
+                        fontFamily: 'cairo',
+                        color: MainColor,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w700),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 height: 400,
                 child: GridView(
@@ -266,40 +270,60 @@ class _ServiceProviderCredentialsState
                 ),
               ),
 
-
 ////////////////////// submit button section /////////////////
 
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   formKey.currentState?.validate();
                   EmployeeProfile obj = EmployeeProfile(
                       desc: serviceproviderDecs.text,
-                      imageSSN: 'E:/Proooooooooject/pic.jpg',
-                      imageLive: 'E:/Proooooooooject/pic.jpg',
-                      SSN: int.parse(personalIdNumber.text),
+                      SSN: personalIdNumber.text,
                       minPrice: int.parse(priceController.text),
-                      image1: 'E:/Proooooooooject/pic.jpg',
-                      image2: 'E:/Proooooooooject/pic.jpg',
-                      image3: 'E:/Proooooooooject/pic.jpg',
-                      image4: 'E:/Proooooooooject/pic.jpg',
-                      userId: 5,
-                      serviceId: 1
-                  );
-                  PostMethods.createEmployee(obj);
-                  print(serviceproviderDecs.text+"---"+personalIdNumber.text+"----");
+                      userId: widget.id,
+                      serviceId: 1);
+                  FormData? livePhoto = personalImage == null
+                      ? null
+                      : await imageConverter(personalImage!, "livePhoto");
+
+                  FormData? imageSSN = idImage == null
+                      ? null
+                      : await imageConverter(idImage!, "imageSSN");
+
+                  FormData? work0 = workImageOne == null
+                      ? null
+                      : await imageConverter(workImageOne!, "works[0][image]");
+
+                  FormData? work1 = workImageTwo == null
+                      ? null
+                      : await imageConverter(workImageTwo!, "works[1][image]");
+
+                  FormData? work2 = workImageThree == null
+                      ? null
+                      : await imageConverter(
+                          workImageThree!, "works[2][image]");
+
+                  FormData? work3 = workImageFour == null
+                      ? null
+                      : await imageConverter(workImageFour!, "works[3][image]");
+                  await PostMethods.createEmployee(
+                      obj, imageSSN, livePhoto, work0, work1, work2, work3);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: MainColor,
+                    backgroundColor: MainColor,
                     fixedSize:
                         Size(MediaQuery.of(context).size.width / 1.1, 50)),
-                child:const Text("تاكيد",style: TextStyle(
-                  fontFamily: 'cairo',
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w700),),
+                child: const Text(
+                  "تاكيد",
+                  style: TextStyle(
+                      fontFamily: 'cairo',
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700),
+                ),
               ),
-        SizedBox(height: 40,)
-
+              SizedBox(
+                height: 40,
+              )
             ],
           ),
         ),

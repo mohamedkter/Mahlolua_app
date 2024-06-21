@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Functions/image_converter.dart';
 import 'package:mahloula/Models/user_model.dart';
-import 'package:mahloula/Pages/User_Pages/login_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mime/mime.dart';
 import '../../Services/Api/post_methods.dart';
 import '../Service_Provider_Pages/service_provider_credentials_page.dart';
@@ -239,14 +239,14 @@ class _SignupPageState extends State<SignupPage> {
                             if (widget.type == 'user') {
                               User obj = User(
                                 name: _nameController.text,
-                                email: _usernameController.text,
-                                password: _passwordController.text,
-                                phone: _phoneController.text,
+                                email: _usernameController.text.trim(),
+                                password: _passwordController.text.trim(),
+                                phone: _phoneController.text.trim(),
                                 userType: widget.type,
                               );
                               FormData? image = _image == null
                                   ? null
-                                  : await imageConverter(_image!);
+                                  : await imageConverter(_image!,"image");
                               await PostMethods.createUser(obj, image);
                               Navigator.push(
                                 context,
@@ -254,11 +254,22 @@ class _SignupPageState extends State<SignupPage> {
                                     builder: (context) => LoginPage()),
                               );
                             } else {
+                               User obj = User(
+                                name: _nameController.text,
+                                email: _usernameController.text.trim(),
+                                password: _passwordController.text.trim(),
+                                phone: _phoneController.text.trim(),
+                                userType: widget.type,
+                              );
+                              FormData? image = _image == null
+                                  ? null
+                                  : await imageConverter(_image!,"image");
+                          dynamic response= await PostMethods.createUser(obj, image);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ServiceProviderCredentials()),
+                                        ServiceProviderCredentials(id:response["user"]["id"])),
                               );
                             }
                           }

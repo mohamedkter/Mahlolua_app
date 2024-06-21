@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Models/order_model.dart';
 import 'package:mahloula/Models/user_model.dart';
+import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
 class PostMethods {
@@ -36,7 +37,7 @@ class PostMethods {
 
 
   ///////////////////////////// Create User Method //////////////////////////
-  static Future<void> createUser(User user, FormData? image) async {
+  static Future<dynamic> createUser(User user, FormData? image) async {
   const String url = 'https://mahllola.online/api/register'; 
 
   try {
@@ -63,11 +64,14 @@ class PostMethods {
     
     if (response.statusCode == 200) {
       print('User created successfully: ${response.data}');
+      return response.data;
     } else {
       if (response.statusCode == 400) {
         print('Bad request: ${response.data}');
+        return response.data;
       } else {
         print('Failed to create user: ${response.statusCode}');
+      return response.data;
       }
     }
   } catch (e) {
@@ -77,21 +81,56 @@ class PostMethods {
 
 ////////////////////////////////// Make Employee Profile Method ///////////////////////
 
-  static Future<void> createEmployee(EmployeeProfile employee) async {
-  const String url = 'https://mahllola.online/api/employee/addEmployee';
+ static Future<void> createEmployee(
+    EmployeeProfile employee,
+    FormData? imageSSN,
+    FormData? livePhoto,
+    FormData? works0,
+    FormData? works1,
+    FormData? works2,
+    FormData? works3
+) async {
+  const String url = 'https://mahllola.online/api/employee/employeeCompleteData';
+  final formData = FormData.fromMap(employee.toMap());
+
+  void addFileToFormData(FormData? formData, FormData? fileData) {
+    if (fileData != null && fileData.files.isNotEmpty) {
+      formData?.files.addAll(fileData.files);
+    }
+  }
+
+  addFileToFormData(formData, imageSSN);
+  addFileToFormData(formData, livePhoto);
+  addFileToFormData(formData, works0);
+  addFileToFormData(formData, works1);
+  addFileToFormData(formData, works2);
+  addFileToFormData(formData, works3);
+
   try {
-    final Response response = await dio.post(
+    final response = await Dio().post(
       url,
-      options: Options(headers: headers),
-      data: employee.toMap(),
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+      data: formData,
     );
+
     if (response.statusCode == 200) {
       print('Employee created successfully: ${response.data}');
     } else {
       print('Failed to create employee: ${response.statusCode}');
+      print('Response data: ${response.data}');
+    }
+  } on DioException catch (e) {
+    if (e.response != null) {
+      print('Dio error! Status: ${e.response?.statusCode}, Data: ${e.response?.data}');
+    } else {
+      print('Error sending request: ${e.message}');
     }
   } catch (e) {
-    print('Error creating employee: $e');
+    print('Unexpected error: $e');
   }
 }
 ////////////////////////////////edit Employee Method /////////////////////
@@ -101,8 +140,8 @@ class PostMethods {
 
 
 
-
-
-
-
 }
+
+
+
+

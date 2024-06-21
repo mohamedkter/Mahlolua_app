@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mahloula/Pages/User_Pages/new_password_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/new_password_page.dart';
 
 
 

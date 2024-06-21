@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Pages/User_Pages/login_page.dart';
-import 'package:mahloula/Pages/User_Pages/regester_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/regester_page.dart';
 
 
 class WelcomePageTwo extends StatelessWidget {

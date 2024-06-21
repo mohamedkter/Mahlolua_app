@@ -4,7 +4,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/identify_page.dart';
 import 'package:mahloula/Pages/welcome_page_two.dart';
 
-import 'User_Pages/login_page.dart';
+import 'Auth_Pages/login_page.dart';
 
 class WelcomePageOne extends StatefulWidget {
   const WelcomePageOne({super.key});

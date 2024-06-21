@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Pages/User_Pages/create_profile_page.dart';
-import 'package:mahloula/Pages/User_Pages/forget_password_page.dart';
-import 'package:mahloula/Pages/User_Pages/regester_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/create_profile_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/forget_password_page.dart';
+import 'package:mahloula/Pages/Auth_Pages/regester_page.dart';
 import 'package:mahloula/Pages/identify_page.dart';
 import 'package:mahloula/Services/Api/auth_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
+import '../User_Pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -134,8 +134,8 @@ class _LoginPageState extends State<LoginPage> {
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
                             var responseData = await AuthMethods.login(
-                                _usernameController.text,
-                                _passwordController.text);
+                                _usernameController.text.trim(),
+                                _passwordController.text.trim());
 
                             if (responseData.statusCode == 200) {
                               if (responseData.data["user"]["userType"] ==
