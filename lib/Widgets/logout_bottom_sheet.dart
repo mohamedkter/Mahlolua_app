@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Pages/User_Pages/login_page.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 
 class LogoutBottomSheet extends StatelessWidget {
   const LogoutBottomSheet({super.key});
@@ -28,7 +30,10 @@ class LogoutBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  CacheData.clearCache();
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()),(Route<dynamic> route) => false,);
+                },
                 child: Container(
                   width: 170,
                   height: 55,

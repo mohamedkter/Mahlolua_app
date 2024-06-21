@@ -272,7 +272,7 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius:
                                 BorderRadius.circular(30.0), // زوايا مستديرة
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text("انشاء حساب",
                               style: TextStyle(
                                   fontSize: 20.0, // حجم النص
@@ -286,7 +286,7 @@ class _SignupPageState extends State<SignupPage> {
                   ],
                 ),
                 Divider(height: 30, thickness: 1),
-                Text(
+                const Text(
                   'تسجيل بواسطة',
                   textAlign: TextAlign.center, // تحديث النص هنا
                   style: TextStyle(
@@ -324,7 +324,7 @@ class _SignupPageState extends State<SignupPage> {
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
-        //  _image = File('E:/Proooooooooject/pic.jpg');
+        
       });
     } else {
       print('No image selected.');

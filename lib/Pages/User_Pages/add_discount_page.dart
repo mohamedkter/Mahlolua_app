@@ -13,14 +13,23 @@ class AddDiscountPage extends StatefulWidget {
 }
 
 class _AddDiscountPageState extends State<AddDiscountPage> {
-  final List<Voucher> vouchers = [
-    Voucher("خصم 30% مميز", "عرض مميز خمس ايام ", 30),
-    Voucher("خصم 20% مميز", "عرض مميز الجمعة فقط ", 20),
-    Voucher("خصم 40% مميز", "عرض مميز اليوم فقط", 40),
-    Voucher("خصم 25% مميز", "عرض مميز الجمعة فقط ", 25),
-    Voucher("خصم 15% مميز", "عرض مميز خمس ايام ", 15),
-    Voucher("خصم 10% مميز", "عرض مميز اليوم فقط", 10),
-    Voucher("خصم 25% مميز", "عرض مميز الجمعة فقط ", 25),
+   List<Voucher> vouchers = [
+    Voucher(
+      id: 1,
+      code: 'ABC123',
+      type: 'percentage',
+      discount: 10,
+      status: 'active',
+      expiredAt: DateTime.parse('2024-06-30').toString(),
+    ),
+    Voucher(
+      id: 2,
+      code: 'DEF456',
+      type: 'fixed',
+      discount: 50,
+      status: 'expired',
+      expiredAt: DateTime.parse('2023-12-31').toString(),
+    ),
   ];
 
   int? selectedVoucherIndex;
@@ -63,10 +72,9 @@ class _AddDiscountPageState extends State<AddDiscountPage> {
         child: ListView.builder(
           itemBuilder: (context, index) => VoucherCard(
             index: index,
-            voucherColor: Color.fromARGB(255, Random().nextInt(255),
-                Random().nextInt(255), Random().nextInt(255)),
-            voucherText: vouchers[index].voucher_Text,
-            voucherDuration: vouchers[index].voucher_Duration,
+            vouchertype: vouchers[index].type,
+            discount: vouchers[index].discount,
+            voucherDuration: vouchers[index].expiredAt,
             selected: selectedVoucherIndex,
             onChanged: (int? value) {
               setState(() {

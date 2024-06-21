@@ -173,11 +173,6 @@ class OriginalPage extends StatelessWidget {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-                // CustomOfferItem(
-                //   text1: '30%',
-                //   text2: 'عروض اليوم',
-                //   text3: ' احصل علي عرض لكل طلب, صالح لليوم',
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -210,7 +205,7 @@ class OriginalPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 CustomAllSercivces()

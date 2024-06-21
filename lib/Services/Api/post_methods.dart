@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Models/order_model.dart';
 import 'package:mahloula/Models/user_model.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 
 class PostMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
     'accept': '*/*',
     'Content-Type': 'application/json',
-    'X-CSRF-TOKEN': '',
+    'Authorization': 'Bearer ${CacheData.getData(key:"token")}',
   };
 
 //////////////////////////////// Make Order Method /////////////////////////////
@@ -96,6 +97,9 @@ class PostMethods {
 ////////////////////////////////edit Employee Method /////////////////////
 
 // work on it later 
+
+
+
 
 
 

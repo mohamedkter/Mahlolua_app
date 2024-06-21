@@ -1,47 +1,68 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Services/Api/get_methods.dart';
+import 'package:mahloula/Services/Api/post_methods.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 import 'package:mahloula/Widgets/model_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
+
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  
+
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();  
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "الملف الشخصي",
-                        style: TextStyle(
-                            fontFamily: 'cairo',
-                            fontSize: 23.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: MainColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: 30,
-                        height: 30,
-                      )
-                    ],
+                  const Text(
+                    "الملف الشخصي",
+                    style: TextStyle(
+                        fontFamily: 'cairo',
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: MainColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    width: 30,
+                    height: 30,
                   )
                 ],
-              ),
-            ),),
+              )
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -69,8 +90,8 @@ class UserProfilePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(75),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        "assets/photo/277574721_449206976977953_1149251544066168050_n.jpg"))),
+                                    image: NetworkImage(
+                                        "$PartImagePath${CacheData.getData(key: "image")}"))),
                           ),
                         ],
                       ),
@@ -135,9 +156,7 @@ class UserProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: () {
-                
-              },
+              OptionFunction: () {},
             ),
             OptionCard(
               OptionCardIcon: Icon(
@@ -145,9 +164,10 @@ class UserProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الامان",
-              OptionFunction: () {},
+              OptionFunction: () async {
+              },
             ),
-          OptionCard(
+            OptionCard(
               OptionCardIcon: Icon(
                 Icons.lock_person,
                 size: 32,
@@ -181,13 +201,13 @@ class UserProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return LogoutBottomSheet();
-                              });
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return LogoutBottomSheet();
+                          });
                     },
                     child: Container(
                       width: 150,
@@ -203,7 +223,9 @@ class UserProfilePage extends StatelessWidget {
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w700),
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Icon(
                             Icons.logout_rounded,
                             color: Colors.red,
@@ -240,7 +262,7 @@ class OptionCard extends StatelessWidget {
         textDirection: TextDirection.rtl,
         child: ListTile(
           onTap: OptionFunction,
-          trailing: Icon(
+          trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
             size: 18,
           ),

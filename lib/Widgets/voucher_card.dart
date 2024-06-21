@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 
 class VoucherCard extends StatelessWidget {
   final int index;
-  final Color voucherColor;
-  final String voucherText;
+  final String vouchertype;
+  final int discount;
   final String voucherDuration;
   final int? selected;
   final ValueChanged<int?> onChanged;
 
   const VoucherCard({
     super.key,
-    required this.voucherColor,
-    required this.voucherText,
+    required this.vouchertype,
+    required this.discount,
     required this.voucherDuration,
     required this.index,
     required this.selected,
@@ -46,8 +47,7 @@ class VoucherCard extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         Colors.white,
-                        voucherColor,
-                        voucherColor,
+                        vouchertype=="fixed"? MainColor:const Color.fromARGB(255, 66, 122, 68)
                       ],
                       begin: Alignment.centerRight,
                       end: Alignment.centerLeft,
@@ -60,7 +60,7 @@ class VoucherCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      voucherText,
+                      "خصم  ${discount} ${vouchertype=="fixed"?"جنيه":"%"}",
                       style: const TextStyle(
                         fontFamily: "Cairo",
                         fontSize: 19,
@@ -69,7 +69,7 @@ class VoucherCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      voucherDuration,
+                      "ينتهي بعد ${Jiffy.now().to(Jiffy.parse(voucherDuration)).toString()}",
                       style: TextStyle(
                         fontFamily: "Cairo",
                         fontSize: 17,
