@@ -41,8 +41,23 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+<<<<<<< HEAD
+      home:UserProfilePage()
+      //ServiceProviderProfilePage()
+      //HelpCenterPage()
+      //WelcomePageTwo()
+      //HomePage(name: "ahmed")
+      //WelcomePageOne(),
+      //ServiceProviderMainPage(name: "Ahmed") 
+=======
 
-      home:CacheData.getData(key:"token")==null?const LoginPage():HomePage(name:"${CacheData.getData(key: "name")}"),
+      home:
+          //GetLocationPage(),
+          //ServiceProviderCredentials(),
+          //HelpCenterPage()
+          //WelcomePageTwo()
+        //  HomePage(name: "ahmed"),
+      WelcomePageOne(),
       //ServiceProviderMainPage(name: "Ahmed")
     );
   }
