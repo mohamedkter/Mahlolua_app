@@ -6,6 +6,7 @@ import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
+import 'package:mahloula/Pages/User_Pages/login_page.dart';
 import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
 import 'package:mahloula/Pages/help_center1_page.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
@@ -13,10 +14,14 @@ import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
 import 'package:mahloula/Pages/welcome_page_one.dart';
 import 'package:mahloula/Pages/welcome_page_two.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await CacheData.cacheInitialization();
   runApp(const MyApp());
 }
 
@@ -36,25 +41,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-<<<<<<< HEAD
-      home:UserProfilePage()
-      //ServiceProviderProfilePage()
-      //HelpCenterPage()
-      //WelcomePageTwo()
-      //HomePage(name: "ahmed")
-      //WelcomePageOne(),
-      //ServiceProviderMainPage(name: "Ahmed") 
-=======
 
-      home:
-          //GetLocationPage(),
-          //ServiceProviderCredentials(),
-          //HelpCenterPage()
-          //WelcomePageTwo()
-        //  HomePage(name: "ahmed"),
-      WelcomePageOne(),
+      home:CacheData.getData(key:"token")==null?const LoginPage():HomePage(name:"${CacheData.getData(key: "name")}"),
       //ServiceProviderMainPage(name: "Ahmed")
->>>>>>> cb052b2eed7df7c206a2f360f2141640803b2d86
     );
   }
 }

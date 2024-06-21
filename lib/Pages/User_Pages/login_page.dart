@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/User_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/User_Pages/regester_page.dart';
 import 'package:mahloula/Pages/identify_page.dart';
+import 'package:mahloula/Services/Api/auth_methods.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
-
-
-
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,10 +40,9 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'تسجيل الدخول إلى\n حسابك',
                   style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: "cairo"
-                  ),
+                      fontSize: 40,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: "cairo"),
                   textAlign: TextAlign.right,
                 ),
                 SizedBox(height: 20),
@@ -130,17 +129,52 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     GestureDetector(
-                        onTap: ()
-                        {
-                          if(formKey.currentState!.validate())
-                            {
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            var responseData = await AuthMethods.login(
+                                _usernameController.text,
+                                _passwordController.text);
+
+                            if (responseData.statusCode == 200) {
+                              if (responseData.data["user"]["userType"] ==
+                                  "user") {
+                                    CacheData.setData(
+                                    key: "userId",
+                                    value: responseData.data["user"]["id"]);
+                                CacheData.setData(
+                                    key: "name",
+                                    value: responseData.data["user"]["name"]);
+                                CacheData.setData(
+                                    key: "image",
+                                    value: responseData.data["user"]["image"]);
+                                CacheData.setData(
+                                    key: "email",
+                                    value: responseData.data["user"]["email"]);
+                                CacheData.setData(
+                                    key: "phone",
+                                    value: responseData.data["user"]["phone"]);
+                                CacheData.setData(
+                                    key: "token",
+                                    value: responseData.data["authorisation"]
+                                        ["token"]);
+
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage(
+                                              name:
+                                                  "${responseData.data["user"]["name"]}",
+                                            )),(Route<dynamic> route) => false,);
+                              } else {}
+                            } else {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => HomePage(name: '',))
-                              );
+                                  MaterialPageRoute(
+                                      builder: (context) => const ErrorPage()));
                             }
+                          }
                         },
                         child: Container(
                           height: 60,
@@ -155,39 +189,40 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               'تسجيل الدخول',
                               style: TextStyle(
-                                fontSize: 20.0, // حجم النص
-                                color: Colors.white, 
-                                fontFamily: "cairo"// لون النص
-                              ),
+                                  fontSize: 20.0, // حجم النص
+                                  color: Colors.white,
+                                  fontFamily: "cairo" // لون النص
+                                  ),
                             ),
                           ),
                         )),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'هل نسيت كلمة المرور؟',
-                        style: TextStyle(color: Colors.black45,fontFamily: "cairo"),
+                        style: TextStyle(
+                            color: Colors.black45, fontFamily: "cairo"),
                       ),
                     ),
                   ],
                 ),
-                Divider(height: 20, thickness: 1),
-                Text(
+                const Divider(height: 20, thickness: 1),
+                const Text(
                   'تسجيل بواسطة',
                   textAlign: TextAlign.center, // تحديث النص هنا
                   style: TextStyle(
-                    fontSize: 18, // تكبير حجم النص إن كنت ترغب
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "cairo"
-                  ),
+                      fontSize: 18, // تكبير حجم النص إن كنت ترغب
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "cairo"),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -207,23 +242,22 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const IdentifyPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const IdentifyPage()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'إنشاء حساب',
                         style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "cairo"
-                        ),
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "cairo"),
                       ),
                     ),
-                    Text(
+                    const Text(
                       'ليس لديك حساب؟ ',
                       style: TextStyle(fontFamily: "cairo"),
                       textAlign: TextAlign.center,
-                      
                     ),
                   ],
                 ),
@@ -255,6 +289,62 @@ class Socialimage extends StatelessWidget {
           color: Colors.grey[200],
         ),
         child: image,
+      ),
+    );
+  }
+}
+
+class ErrorPage extends StatelessWidget {
+  const ErrorPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                width: 250,
+                height: 250,
+                child: Lottie.asset(
+                  'assets/photo/loginError.json',
+                  fit: BoxFit.cover,
+                )),
+            const Text(
+              "خطا في تسجيل لادخول",
+              style: TextStyle(
+                  color: MainColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "cairo",
+                  fontSize: 20),
+            ),
+            const Text(
+              "يرجي التاكد من ابريد الالكتروني و الرقم السري",
+              style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "cairo",
+                  fontSize: 15),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+                child: const Text(
+                  "العوده لتسجيل الدخول",
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "cairo"),
+                ))
+          ],
+        )),
       ),
     );
   }

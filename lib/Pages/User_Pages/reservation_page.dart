@@ -142,7 +142,7 @@ class _ReservationPageState extends State<ReservationPage> {
                         setState(() {
                           selectedVouche = voucher;
                         });
-                        addVoucher.text=selectedVouche==null?"":selectedVouche!.voucher_Text;
+                        addVoucher.text=selectedVouche==null?"":selectedVouche!.code;
                       },
                       icon: const Icon(
                         Icons.add,

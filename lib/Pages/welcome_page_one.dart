@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/identify_page.dart';
 import 'package:mahloula/Pages/welcome_page_two.dart';
 
@@ -50,7 +51,6 @@ class _WelcomePageOneState extends State<WelcomePageOne> {
           SizedBox(height: 20),
           GestureDetector(
               onTap: () {
-                // انتقل إلى الصفحة التالية
                 if (currentPageIndex == 2) {
                   Navigator.push(
                     context,
@@ -65,11 +65,11 @@ class _WelcomePageOneState extends State<WelcomePageOne> {
               },
               child: Container(
                 height: 60,
-                width: 350, // استخدام كل المساحة الأفقية المتاحة
+                width: 350, 
                 padding: EdgeInsets.all(10.0),
                 margin:EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 20, 120, 226), // لون الخلفية
+                  color:MainColor , 
                   borderRadius: BorderRadius.circular(30.0), // زوايا مستديرة
                 ),
                 child: Center(

@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 
 class GetMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
     'accept': '*/*',
     'Content-Type': 'application/json',
-    'X-CSRF-TOKEN': '',
+    'Authorization': 'Bearer ${CacheData.getData(key:"token")}',
   };
 
 ////////////////////////////Get Employees ////////////////////////////////
@@ -39,8 +40,6 @@ static Future<void> getUserOrders(int userId) async {
       url,
       options: Options(headers: headers),
     );
-
-    
     if (response.statusCode == 200) {
       print('User orders: ${response.data}');
     } else {
@@ -93,3 +92,4 @@ Future<void> getServiceDetails(int serviceId) async {
   }
 }
 }
+

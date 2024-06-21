@@ -30,13 +30,12 @@ environment:
 dependencies:
   bloc: ^8.1.4
   carousel_slider: ^4.2.1
-  mime: ^1.0.0
   chips_choice: ^3.0.1
   cupertino_icons: ^1.0.6
   dio: ^5.4.3+1
   dots_indicator: ^3.0.0
-  firebase_messaging: ^14.7.3
   firebase_core: ^2.25.5
+  firebase_messaging: ^14.7.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
@@ -46,8 +45,12 @@ dependencies:
   google_maps_flutter: ^2.2.2
   image_picker: ^1.1.2
   intl: ^0.19.0
+  jiffy: ^6.3.1
+  lottie: ^3.1.2
+  mime: ^1.0.0
   path: ^1.9.0
   read_more_text: ^0.0.5
+  shared_preferences: ^2.2.3
   shimmer: ^3.0.0
 
 dev_dependencies:
