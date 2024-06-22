@@ -43,16 +43,6 @@ class _ServiceProviderCredentialsState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_forward_rounded,
-                size: 30,
-              ))
-        ],
         title: const Padding(
           padding: EdgeInsets.only(left: 15, right: 10),
           child: Row(
@@ -81,7 +71,7 @@ class _ServiceProviderCredentialsState
                 padding: const EdgeInsets.only(top: 26, left: 26, right: 26),
                 child: Column(
                   children: [
-//////////////////// pick personal images section ////////////////////
+                    //////////////////// pick personal images section ////////////////////
 
                     PersonalImagePickerWidget(
                       image: personalImage,
@@ -326,22 +316,24 @@ class _ServiceProviderCredentialsState
                               ? null
                               : await imageConverter(
                                   workImageFour!, "works[3][image]");
-                        bool response=await PostMethods.createEmployee(obj, imageSSN,
-                              livePhoto, work0, work1, work2, work3);
+                          bool response = await PostMethods.createEmployee(obj,
+                              imageSSN, livePhoto, work0, work1, work2, work3);
 
-                         if (response) {
-                            Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
+                          if (response) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
                                 builder: (context) => const SuccessPage(
-                                      upperMessage: "تم التسجيل بنجاح",
-                                      lowerMessage:
-                                          "جاري مراجعة بياناتك من قبل المختص",
-                                    )),
-                          );
-                         }else{
-                          print("Error");
-                         }
+                                  upperMessage: "تم التسجيل بنجاح",
+                                  lowerMessage:
+                                      "جاري مراجعة بياناتك من قبل المختص",
+                                ),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          } else {
+                            print("Error");
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -357,7 +349,7 @@ class _ServiceProviderCredentialsState
                             fontWeight: FontWeight.w700),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     )
                   ],

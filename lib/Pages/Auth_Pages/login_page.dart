@@ -233,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                     }
                                   } else {
-                                    Navigator.of(context).pushReplacement(
+                                    Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const ErrorPage(
@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                                                       "خطا في تسجيل الدخول",
                                                   lowerMessage:
                                                       "يرجي التاكد من البريد الالكتروني او كلمة السر",
-                                                )));
+                                                )),(Route<dynamic> route) => false,);
                                   }
                                 }
                               },
