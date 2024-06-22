@@ -18,16 +18,21 @@ class ServiceProviderHomePage extends StatefulWidget {
 class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
     bool _isSwitched = false;
     bool is_load=true;
-    int countOfOrders=1;
- @override
-  void initState() {
-    super.initState();
-getcounteroforder();
-is_load=false;
-  }
-Future<void>getcounteroforder() async {
-countOfOrders=await GetMethods.getCountOrders(CacheData.getData(key: "employee_id"));
-}  
+   late int countOfOrders;
+@override
+void initState() {
+  super.initState();
+  getCounterOfOrder();
+}
+
+Future<void> getCounterOfOrder() async {
+  final employeeId = CacheData.getData(key: "employee_id");
+  countOfOrders = await GetMethods.getCountOrders(employeeId);
+  print(countOfOrders);
+  setState(() {
+    is_load = false;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
