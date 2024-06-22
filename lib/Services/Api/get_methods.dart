@@ -91,5 +91,34 @@ Future<void> getServiceDetails(int serviceId) async {
     print('Error getting service details: $e');
   }
 }
+
+
+//////////////////// Get Count of Order for employee ///////////////
+
+static Future<int> getCountOrders(int employeId) async {
+  final String url = 'https://mahllola.online/api/employee/getTotalOrders/$employeId/orders/total';
+  try {
+    final Response response = await dio.get(
+      url,
+      options: Options(headers: headers),
+    );
+  
+    if (response.statusCode == 200) {
+      print('Service details: ${response.data}');
+      return response.data["total orders"];
+    } else {
+      print('Failed to get service details: ${response.statusCode}');
+      return -1;
+    }
+  } catch (e) {
+    print('Error getting service details: $e');
+    return -1;
+  }
 }
 
+
+
+
+
+
+}

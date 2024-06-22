@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
+import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/order_card.dart';
 
@@ -15,12 +17,23 @@ class ServiceProviderHomePage extends StatefulWidget {
 
 class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
     bool _isSwitched = false;
+    bool is_load=true;
+    int countOfOrders=1;
+ @override
+  void initState() {
+    super.initState();
+getcounteroforder();
+is_load=false;
+  }
+Future<void>getcounteroforder() async {
+countOfOrders=await GetMethods.getCountOrders(CacheData.getData(key: "employee_id"));
+}  
 
   @override
   Widget build(BuildContext context) {
     final widthOfScreen = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      body: SingleChildScrollView(
+      body:is_load==true?GenerelLoadingPage():SingleChildScrollView(
         child: Column(
           children: [
             Stack(
@@ -146,7 +159,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                 Column(
                                   children: [
                                      Text(
-                                      "72",
+                                      "$countOfOrders",
                                       style: TextStyle(
                                           color: MainColor,
                                           fontSize: 15,
