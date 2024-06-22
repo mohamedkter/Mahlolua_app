@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/order_card.dart';
 
 class ServiceProviderHomePage extends StatefulWidget {
@@ -80,7 +81,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 60),
                               child: Text(
-                                'صباح الخير',
+                                TimeOfDay.now().hour < 12 ? 'صباح الخير' : 'مساء الخير',
                                 style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'cairo',
@@ -88,7 +89,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                               ),
                             ),
                             Text(
-                              "Ahmed Aymen",
+                              "${CacheData.getData(key: "name")}",
                               style: TextStyle(
                                 fontFamily: 'cairo',
                                 fontSize: 21.0,
@@ -179,8 +180,8 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(70),
                             image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/photo/277574721_449206976977953_1149251544066168050_n.jpg"),
+                                image:  NetworkImage(
+                                        "$PartImagePath${CacheData.getData(key: "image")}"),
                                 fit: BoxFit.cover)),
                       ),
                     ],

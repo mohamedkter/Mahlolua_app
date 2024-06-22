@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -31,7 +32,10 @@ class MyApp extends StatelessWidget {
       ),
       home: CacheData.getData(key: "token") == null
           ? const LoginPage()
-          : HomePage(name: "${CacheData.getData(key: "name")}"),
+          : CacheData.getData(key: "employee_id") == null
+              ? HomePage(name: "${CacheData.getData(key: "name")}")
+              : ServiceProviderMainPage(
+                  name: "${CacheData.getData(key: "name")}"),
     );
   }
 }

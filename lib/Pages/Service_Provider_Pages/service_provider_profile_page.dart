@@ -7,6 +7,7 @@ import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notificat
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_security_page.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 
 class ServiceProviderProfilePage extends StatelessWidget {
@@ -72,8 +73,8 @@ class ServiceProviderProfilePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(75),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        "assets/photo/277574721_449206976977953_1149251544066168050_n.jpg"))),
+                                    image:  NetworkImage(
+                                        "$PartImagePath${CacheData.getData(key: "image")}"))),
                           ),
                         ],
                       ),
@@ -100,17 +101,17 @@ class ServiceProviderProfilePage extends StatelessWidget {
 
             ////////// Name and Email Section /////////////////
             Text(
-              "Ahmed Aymen",
+              "${CacheData.getData(key: "name")}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'cairo',
                   fontSize: 23.0,
                   fontWeight: FontWeight.bold),
             ),
             Text(
-              "ahmedaynen@gmail.com",
+              "${CacheData.getData(key: "email")}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'cairo',
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
@@ -125,7 +126,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
 
             ///////// Options Section//////////////
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.person_outline_rounded,
                 size: 32,
               ),
@@ -138,7 +139,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               },
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.notifications_outlined,
                 size: 32,
               ),
@@ -151,7 +152,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               },
             ),
              OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.rate_review_rounded,
                 size: 32,
               ),
@@ -159,7 +160,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               OptionFunction: () {},
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon:const Icon(
                 Icons.preview_rounded,
                 size: 32,
               ),
@@ -167,7 +168,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               OptionFunction: () {},
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon:const Icon(
                 Icons.security_rounded,
                 size: 32,
               ),
@@ -179,7 +180,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 }));
               },
             ), OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon:const Icon(
                 Icons.lock_person,
                 size: 32,
               ),
@@ -192,7 +193,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               },
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon:const Icon(
                 Icons.help_center_rounded,
                 size: 32,
               ),
@@ -206,6 +207,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
             ),
 
 ////////////Log out Button //////////
+
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Row(
