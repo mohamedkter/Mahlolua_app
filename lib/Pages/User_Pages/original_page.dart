@@ -12,6 +12,7 @@ import 'package:mahloula/Pages/User_Pages/specific_offer_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Pages/User_Pages/offers_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_all_services.dart';
 import 'package:mahloula/Widgets/custom_offer_item.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
@@ -83,6 +84,7 @@ class OriginalPage extends StatelessWidget {
               ),
             ],
           ),
+          CacheData.getData(key: "image")==null?
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -93,6 +95,13 @@ class OriginalPage extends StatelessWidget {
             icon: const Icon(
               Icons.account_circle,
               size: 45,
+            ),
+          ):
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "$PartImagePath${CacheData.getData(key: "image")}"),
             ),
           )
         ],
@@ -106,15 +115,23 @@ class OriginalPage extends StatelessWidget {
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: GestureDetector(
-                    onTap: (){
-                    showSearch(context: context, delegate: SearchPage());
+                    onTap: () {
+                      showSearch(context: context, delegate: SearchPage());
                     },
                     child: Container(
                         child: Row(
                           children: [
-                            SizedBox(width: 15,),
-                            Icon(Icons.search_rounded,size: 20,color: Color(0xffB1B1B1),),
-                            SizedBox(width: 5,),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Icon(
+                              Icons.search_rounded,
+                              size: 20,
+                              color: Color(0xffB1B1B1),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
                             Text(
                               "بحث",
                               style: TextStyle(
@@ -193,7 +210,7 @@ class OriginalPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:  8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         'الخدمات',
                         style: TextStyle(
@@ -253,7 +270,8 @@ class _OfferSliderState extends State<OfferSlider> {
             child: CarouselSlider(
                 items: widget.offers
                     .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 7, vertical: 7),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Image.asset(
