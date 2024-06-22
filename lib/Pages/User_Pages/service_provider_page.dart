@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Constants/ObjectOrder.dart';
 import 'package:mahloula/Models/order_model.dart';
 import 'package:read_more_text/read_more_text.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
@@ -28,11 +29,10 @@ class ServiceProviderPage extends StatelessWidget {
                         elevation: 1,
                         fixedSize: Size(170, 50)),
                     onPressed: () {
-                      Order obj = Order(
-                          price: price,
-                      );
+                      Order obj = Order();
+                      obj.price = price;
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ReservationPage(object: obj)));
+                          builder: (context) => ReservationPage(obj: obj)));
                     },
                     child: const Text(
                       "حجز معاينه",

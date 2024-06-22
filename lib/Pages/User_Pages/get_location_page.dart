@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mahloula/Constants/ObjectOrder.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
@@ -254,10 +255,11 @@ class _GetLocationPageState extends State<GetLocationPage> {
       bottomNavigationBar: CustomBottomAppBar(
         buttonText: "تاكيد الحجز - \$100 ",
         buttonFunction: () {
-          widget.obj?.location = textEditingController.text;
-          widget.obj?.userId = CacheData.getData(key:"userId");
+          // widget.obj?.location = textEditingController.text;
+           widget.obj?.userId = CacheData.getData(key:"userId");
+           widget.obj?.employeeId = 2;  //Refo add employeeId here
+          widget.obj?.location = 'Giza'; //Refo add location here becuase i don't understand where is it
           widget.obj?.orderDescriptions = descController.text;
-          widget.obj?.employeeId = 6;
           PostMethods.makeOrder(widget.obj!);
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => AllReservationPage()));
