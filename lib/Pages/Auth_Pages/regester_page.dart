@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Functions/image_converter.dart';
+import 'package:mahloula/Functions/validation.dart';
 import 'package:mahloula/Models/user_model.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/error_page.dart';
+import 'package:mahloula/Pages/success_page.dart';
 import 'package:mime/mime.dart';
 import '../../Services/Api/post_methods.dart';
 import '../Service_Provider_Pages/service_provider_credentials_page.dart';
@@ -22,6 +26,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool _isPasswordVisible = false;
+  bool is_loading =false;
   File? _image;
   bool _rememberMe = false;
   TextEditingController _usernameController = TextEditingController();
@@ -39,7 +44,7 @@ class _SignupPageState extends State<SignupPage> {
           style: TextStyle(fontFamily: 'cairo'),
         ),
       ),
-      body: SingleChildScrollView(
+      body:is_loading==true?GenerelLoadingPage(): SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Form(
@@ -115,9 +120,7 @@ class _SignupPageState extends State<SignupPage> {
                     textDirection: TextDirection.rtl,
                     controller: _phoneController,
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'يرجى إدخال رقم الهاتف';
-                      }
+                      return validatePhoneNumber(value!);
                     },
                     decoration: InputDecoration(
                         labelText: 'رقم الهاتف',
@@ -140,17 +143,15 @@ class _SignupPageState extends State<SignupPage> {
                     textDirection: TextDirection.rtl,
                     controller: _usernameController,
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'يرجى إدخال البريد الإلكتروني';
-                      }
+                     return validateEmail(value);
                     },
                     decoration: InputDecoration(
                         labelText: 'البريد الإلكتروني',
                         prefixIcon: Icon(Icons.email),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 174, 154, 154),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 174, 154, 154),
                           ),
                         ),
                         border: OutlineInputBorder(
@@ -167,9 +168,7 @@ class _SignupPageState extends State<SignupPage> {
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'يرجى إدخال كلمة المرور';
-                      }
+                    return validateRegisterPassword(value);
                     },
                     decoration: InputDecoration(
                         labelText: 'كلمة المرور',
@@ -188,8 +187,8 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 174, 154, 154),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 174, 154, 154),
                           ),
                         ),
                         border: OutlineInputBorder(
@@ -218,7 +217,7 @@ class _SignupPageState extends State<SignupPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'تذكرني',
                           style: TextStyle(fontFamily: 'cairo'),
                         ),
@@ -232,10 +231,13 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     GestureDetector(
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
+                            setState(() {
+                              is_loading=true;
+                            });
                             if (widget.type == 'user') {
                               User obj = User(
                                 name: _nameController.text,
@@ -247,12 +249,21 @@ class _SignupPageState extends State<SignupPage> {
                               FormData? image = _image == null
                                   ? null
                                   : await imageConverter(_image!,"image");
-                              await PostMethods.createUser(obj, image);
-                              Navigator.push(
+                            dynamic response= await PostMethods.createUser(obj, image);
+                            if (response!=null) {
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
+                                    builder: (context) =>  const SuccessPage(upperMessage: "تم التسجيل بنجاح",lowerMessage:  " يمكنك لان الذهاب لتسجيل الدخول",)),
                               );
+                          }else{
+                             Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ErrorPage(upperMessage:"حدث خطا اثناء انشاء الحساب" , lowerMessage: "يمكن ان يكون هذا البريد مستخدم من قبل  حاول مره اخري"),));
+                          }
+                              
                             } else {
                                User obj = User(
                                 name: _nameController.text,
@@ -265,12 +276,21 @@ class _SignupPageState extends State<SignupPage> {
                                   ? null
                                   : await imageConverter(_image!,"image");
                           dynamic response= await PostMethods.createUser(obj, image);
-                              Navigator.push(
+                          if (response!=null) {
+                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         ServiceProviderCredentials(id:response["user"]["id"])),
                               );
+                          }else{
+                             Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ErrorPage(upperMessage:"حدث خطا اثناء انشاء الحساب" , lowerMessage: "يمكن ان يكون هذا البريد مستخدم من قبل  حاول مره اخري"),));
+                          }
+                             
                             }
                           }
                         },
@@ -293,10 +313,10 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           ),
                         )),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
-                Divider(height: 30, thickness: 1),
+                const Divider(height: 30, thickness: 1),
                 const Text(
                   'تسجيل بواسطة',
                   textAlign: TextAlign.center, // تحديث النص هنا
@@ -305,19 +325,19 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.bold,
                       fontFamily: "cairo"),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Socialimage(
+                    Socialite(
                         image: Image.asset("assets/photo/facebook.png")),
-                    SizedBox(width: 10),
-                    Socialimage(image: Image.asset("assets/photo/google.png")),
-                    SizedBox(width: 10),
-                    Socialimage(image: Image.asset("assets/photo/apple.png")),
+                    const SizedBox(width: 10),
+                    Socialite(image: Image.asset("assets/photo/google.png")),
+                    const SizedBox(width: 10),
+                    Socialite(image: Image.asset("assets/photo/apple.png")),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -343,10 +363,10 @@ class _SignupPageState extends State<SignupPage> {
   }
 }
 
-class Socialimage extends StatelessWidget {
+class Socialite extends StatelessWidget {
   final Image image;
 
-  Socialimage({required this.image});
+  Socialite({required this.image});
 
   @override
   Widget build(BuildContext context) {

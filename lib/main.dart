@@ -4,10 +4,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
-
 import 'Pages/User_Pages/welcome_page_one.dart';
-
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +29,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-    
-
-       home:CacheData.getData(key:"token")==null?const LoginPage():HomePage(name:"${CacheData.getData(key: "name")}"),
-
+      home: CacheData.getData(key: "token") == null
+          ? const LoginPage()
+          : HomePage(name: "${CacheData.getData(key: "name")}"),
     );
   }
 }

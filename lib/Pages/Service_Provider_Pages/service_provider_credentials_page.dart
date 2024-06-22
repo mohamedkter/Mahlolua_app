@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Functions/validation.dart';
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/success_page.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 
 import '../../Functions/image_converter.dart';
@@ -23,6 +26,7 @@ class ServiceProviderCredentials extends StatefulWidget {
 
 class _ServiceProviderCredentialsState
     extends State<ServiceProviderCredentials> {
+  bool is_loading = false;
   ImagePicker picker = ImagePicker();
   final formKey = GlobalKey<FormState>();
   TextEditingController personalIdNumber = TextEditingController();
@@ -70,264 +74,292 @@ class _ServiceProviderCredentialsState
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 26, left: 26, right: 26),
-          child: Column(
-            children: [
+      body: is_loading == true
+          ? GenerelLoadingPage()
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 26, left: 26, right: 26),
+                child: Column(
+                  children: [
 //////////////////// pick personal images section ////////////////////
 
-              PersonalImagePickerWidget(
-                image: personalImage,
-                imageTitle: "الصورة الشخصية",
-                getImageFunction: () async {
-                  XFile? pickedImage =
-                      await picker.pickImage(source: ImageSource.camera);
-                  setState(() {
-                    pickedImage == null
-                        ? null
-                        : personalImage = File(pickedImage.path);
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              PersonalImagePickerWidget(
-                image: idImage,
-                imageTitle: "وجه البطاقة ",
-                getImageFunction: () async {
-                  XFile? pickedImage =
-                      await picker.pickImage(source: ImageSource.camera);
-                  setState(() {
-                    pickedImage == null
-                        ? null
-                        : idImage = File(pickedImage.path);
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+                    PersonalImagePickerWidget(
+                      image: personalImage,
+                      imageTitle: "الصورة الشخصية",
+                      getImageFunction: () async {
+                        XFile? pickedImage =
+                            await picker.pickImage(source: ImageSource.camera);
+                        setState(() {
+                          pickedImage == null
+                              ? null
+                              : personalImage = File(pickedImage.path);
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    PersonalImagePickerWidget(
+                      image: idImage,
+                      imageTitle: "وجه البطاقة ",
+                      getImageFunction: () async {
+                        XFile? pickedImage =
+                            await picker.pickImage(source: ImageSource.camera);
+                        setState(() {
+                          pickedImage == null
+                              ? null
+                              : idImage = File(pickedImage.path);
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
 
-              ///////////////////// pick personal information section   //////////////////////
+                    ///////////////////// pick personal information section   //////////////////////
 
-              Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      TextFormFieldWidget(
-                          textEditingController: personalIdNumber,
-                          textFormFieldTitel: "الرقم القومي"),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormFieldWidget(
-                          textEditingController: priceController,
-                          textFormFieldTitel: "سعر المعاينة"),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormFieldWidget(
-                        textEditingController: serviceproviderDecs,
-                        textFormFieldTitel: "وصف الفنى وخبرتة",
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                    Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            TextFormFieldWidget(
+                                validatorFunction: (value) {
+                                return  validateNationalId(value);
+                                },
+                                textEditingController: personalIdNumber,
+                                textFormFieldTitel: "الرقم القومي"),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormFieldWidget(
+                                validatorFunction: (value) {
+                                  return validatePrice(value);
+                                },
+                                textEditingController: priceController,
+                                textFormFieldTitel: "سعر المعاينة"),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormFieldWidget(
+                              validatorFunction: (value) {
+                               return validateDescription(value);
+                              },
+                              textEditingController: serviceproviderDecs,
+                              textFormFieldTitel: "وصف الفنى وخبرتة",
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "اختر نوع الخدمة",
+                                  style: TextStyle(
+                                      fontFamily: 'cairo',
+                                      color: MainColor,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w700),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Material(
+                              borderRadius: BorderRadius.circular(15),
+                              elevation: 5,
+                              child: DropdownButtonFormField<String>(
+                                style: const TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                value: serviceType,
+                                items: <String>[
+                                  'سباكه',
+                                  'تنطيف',
+                                  'نقل',
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    serviceType = newValue;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'قم بختيار احد الخدمات';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        )),
+                    const SizedBox(
+                      height: 40,
+                    ),
+
+                    ////////////////// pick work image section /////////////////
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "صور اعمال سابقة",
+                          style: TextStyle(
+                              fontFamily: 'cairo',
+                              color: MainColor,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 400,
+                      child: GridView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisSpacing: 15,
+                                mainAxisSpacing: 15,
+                                crossAxisCount: 2),
                         children: [
-                          Text(
-                            "اختر نوع الخدمة",
-                            style: TextStyle(
-                                fontFamily: 'cairo',
-                                color: MainColor,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w700),
-                          )
+                          PastWorkImagePickerWidget(
+                              getImageFunction: () async {
+                                XFile? pickedImage = await picker.pickImage(
+                                    source: ImageSource.gallery);
+                                setState(() {
+                                  pickedImage == null
+                                      ? null
+                                      : workImageOne = File(pickedImage.path);
+                                });
+                              },
+                              image: workImageOne),
+                          PastWorkImagePickerWidget(
+                              getImageFunction: () async {
+                                XFile? pickedImage = await picker.pickImage(
+                                    source: ImageSource.gallery);
+                                setState(() {
+                                  pickedImage == null
+                                      ? null
+                                      : workImageTwo = File(pickedImage.path);
+                                });
+                              },
+                              image: workImageTwo),
+                          PastWorkImagePickerWidget(
+                              getImageFunction: () async {
+                                XFile? pickedImage = await picker.pickImage(
+                                    source: ImageSource.gallery);
+                                setState(() {
+                                  pickedImage == null
+                                      ? null
+                                      : workImageThree = File(pickedImage.path);
+                                });
+                              },
+                              image: workImageThree),
+                          PastWorkImagePickerWidget(
+                              getImageFunction: () async {
+                                XFile? pickedImage = await picker.pickImage(
+                                    source: ImageSource.gallery);
+                                setState(() {
+                                  pickedImage == null
+                                      ? null
+                                      : workImageFour = File(pickedImage.path);
+                                });
+                              },
+                              image: workImageFour),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(15),
-                        elevation: 5,
-                        child: DropdownButtonFormField<String>(
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.black),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          value: serviceType,
-                          items: <String>[
-                            'Option 1',
-                            'Option 2',
-                            'Option 3',
-                            'Option 4',
-                            'ho',
-                            'Option 5',
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              serviceType = newValue;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please select an option';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
-                  )),
-              const SizedBox(
-                height: 40,
-              ),
-
-              ////////////////// pick work image section /////////////////
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "صور اعمال سابقة",
-                    style: TextStyle(
-                        fontFamily: 'cairo',
-                        color: MainColor,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 400,
-                child: GridView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      crossAxisCount: 2),
-                  children: [
-                    PastWorkImagePickerWidget(
-                        getImageFunction: () async {
-                          XFile? pickedImage = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            pickedImage == null
-                                ? null
-                                : workImageOne = File(pickedImage.path);
-                          });
-                        },
-                        image: workImageOne),
-                    PastWorkImagePickerWidget(
-                        getImageFunction: () async {
-                          XFile? pickedImage = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            pickedImage == null
-                                ? null
-                                : workImageTwo = File(pickedImage.path);
-                          });
-                        },
-                        image: workImageTwo),
-                    PastWorkImagePickerWidget(
-                        getImageFunction: () async {
-                          XFile? pickedImage = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            pickedImage == null
-                                ? null
-                                : workImageThree = File(pickedImage.path);
-                          });
-                        },
-                        image: workImageThree),
-                    PastWorkImagePickerWidget(
-                        getImageFunction: () async {
-                          XFile? pickedImage = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            pickedImage == null
-                                ? null
-                                : workImageFour = File(pickedImage.path);
-                          });
-                        },
-                        image: workImageFour),
-                  ],
-                ),
-              ),
+                    ),
 
 ////////////////////// submit button section /////////////////
 
-              ElevatedButton(
-                onPressed: () async {
-                  formKey.currentState?.validate();
-                  EmployeeProfile obj = EmployeeProfile(
-                      desc: serviceproviderDecs.text,
-                      SSN: personalIdNumber.text,
-                      minPrice: int.parse(priceController.text),
-                      userId: widget.id,
-                      serviceId: 1);
-                  FormData? livePhoto = personalImage == null
-                      ? null
-                      : await imageConverter(personalImage!, "livePhoto");
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          setState(() {
+                            is_loading = true;
+                          });
+                          EmployeeProfile obj = EmployeeProfile(
+                              desc: serviceproviderDecs.text,
+                              SSN: personalIdNumber.text,
+                              minPrice: int.parse(priceController.text),
+                              userId: widget.id,
+                              serviceId: 1);
+                          FormData? livePhoto = personalImage == null
+                              ? null
+                              : await imageConverter(
+                                  personalImage!, "livePhoto");
 
-                  FormData? imageSSN = idImage == null
-                      ? null
-                      : await imageConverter(idImage!, "imageSSN");
+                          FormData? imageSSN = idImage == null
+                              ? null
+                              : await imageConverter(idImage!, "imageSSN");
 
-                  FormData? work0 = workImageOne == null
-                      ? null
-                      : await imageConverter(workImageOne!, "works[0][image]");
+                          FormData? work0 = workImageOne == null
+                              ? null
+                              : await imageConverter(
+                                  workImageOne!, "works[0][image]");
 
-                  FormData? work1 = workImageTwo == null
-                      ? null
-                      : await imageConverter(workImageTwo!, "works[1][image]");
+                          FormData? work1 = workImageTwo == null
+                              ? null
+                              : await imageConverter(
+                                  workImageTwo!, "works[1][image]");
 
-                  FormData? work2 = workImageThree == null
-                      ? null
-                      : await imageConverter(
-                          workImageThree!, "works[2][image]");
+                          FormData? work2 = workImageThree == null
+                              ? null
+                              : await imageConverter(
+                                  workImageThree!, "works[2][image]");
 
-                  FormData? work3 = workImageFour == null
-                      ? null
-                      : await imageConverter(workImageFour!, "works[3][image]");
-                  await PostMethods.createEmployee(
-                      obj, imageSSN, livePhoto, work0, work1, work2, work3);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: MainColor,
-                    fixedSize:
-                        Size(MediaQuery.of(context).size.width / 1.1, 50)),
-                child: const Text(
-                  "تاكيد",
-                  style: TextStyle(
-                      fontFamily: 'cairo',
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700),
+                          FormData? work3 = workImageFour == null
+                              ? null
+                              : await imageConverter(
+                                  workImageFour!, "works[3][image]");
+                          await PostMethods.createEmployee(obj, imageSSN,
+                              livePhoto, work0, work1, work2, work3);
+                        }
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SuccessPage(
+                                    upperMessage: "تم التسجيل بنجاح",
+                                    lowerMessage:
+                                        "جاري مراجعة بياناتك من قبل المختص",
+                                  )),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: MainColor,
+                          fixedSize: Size(
+                              MediaQuery.of(context).size.width / 1.1, 50)),
+                      child: const Text(
+                        "تاكيد",
+                        style: TextStyle(
+                            fontFamily: 'cairo',
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    )
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 40,
-              )
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
@@ -336,9 +368,11 @@ class TextFormFieldWidget extends StatelessWidget {
   const TextFormFieldWidget(
       {super.key,
       required this.textEditingController,
+      required this.validatorFunction,
       required this.textFormFieldTitel});
   final String textFormFieldTitel;
   final TextEditingController textEditingController;
+  final String? Function(String?) validatorFunction;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -363,6 +397,7 @@ class TextFormFieldWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           elevation: 5,
           child: TextFormField(
+            validator: validatorFunction,
             style: TextStyle(fontSize: 20),
             decoration: InputDecoration(
                 border: OutlineInputBorder(

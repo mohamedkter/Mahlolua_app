@@ -68,14 +68,15 @@ class PostMethods {
     } else {
       if (response.statusCode == 400) {
         print('Bad request: ${response.data}');
-        return response.data;
+        return null;
       } else {
         print('Failed to create user: ${response.statusCode}');
-      return response.data;
+      return null;
       }
     }
   } catch (e) {
     print('Error creating user: $e');
+    return null;
   }
 }
 

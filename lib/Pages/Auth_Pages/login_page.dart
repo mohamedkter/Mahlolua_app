@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Functions/validation.dart';
 import 'package:mahloula/Pages/Auth_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/regester_page.dart';
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/error_page.dart';
 import 'package:mahloula/Pages/identify_page.dart';
 import 'package:mahloula/Services/Api/auth_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../User_Pages/home_page.dart';
 
@@ -21,6 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _isPasswordVisible = false;
   bool _rememberMe = false;
+  bool is_loading = false;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -28,244 +31,254 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'تسجيل الدخول إلى\n حسابك',
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: "cairo"),
-                  textAlign: TextAlign.right,
-                ),
-                SizedBox(height: 20),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    textDirection: TextDirection.rtl,
-                    controller: _usernameController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'يرجى إدخال البريد الإلكتروني';
-                      }
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'البريد الإلكتروني',
-                        prefixIcon: Icon(Icons.email),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 174, 154, 154),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 174, 154, 154),
-                          ),
-                        )),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    textDirection: TextDirection.rtl,
-                    controller: _passwordController,
-                    obscureText: !_isPasswordVisible,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'يرجى إدخال كلمة المرور';
-                      }
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'كلمة المرور',
-                        prefixIcon: Icon(Icons.lock),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
+      body: is_loading == true
+          ? GenerelLoadingPage()
+          : SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text(
+                        'تسجيل الدخول إلى\n حسابك',
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: "cairo"),
+                        textAlign: TextAlign.right,
+                      ),
+                      SizedBox(height: 20),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextFormField(
+                          textDirection: TextDirection.rtl,
+                          controller: _usernameController,
+                          validator: (value) {
+                            return validateEmail(value);
                           },
+                          decoration: InputDecoration(
+                              labelText: 'البريد الإلكتروني',
+                              prefixIcon: Icon(Icons.email),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: const BorderSide(
+                                  color:
+                                      Color.fromARGB(255, 174, 154, 154),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: const BorderSide(
+                                  color:
+                                      Color.fromARGB(255, 174, 154, 154),
+                                ),
+                              )),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 174, 154, 154),
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(color: Colors.white),
-                        )),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('تذكرني'),
-                        Checkbox(
-                          value: _rememberMe,
-                          onChanged: (value) {
-                            setState(() {
-                              _rememberMe = value ?? false;
-                            });
+                      ),
+                      const SizedBox(height: 20),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextFormField(
+                          textDirection: TextDirection.rtl,
+                          controller: _passwordController,
+                          obscureText: !_isPasswordVisible,
+                          validator: (value) {
+                            return validateLoginPassword(value);
                           },
+                          decoration: InputDecoration(
+                              labelText: 'كلمة المرور',
+                              prefixIcon: Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: const BorderSide(
+                                  color:
+                                      Color.fromARGB(255, 174, 154, 154),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(color: Colors.white),
+                              )),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                        onTap: () async {
-                          if (formKey.currentState!.validate()) {
-                            var responseData = await AuthMethods.login(
-                                _usernameController.text.trim(),
-                                _passwordController.text.trim());
-
-                            if (responseData.statusCode == 200) {
-                              if (responseData.data["user"]["userType"] ==
-                                  "user") {
-                                    CacheData.setData(
-                                    key: "userId",
-                                    value: responseData.data["user"]["id"]);
-                                CacheData.setData(
-                                    key: "name",
-                                    value: responseData.data["user"]["name"]);
-                                CacheData.setData(
-                                    key: "image",
-                                    value: responseData.data["user"]["image"]);
-                                CacheData.setData(
-                                    key: "email",
-                                    value: responseData.data["user"]["email"]);
-                                CacheData.setData(
-                                    key: "phone",
-                                    value: responseData.data["user"]["phone"]);
-                                CacheData.setData(
-                                    key: "token",
-                                    value: responseData.data["authorisation"]
-                                        ["token"]);
-
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage(
-                                              name:
-                                                  "${responseData.data["user"]["name"]}",
-                                            )),(Route<dynamic> route) => false,);
-                              } else {}
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ErrorPage()));
-                            }
-                          }
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 650, // استخدام كل المساحة الأفقية المتاحة
-                          padding: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            color: MainColor, // لون الخلفية
-                            borderRadius:
-                                BorderRadius.circular(30.0), // زوايا مستديرة
+                      ),
+                      SizedBox(height: 10),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('تذكرني'),
+                              Checkbox(
+                                value: _rememberMe,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _rememberMe = value ?? false;
+                                  });
+                                },
+                              ),
+                            ],
                           ),
-                          child: const Center(
-                            child: Text(
-                              'تسجيل الدخول',
-                              style: TextStyle(
-                                  fontSize: 20.0, // حجم النص
-                                  color: Colors.white,
-                                  fontFamily: "cairo" // لون النص
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                              onTap: () async {
+                                if (formKey.currentState!.validate()) {
+                                  setState(() {
+                                    is_loading = true;
+                                  });
+                                  var responseData = await AuthMethods.login(
+                                      _usernameController.text.trim(),
+                                      _passwordController.text.trim());
+                                  if (responseData != null) {
+                                    if (responseData.data["user"]["userType"] ==
+                                        "user") {
+                                      CacheData.setData(
+                                          key: "userId",
+                                          value: responseData.data["user"]
+                                              ["id"]);
+                                      CacheData.setData(
+                                          key: "name",
+                                          value: responseData.data["user"]
+                                              ["name"]);
+                                      CacheData.setData(
+                                          key: "image",
+                                          value: responseData.data["user"]
+                                              ["image"]);
+                                      CacheData.setData(
+                                          key: "email",
+                                          value: responseData.data["user"]
+                                              ["email"]);
+                                      CacheData.setData(
+                                          key: "phone",
+                                          value: responseData.data["user"]
+                                              ["phone"]);
+                                      CacheData.setData(
+                                          key: "token",
+                                          value: responseData
+                                              .data["authorisation"]["token"]);
+
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage(
+                                                  name:
+                                                      "${responseData.data["user"]["name"]}",
+                                                )),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    } else {}
+                                  }else{
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>ErrorPage(upperMessage: "خطا في تسجيل الدخول",lowerMessage: "يرجي التاكد من البريد الالكتروني او كلمة السر",)));
+                                  }
+                                }
+                              },
+                              child: Container(
+                                height: 60,
+                                width:
+                                    650, // استخدام كل المساحة الأفقية المتاحة
+                                padding: EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: MainColor, // لون الخلفية
+                                  borderRadius: BorderRadius.circular(
+                                      30.0), // زوايا مستديرة
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'تسجيل الدخول',
+                                    style: TextStyle(
+                                        fontSize: 20.0, // حجم النص
+                                        color: Colors.white,
+                                        fontFamily: "cairo" // لون النص
+                                        ),
                                   ),
+                                ),
+                              )),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgotPasswordPage()),
+                              );
+                            },
+                            child: const Text(
+                              'هل نسيت كلمة المرور؟',
+                              style: TextStyle(
+                                  color: Colors.black45, fontFamily: "cairo"),
                             ),
                           ),
-                        )),
-                    const SizedBox(height: 10),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPasswordPage()),
-                        );
-                      },
-                      child: const Text(
-                        'هل نسيت كلمة المرور؟',
-                        style: TextStyle(
-                            color: Colors.black45, fontFamily: "cairo"),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                const Divider(height: 20, thickness: 1),
-                const Text(
-                  'تسجيل بواسطة',
-                  textAlign: TextAlign.center, // تحديث النص هنا
-                  style: TextStyle(
-                      fontSize: 18, // تكبير حجم النص إن كنت ترغب
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "cairo"),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Socialimage(
-                        image: Image.asset("assets/photo/facebook.png")),
-                    SizedBox(width: 10),
-                    Socialimage(image: Image.asset("assets/photo/google.png")),
-                    SizedBox(width: 10),
-                    Socialimage(image: Image.asset("assets/photo/apple.png")),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const IdentifyPage()),
-                        );
-                      },
-                      child: const Text(
-                        'إنشاء حساب',
+                      const Divider(height: 20, thickness: 1),
+                      const Text(
+                        'تسجيل بواسطة',
+                        textAlign: TextAlign.center, // تحديث النص هنا
                         style: TextStyle(
-                            color: Colors.blue,
+                            fontSize: 18, // تكبير حجم النص إن كنت ترغب
                             fontWeight: FontWeight.bold,
                             fontFamily: "cairo"),
                       ),
-                    ),
-                    const Text(
-                      'ليس لديك حساب؟ ',
-                      style: TextStyle(fontFamily: "cairo"),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Socialimage(
+                              image: Image.asset("assets/photo/facebook.png")),
+                          SizedBox(width: 10),
+                          Socialimage(
+                              image: Image.asset("assets/photo/google.png")),
+                          SizedBox(width: 10),
+                          Socialimage(
+                              image: Image.asset("assets/photo/apple.png")),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const IdentifyPage()),
+                              );
+                            },
+                            child: const Text(
+                              'إنشاء حساب',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "cairo"),
+                            ),
+                          ),
+                          const Text(
+                            'ليس لديك حساب؟ ',
+                            style: TextStyle(fontFamily: "cairo"),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -294,58 +307,3 @@ class Socialimage extends StatelessWidget {
   }
 }
 
-class ErrorPage extends StatelessWidget {
-  const ErrorPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                width: 250,
-                height: 250,
-                child: Lottie.asset(
-                  'assets/photo/loginError.json',
-                  fit: BoxFit.cover,
-                )),
-            const Text(
-              "خطا في تسجيل لادخول",
-              style: TextStyle(
-                  color: MainColor,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "cairo",
-                  fontSize: 20),
-            ),
-            const Text(
-              "يرجي التاكد من ابريد الالكتروني و الرقم السري",
-              style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "cairo",
-                  fontSize: 15),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-                child: const Text(
-                  "العوده لتسجيل الدخول",
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "cairo"),
-                ))
-          ],
-        )),
-      ),
-    );
-  }
-}

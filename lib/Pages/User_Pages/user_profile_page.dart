@@ -106,7 +106,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   decoration: BoxDecoration(
                                       color: MainColor,
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   ))))
@@ -120,7 +120,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             Text(
               "${CacheData.getData(key: "name")}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'cairo',
                   fontSize: 23.0,
                   fontWeight: FontWeight.bold),
@@ -128,7 +128,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             Text(
               "${CacheData.getData(key: "email")}",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'cairo',
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
@@ -143,7 +143,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
             ///////// Options Section//////////////
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.person_outline_rounded,
                 size: 32,
               ),
@@ -151,7 +151,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               OptionFunction: () {},
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.notifications_outlined,
                 size: 32,
               ),
@@ -159,7 +159,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               OptionFunction: () {},
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.security_rounded,
                 size: 32,
               ),
@@ -168,7 +168,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               },
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.lock_person,
                 size: 32,
               ),
@@ -181,7 +181,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               },
             ),
             OptionCard(
-              OptionCardIcon: Icon(
+              OptionCardIcon: const Icon(
                 Icons.help_center_rounded,
                 size: 32,
               ),

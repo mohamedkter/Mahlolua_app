@@ -8,28 +8,30 @@ class AuthMethods {
     'X-CSRF-TOKEN': '',
   };
 /////////////////// login Method /////////////////////////////////
-static Future<dynamic> login(String email, String password) async {
-  try {
-    final response = await dio.post(
-      'https://mahllola.online/api/login',
-      queryParameters: {
-        'email': email,
-        'password': password,
-      },
-      options: Options(
-        headers: headers,
-      ),
-    );
-    print("???????????????????????????????????");
-  print(response.data["user"]["name"]);
-    print("???????????????????????????????????");
+  static Future<dynamic?> login(String email, String password,) async {
+    try {
+      final response = await Dio().post(
+        'https://mahllola.online/api/login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+        options: Options(
+          headers: headers,
+        ),
+      );
 
-
-           return response;
-   
-  } catch (e) {
-  print("errroorrrrrrrrrrrrrrrrrrrrrrrrr");
+      if (response.statusCode == 200) {
+        print("Login successful");
+        print("User name: ${response.data["user"]["name"]}");
+        return response;
+      } else {
+        print("Failed to login. Status code: ${response.statusCode}");
+        throw Exception('Failed to login');
+      }
+    } catch (e) {
+      print("Error during login: $e");
+return null;       
+    }
   }
-}
-
 }
