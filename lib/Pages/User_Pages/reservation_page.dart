@@ -6,12 +6,13 @@ import 'package:mahloula/Pages/User_Pages/add_discount_page.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
 
+import '../../Constants/ObjectOrder.dart';
 import '../../Models/order_model.dart';
 
 class ReservationPage extends StatefulWidget {
-  const ReservationPage({this.object, super.key});
+  const ReservationPage({this.obj ,super.key});
 
-  final Order? object;
+  final Order? obj;
   @override
   State<ReservationPage> createState() => _ReservationPageState();
 }
@@ -30,7 +31,9 @@ class _ReservationPageState extends State<ReservationPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: IconButton(
-          onPressed: () {},
+          onPressed: ()
+          {
+          },
           icon: CircleAvatar(
             radius: 17,
             child: Icon(
@@ -112,36 +115,7 @@ class _ReservationPageState extends State<ReservationPage> {
               ),
             ),
           ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     children: [
-              //       ChipsChoice.single(
-              //         choiceCheckmark: true,
-              //         choiceStyle: C2ChipStyle.filled(
-              //             selectedStyle: const C2ChipStyle(
-              //               backgroundColor: MainColor,
-              //             ),
-              //             // Border width for the filled chip
-              //             color: SecondaryColor,
-              //             height: 40,
-              //             borderRadius: BorderRadius.circular(20),
-              //             borderWidth: 3,
-              //             padding: EdgeInsets.symmetric(horizontal: 20)),
-              //         value: Selected_Houres,
-              //         onChanged: (value) {
-              //           setState(() {
-              //             Selected_Houres = value;
-              //           });
-              //         },
-              //         choiceItems: C2Choice.listFrom(
-              //             source: Houres,
-              //             value: (i, v) => i,
-              //             label: (i, v) => v),
-              //       )
-              //     ],
-              //   ),
-              // ),
+
               const SizedBox(
                 height: 10,
               ),
@@ -169,9 +143,10 @@ class _ReservationPageState extends State<ReservationPage> {
                         });
                         addVoucher.text=selectedVouche==null?"":selectedVouche!.code;
                         selectedVouche?.discount;
-                        DateAndTime += _controller.text;
-                        widget.object?.voucherCode = selectedVouche?.discount;
-                        widget.object?.dateOfDelivery = DateAndTime;
+                        //DateAndTime += _controller.text;
+                        // widget.object?.voucherCode = '';//selectedVouche?.discount;
+                         //order.dateOfDelivery = DateAndTime;
+
                       },
                       icon: const Icon(
                         Icons.add,
@@ -228,8 +203,11 @@ class _ReservationPageState extends State<ReservationPage> {
       bottomNavigationBar: CustomBottomAppBar(
         buttonText: "100\$  -الحجز ",
         buttonFunction: () {
+          //DateAndTime += _controller.text;
+          widget.obj?.dateOfDelivery = DateAndTime;
+          print(DateAndTime);
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) =>  GetLocationPage(obj: widget.object,)));
+              MaterialPageRoute(builder: (context) =>  GetLocationPage(obj: widget.obj)));
         },
       ),
     );
@@ -262,7 +240,8 @@ class _ReservationPageState extends State<ReservationPage> {
           String x = pickedTime.toString();
           
           _controller.text = x.substring(10,15);
-          widget.object?.dateOfDelivery ;
+          DateAndTime += _controller.text;
+          //widget.object?.dateOfDelivery ;
         });
       }
     //}

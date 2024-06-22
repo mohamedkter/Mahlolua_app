@@ -8,20 +8,26 @@ import 'package:mahloula/Services/Data/cache_data.dart';
 class PostMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
-    'accept': '*/*',
+    //'accept': '*/*',
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${CacheData.getData(key:"token")}',
+  //  'Authorization': 'Bearer '
   };
 
 //////////////////////////////// Make Order Method /////////////////////////////
   static Future<void> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
+    final Dio dio = Dio();
+
+    final headers = {
+      //'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',  // Adjust if needed
+    };
+
     try {
       final Response response = await dio.post(
         url,
         queryParameters: order.toMap(),
         options: Options(headers: headers),
-        data: {},
       );
 
       // Handle the response
@@ -30,8 +36,13 @@ class PostMethods {
       } else {
         print('Failed to make order: ${response.statusCode}');
       }
-    } catch (e) {
-      print('Error making order: $e');
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Error making order: ${e.response?.statusCode} - ${e.response?.statusMessage}');
+        print('Response data: ${e.response?.data}');
+      } else {
+        print('Error making order: ${e.message}');
+      }
     }
   }
 
