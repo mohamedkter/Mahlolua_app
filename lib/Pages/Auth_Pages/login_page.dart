@@ -6,6 +6,7 @@ import 'package:mahloula/Pages/Auth_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/forget_password_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/regester_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_credentials_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
 import 'package:mahloula/Pages/error_page.dart';
 import 'package:mahloula/Pages/identify_page.dart';
@@ -179,45 +180,63 @@ class _LoginPageState extends State<LoginPage> {
                                         (Route<dynamic> route) => false,
                                       );
                                     } else {
-                                      CacheData.setData(
-                                          key: "userId",
-                                          value: responseData.data["user"]
-                                              ["id"]);
-                                      CacheData.setData(
-                                          key: "name",
-                                          value: responseData.data["user"]
-                                              ["name"]);
-                                      CacheData.setData(
-                                          key: "image",
-                                          value: responseData.data["user"]
-                                              ["image"]);
-                                      CacheData.setData(
-                                          key: "email",
-                                          value: responseData.data["user"]
-                                              ["email"]);
-                                      CacheData.setData(
-                                          key: "employee_id",
-                                          value: responseData.data["employee"]
-                                              ["id"]);
-                                      CacheData.setData(
-                                          key: "phone",
-                                          value: responseData.data["user"]
-                                              ["phone"]);        
-                                      CacheData.setData(
-                                          key: "token",
-                                          value: responseData
-                                              .data["authorisation"]["token"]);
-                                               Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ServiceProviderMainPage(name:"${responseData.data["user"]["name"]}")),
-                                        (Route<dynamic> route) => false,
-                                      );
+                                      if (responseData.data["employee"] !=
+                                          null) {
+                                        CacheData.setData(
+                                            key: "userId",
+                                            value: responseData.data["user"]
+                                                ["id"]);
+                                        CacheData.setData(
+                                            key: "name",
+                                            value: responseData.data["user"]
+                                                ["name"]);
+                                        CacheData.setData(
+                                            key: "image",
+                                            value: responseData.data["user"]
+                                                ["image"]);
+                                        CacheData.setData(
+                                            key: "email",
+                                            value: responseData.data["user"]
+                                                ["email"]);
+                                        CacheData.setData(
+                                            key: "phone",
+                                            value: responseData.data["user"]
+                                                ["phone"]);
+                                        CacheData.setData(
+                                            key: "employee_id",
+                                            value: responseData.data["employee"]
+                                                ["id"]);
+                                        CacheData.setData(
+                                            key: "token",
+                                            value: responseData
+                                                    .data["authorisation"]
+                                                ["token"]);
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ServiceProviderMainPage(
+                                                      name:
+                                                          "${responseData.data["user"]["name"]}")),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      } else {
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ServiceProviderCredentials(
+                                                      id: responseData
+                                                          .data["user"]["id"])),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      }
                                     }
                                   } else {
-                                    Navigator.of(context)
-                                        .pushReplacement(MaterialPageRoute(
-                                            builder: (context) => ErrorPage(
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ErrorPage(
                                                   upperMessage:
                                                       "خطا في تسجيل الدخول",
                                                   lowerMessage:

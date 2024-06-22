@@ -42,9 +42,6 @@ class PostMethods {
 
   try {
     
-    if (user.name == null || user.email == null || !user.email.contains('@')) {
-      throw Exception('Missing required user data');
-    }
 
     final formData = FormData.fromMap(user.toMap());
     if (image != null && image.files.isNotEmpty) {
@@ -82,7 +79,7 @@ class PostMethods {
 
 ////////////////////////////////// Make Employee Profile Method ///////////////////////
 
- static Future<void> createEmployee(
+ static Future<bool> createEmployee(
     EmployeeProfile employee,
     FormData? imageSSN,
     FormData? livePhoto,
@@ -120,18 +117,15 @@ class PostMethods {
 
     if (response.statusCode == 200) {
       print('Employee created successfully: ${response.data}');
+      return true;
+
     } else {
       print('Failed to create employee: ${response.statusCode}');
       print('Response data: ${response.data}');
-    }
-  } on DioException catch (e) {
-    if (e.response != null) {
-      print('Dio error! Status: ${e.response?.statusCode}, Data: ${e.response?.data}');
-    } else {
-      print('Error sending request: ${e.message}');
+      return false;
     }
   } catch (e) {
-    print('Unexpected error: $e');
+   return false;
   }
 }
 ////////////////////////////////edit Employee Method /////////////////////

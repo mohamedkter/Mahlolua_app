@@ -76,13 +76,19 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: MainColor),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        width: widthOfScreen / 1.3,
+                        height: 200,
                         child: Column(
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 60),
                               child: Text(
                                 TimeOfDay.now().hour < 12 ? 'صباح الخير' : 'مساء الخير',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'cairo',
                                     fontSize: 16),
@@ -90,13 +96,13 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                             ),
                             Text(
                               "${CacheData.getData(key: "name")}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'cairo',
                                 fontSize: 21.0,
                                 //fontWeight: FontWeight.bold
                               ),
                             ),
-                            Row(
+                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
@@ -112,7 +118,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                 )
                               ],
                             ),
-                            Divider(
+                            const Divider(
                               indent: 40,
                               endIndent: 40,
                             ),
@@ -121,7 +127,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                               children: [
                                 Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "22",
                                       style: TextStyle(
                                           color: MainColor,
@@ -139,7 +145,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                 ),
                                 Column(
                                   children: [
-                                    Text(
+                                     Text(
                                       "72",
                                       style: TextStyle(
                                           color: MainColor,
@@ -159,12 +165,6 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                             )
                           ],
                         ),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: MainColor),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        width: widthOfScreen / 1.3,
-                        height: 200,
                       ),
                     ],
                   ),
