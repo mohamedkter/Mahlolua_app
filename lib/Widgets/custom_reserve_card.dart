@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:intl/intl.dart'; // Import this package
+import 'package:mahloula/Pages/User_Pages/check_page.dart';
+import '../../models/reservation_model.dart';
+import '../../Constants/Color_Constants.dart';
+
+
+ 
 
 class CustomReserveCard extends StatefulWidget {
   const CustomReserveCard({
     super.key,
     required this.color,
     required this.index,
+    required this.reservation,
   });
 
   final Color color;
   final int index;
+  final Reservation reservation;
+
   @override
   State<CustomReserveCard> createState() => _CustomReserveCardState();
 }
@@ -20,6 +28,16 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
 
   @override
   Widget build(BuildContext context) {
+    String statusText;
+    if (widget.reservation.status == 'accepted' || widget.reservation.status == 'waiting') {
+      statusText = 'قادم';
+    } else if (widget.reservation.status == 'rejected') {
+      statusText = 'ملغي';
+    } else {
+      DateTime dateOfDelivery = DateFormat('yyyy-MM-dd').parse(widget.reservation.dateOfDelivery);
+      statusText = dateOfDelivery.isBefore(DateTime.now()) ? 'مكتمل' : 'قادم';
+    }
+
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Card(
@@ -46,7 +64,7 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "محمد محمود",
+                        widget.reservation.employeeName,
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 20,
@@ -57,7 +75,8 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                         height: 5,
                       ),
                       Text(
-                        "صيانه تكيف",
+                        widget.reservation.serviceName,
+                        
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 15,
@@ -75,7 +94,13 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                           borderRadius: BorderRadius.circular(7),
                           color: widget.color,
                         ),
-                        child: Center(child: checkStatus(widget.index)),
+                        child: Center(child: Text(
+                          statusText,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Cairo',
+                              fontSize: 13),
+                        )),
                       )
                     ],
                   ),
@@ -116,7 +141,7 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    "12-12-2024 | 10:3 - 10:00 ص",
+                                    widget.reservation.dateOfDelivery,
                                     style: TextStyle(
                                         fontFamily: "Cairo",
                                         fontSize: 15,
@@ -129,8 +154,7 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                 height: 5,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "الموقع",
@@ -141,7 +165,7 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    " النزله - اسيوط",
+                                    widget.reservation.location,
                                     style: TextStyle(
                                         fontFamily: "Cairo",
                                         fontSize: 15,
@@ -154,13 +178,23 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                 height: 15,
                               ),
                               widget.index == 2
-                                  ? NextReserveButtons()
+                                  ? NextReserveButtons(reservation: widget.reservation)
                                   : widget.index == 0
                                       ? CompletedAndCanceledReserveButton(
-                                          btnFunctoin: () {print("اعادة الحجز");},
+                                          btnFunctoin: () {
+                                            setState(() {
+                                              widget.reservation.status = 'accepted';
+                                            });
+                                          },
                                           btnText: "اعادة الحجز")
                                       : CompletedAndCanceledReserveButton(
-                                          btnFunctoin: () {print("عرض الفاتورة الالكترونية");},
+                                          btnFunctoin: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => CheckPage(reservation: widget.reservation)),
+                                            );
+                                          },
                                           btnText: "عرض الفاتورة الالكترونية")
                             ],
                           ),
@@ -227,9 +261,15 @@ class CompletedAndCanceledReserveButton extends StatelessWidget {
   }
 }
 
-class NextReserveButtons extends StatelessWidget {
-  const NextReserveButtons({super.key});
+class NextReserveButtons extends StatefulWidget {
+  final Reservation reservation;
+  const NextReserveButtons({super.key, required this.reservation});
 
+  @override
+  State<NextReserveButtons> createState() => _NextReserveButtonsState();
+}
+
+class _NextReserveButtonsState extends State<NextReserveButtons> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -240,7 +280,10 @@ class NextReserveButtons extends StatelessWidget {
           mainColor: Colors.white,
           btn_text: "عرض الفاتورة ",
           btn_function: () {
-            print("عرض الفاتورة ");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CheckPage(reservation: widget.reservation)),
+            );
           },
         ),
         CardButton(
@@ -248,7 +291,9 @@ class NextReserveButtons extends StatelessWidget {
           mainColor: MainColor,
           btn_text: " الغاء الحجز",
           btn_function: () {
-            print(" الغاء الحجز");
+            setState(() {
+              widget.reservation.status = 'rejected';
+            });
           },
         )
       ],
@@ -301,7 +346,7 @@ Text checkStatus(int ind) {
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
     );
   } else {
-    return  const Text(
+    return const Text(
       'قادم',
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
     );
