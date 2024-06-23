@@ -111,43 +111,33 @@ class _AllReservationPageState extends State<AllReservationPage>
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Container(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  ListView.builder(
-                    itemBuilder: (context, index) {
-                      print('Rendering cancelled reservation: ${filterReservations('ملغي')[index].id}');
-                      return CustomReserveCard(
-                          index: _tabController.index,
-                          color: Colors.red,
-                          reservation: filterReservations('ملغي')[index]);
-                    },
-                    itemCount: filterReservations('ملغي').length,
-                  ),
-                  ListView.builder(
-                    itemBuilder: (context, index) {
-                      print('Rendering completed reservation: ${filterReservations('مكتمل')[index].id}');
-                      return CustomReserveCard(
-                          index: _tabController.index,
-                          color: Colors.green,
-                          reservation: filterReservations('مكتمل')[index]);
-                    },
-                    itemCount: filterReservations('مكتمل').length,
-                  ),
-                  ListView.builder(
-                    itemBuilder: (context, index) {
-                      print('Rendering upcoming reservation: ${filterReservations('قادم')[index].id}');
-                      return CustomReserveCard(
-                          index: _tabController.index,
-                          color: Colors.orange,
-                          reservation: filterReservations('قادم')[index]);
-                    },
-                    itemCount: filterReservations('قادم').length,
-                  ),
-                ],
-              ),
+          : TabBarView(
+              controller: _tabController,
+              children: [
+                buildReservationList('ملغي', Colors.red),
+                buildReservationList('مكتمل', Colors.green),
+                buildReservationList('قادم', Colors.orange),
+              ],
             ),
+    );
+  }
+
+  Widget buildReservationList(String status, Color color) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        var filteredReservations = filterReservations(status);
+        if (index < filteredReservations.length) {
+          print('Rendering $status reservation: ${filteredReservations[index].id}');
+          return CustomReserveCard(
+            index: _tabController.index,
+            color: color,
+            reservation: filteredReservations[index],
+          );
+        } else {
+          return SizedBox(); // or any other fallback widget
+        }
+      },
+      itemCount: filterReservations(status).length,
     );
   }
 }
