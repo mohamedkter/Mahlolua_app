@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     if (state is LoadingStatus) {
       bodyWidget = const OriginalLoadingPage();
     } else if (state is SuccessStatus) {
-      bodyWidget = (index == 2 ? OriginalPage(name: widget.name,services: BlocProvider.of<HomePageCubit>(context).services,) : Screens[index])!;
+      bodyWidget = (index == 2 ? OriginalPage(name: widget.name,services: BlocProvider.of<HomePageCubit>(context).services,sponsors:BlocProvider.of<HomePageCubit>(context).sponsors,) : Screens[index])!;
     } else {
       bodyWidget = ErrorPage(imageParh:"assets/photo/NoInternaetAnimation.json",upperMessage: "خطا في الانترنت", lowerMessage: "اقفل و افتح تاني ");
     }

@@ -44,11 +44,10 @@ class _ServiceProviderCredentialsState
   File? workImageTwo;
   File? workImageThree;
   File? workImageFour;
-  int serviceId=1;
+  int serviceId = 1;
   String? serviceType;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<CredentialsCubit>(context).getAllServices();
   }
@@ -170,7 +169,7 @@ class _ServiceProviderCredentialsState
                             const SizedBox(
                               height: 10,
                             ),
-                            BlocBuilder<CredentialsCubit,CredentialsStatus>(
+                            BlocBuilder<CredentialsCubit, CredentialsStatus>(
                               builder: (context, state) {
                                 return Material(
                                   borderRadius: BorderRadius.circular(15),
@@ -186,16 +185,28 @@ class _ServiceProviderCredentialsState
                                       ),
                                     ),
                                     value: serviceType,
-                                    items: state is SuccessStatus? BlocProvider.of<CredentialsCubit>(context).services.map<DropdownMenuItem<String>>(
-                                        (Service value) {
-                                      return DropdownMenuItem(
-                                        value:value.name,
-                                        child: Text(value.name),
-                                      );
-                                    }).toList():[],
+                                    items: state is SuccessStatus
+                                        ? BlocProvider.of<CredentialsCubit>(
+                                                context)
+                                            .services
+                                            .map<DropdownMenuItem<String>>(
+                                                (Service value) {
+                                            return DropdownMenuItem(
+                                              value: value.name,
+                                              child: Text(value.name),
+                                            );
+                                          }).toList()
+                                        : [],
                                     onChanged: (String? newValue) {
-                                      Service service=BlocProvider.of<CredentialsCubit>(context).services.firstWhere((element) =>element.name==newValue,);
-                                      serviceId=service.id;
+                                      Service service =
+                                          BlocProvider.of<CredentialsCubit>(
+                                                  context)
+                                              .services
+                                              .firstWhere(
+                                                (element) =>
+                                                    element.name == newValue,
+                                              );
+                                      serviceId = service.id;
                                       setState(() {
                                         serviceType = newValue;
                                       });
@@ -305,7 +316,7 @@ class _ServiceProviderCredentialsState
                               SSN: personalIdNumber.text,
                               minPrice: int.parse(priceController.text),
                               userId: widget.id,
-                              serviceId:serviceId);
+                              serviceId: serviceId);
                           FormData? livePhoto = personalImage == null
                               ? null
                               : await imageConverter(
