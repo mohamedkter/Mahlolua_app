@@ -40,7 +40,7 @@ class AllServicesPage extends StatelessWidget {
       ),
       body:  Padding(
         padding: EdgeInsets.all(8.0),
-        child: CustomAllSercivces(),
+        child: CustomAllSercivces(services: [],),
       ),
     );
   }
