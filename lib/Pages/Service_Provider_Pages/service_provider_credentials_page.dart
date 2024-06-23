@@ -4,12 +4,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Functions/validation.dart';
+import 'package:mahloula/Models/service_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/error_page.dart';
 import 'package:mahloula/Pages/success_page.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
+import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_cubit.dart';
+import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_status.dart';
+import 'package:mahloula/Services/State_Managment/state.dart';
 
 import '../../Functions/image_converter.dart';
 import '../../Models/employee_profile_model.dart';
@@ -38,7 +44,15 @@ class _ServiceProviderCredentialsState
   File? workImageTwo;
   File? workImageThree;
   File? workImageFour;
+  int serviceId=1;
   String? serviceType;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BlocProvider.of<CredentialsCubit>(context).getAllServices();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,43 +170,47 @@ class _ServiceProviderCredentialsState
                             const SizedBox(
                               height: 10,
                             ),
-                            Material(
-                              borderRadius: BorderRadius.circular(15),
-                              elevation: 5,
-                              child: DropdownButtonFormField<String>(
-                                style: const TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(15),
+                            BlocBuilder<CredentialsCubit,CredentialsStatus>(
+                              builder: (context, state) {
+                                return Material(
+                                  borderRadius: BorderRadius.circular(15),
+                                  elevation: 5,
+                                  child: DropdownButtonFormField<String>(
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                    value: serviceType,
+                                    items: state is SuccessStatus? BlocProvider.of<CredentialsCubit>(context).services.map<DropdownMenuItem<String>>(
+                                        (Service value) {
+                                      return DropdownMenuItem(
+                                        value:value.name,
+                                        child: Text(value.name),
+                                      );
+                                    }).toList():[],
+                                    onChanged: (String? newValue) {
+                                      Service service=BlocProvider.of<CredentialsCubit>(context).services.firstWhere((element) =>element.name==newValue,);
+                                      serviceId=service.id;
+                                      setState(() {
+                                        serviceType = newValue;
+                                      });
+                                      print(serviceId);
+                                    },
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'قم بختيار احد الخدمات';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                ),
-                                value: serviceType,
-                                items: <String>[
-                                  'سباكه',
-                                  'تنطيف',
-                                  'نقل',
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    serviceType = newValue;
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'قم بختيار احد الخدمات';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
+                                );
+                              },
+                            )
                           ],
                         )),
                     const SizedBox(
@@ -287,7 +305,7 @@ class _ServiceProviderCredentialsState
                               SSN: personalIdNumber.text,
                               minPrice: int.parse(priceController.text),
                               userId: widget.id,
-                              serviceId: 3);
+                              serviceId:serviceId);
                           FormData? livePhoto = personalImage == null
                               ? null
                               : await imageConverter(
@@ -332,7 +350,17 @@ class _ServiceProviderCredentialsState
                               (Route<dynamic> route) => false,
                             );
                           } else {
-                            print("Error");
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ErrorPage(
+                                  imageParh: "assets/photo/loginError.json",
+                                  upperMessage: "هناك خطا ما حدث ",
+                                  lowerMessage: "يرجي اعادة المحاوله",
+                                ),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
                           }
                         }
                       },

@@ -11,7 +11,6 @@ import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/error_page.dart';
 import 'package:mahloula/Pages/success_page.dart';
-import 'package:mime/mime.dart';
 import '../../Services/Api/post_methods.dart';
 import '../Service_Provider_Pages/service_provider_credentials_page.dart';
 
@@ -269,6 +268,7 @@ class _SignupPageState extends State<SignupPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => const ErrorPage(
+                                              imageParh: "assets/photo/loginError.json",
                                                 upperMessage:
                                                     "حدث خطا اثناء انشاء الحساب",
                                                 lowerMessage:
@@ -302,6 +302,7 @@ class _SignupPageState extends State<SignupPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => const ErrorPage(
+                                              imageParh: "assets/photo/loginError.json",
                                                 upperMessage:
                                                     "حدث خطا اثناء انشاء الحساب",
                                                 lowerMessage:

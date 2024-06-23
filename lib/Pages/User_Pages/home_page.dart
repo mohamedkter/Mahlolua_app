@@ -13,8 +13,8 @@ import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/hom
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_status.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({ this.name});
-  final String? name;
+  HomePage({ required this.name});
+  final String name;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     } else if (state is SuccessStatus) {
       bodyWidget = (index == 2 ? OriginalPage(name: widget.name,services: BlocProvider.of<HomePageCubit>(context).services,) : Screens[index])!;
     } else {
-      bodyWidget = ErrorPage(upperMessage: "خطا في الانترنت", lowerMessage: "اقفل و افتح تاني ");
+      bodyWidget = ErrorPage(imageParh:"assets/photo/NoInternaetAnimation.json",upperMessage: "خطا في الانترنت", lowerMessage: "اقفل و افتح تاني ");
     }
     return bodyWidget;
         },

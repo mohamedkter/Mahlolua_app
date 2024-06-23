@@ -240,6 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const ErrorPage(
+                                                  imageParh: "assets/photo/loginError.json",
                                                   upperMessage:
                                                       "خطا في تسجيل الدخول",
                                                   lowerMessage:
