@@ -10,8 +10,8 @@ import 'package:mahloula/Pages/all_reservation_page.dart';
 
 
 class HomePage extends StatefulWidget {
-  HomePage({required this.name});
-  final String name;
+  HomePage({ this.name});
+  final String? name;
 
   @override
   State<HomePage> createState() => _HomePageState();

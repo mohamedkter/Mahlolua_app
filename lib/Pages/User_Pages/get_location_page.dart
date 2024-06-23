@@ -11,6 +11,7 @@ import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 
 import '../../Models/order_model.dart';
 import '../all_reservation_page.dart';
+import 'home_page.dart';
 
 class GetLocationPage extends StatefulWidget {
   const GetLocationPage({this.obj, super.key});
@@ -255,14 +256,17 @@ class _GetLocationPageState extends State<GetLocationPage> {
       bottomNavigationBar: CustomBottomAppBar(
         buttonText: "تاكيد الحجز - \$100 ",
         buttonFunction: () {
-          // widget.obj?.location = textEditingController.text;
+
            widget.obj?.userId = CacheData.getData(key:"userId");
-           widget.obj?.employeeId = 2;  //Refo add employeeId here
-          widget.obj?.location = 'Giza'; //Refo add location here becuase i don't understand where is it
+           widget.obj?.employeeId = 12;  // add employeeId here
+          widget.obj?.location = 'Giza'; // add location here becuase i don't understand where is it
           widget.obj?.orderDescriptions = descController.text;
+          //print('${CacheData.getData(key:"employeeId")}');
           PostMethods.makeOrder(widget.obj!);
+          // Navigator.of(context)
+          //     .pushReplacement(MaterialPageRoute(builder: (context) => HomePage(name: '',)));
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AllReservationPage()));
+              .pushReplacement(MaterialPageRoute(builder: (context) => HomePage(name: name,)));
         },
       ),
     );

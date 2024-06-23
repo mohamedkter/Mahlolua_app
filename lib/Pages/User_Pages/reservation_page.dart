@@ -81,8 +81,8 @@ class _ReservationPageState extends State<ReservationPage> {
               ),
               Container(
                 child: CalendarDatePicker(
-                    initialDate: DateTime(2020),
-                    firstDate: DateTime(2020),
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2023),
                     lastDate: DateTime(2040),
                     onDateChanged: (value)
                     {
