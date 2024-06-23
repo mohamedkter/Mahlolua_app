@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/specific_service_page.dart';
 
 class CustomServiceItem extends StatelessWidget {
@@ -22,8 +23,8 @@ class CustomServiceItem extends StatelessWidget {
           },
           icon: CircleAvatar(
             radius: 25,
-            child: Image.asset(
-              imageSource,
+            child: Image.network(
+             PartImagePath+imageSource,
               width: 55,
               height: 55,
             ),

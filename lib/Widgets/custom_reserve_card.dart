@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:mahloula/Constants/Color_Constants.dart';
+import '../../models/reservation_model.dart';
+import '../../Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/User_Pages/check_page.dart';
 
 class CustomReserveCard extends StatefulWidget {
   const CustomReserveCard({
-    super.key,
+    Key? key,
     required this.color,
     required this.index,
-  });
+    required this.reservation,
+  }) : super(key: key);
 
   final Color color;
   final int index;
+  final Reservation reservation;
+
   @override
   State<CustomReserveCard> createState() => _CustomReserveCardState();
 }
 
 class _CustomReserveCardState extends State<CustomReserveCard> {
   bool isTabed = false;
+
+  String getStatusText() {
+    if (widget.reservation.status == 'accepted' || widget.reservation.status == 'waiting') {
+      return 'قادم';
+    } else if (widget.reservation.status == 'rejected') {
+      return 'ملغي';
+    } else {
+      DateTime dateOfDelivery = DateTime.parse(widget.reservation.dateOfDelivery);
+      return dateOfDelivery.isBefore(DateTime.now()) ? 'مكتمل' : 'قادم';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +41,9 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
         color: Colors.white38,
         elevation: 0,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-            side: BorderSide(color: Colors.black, width: 0.8)),
+          borderRadius: BorderRadius.circular(30),
+          side: const BorderSide(color: Colors.black, width: 0.8),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
           child: Column(
@@ -39,30 +55,32 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, left: 10),
-                    child: Icon(Icons.maps_home_work_outlined),
+                    child: const Icon(Icons.maps_home_work_outlined),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "محمد محمود",
-                        style: TextStyle(
-                            fontFamily: "Cairo",
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                        widget.reservation.employeeName,
+                        style: const TextStyle(
+                          fontFamily: "Cairo",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        "صيانه تكيف",
-                        style: TextStyle(
-                            fontFamily: "Cairo",
-                            fontSize: 15,
-                            color: Colors.grey.shade700,
-                            fontWeight: FontWeight.w500),
+                        widget.reservation.serviceName,
+                        style: const TextStyle(
+                          fontFamily: "Cairo",
+                          fontSize: 15,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
@@ -75,7 +93,16 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                           borderRadius: BorderRadius.circular(7),
                           color: widget.color,
                         ),
-                        child: Center(child: checkStatus(widget.index)),
+                        child: Center(
+                          child: Text(
+                            getStatusText(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Cairo',
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -83,8 +110,9 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                     width: 100,
                     height: 100,
                     decoration: const BoxDecoration(
-                        color: MainColor,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                      color: MainColor,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
                   ),
                 ],
               ),
@@ -100,72 +128,88 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                         child: Container(
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 3,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "الوقت والتاريخ",
-                                    style: TextStyle(
-                                        fontFamily: "Cairo",
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500),
+                                    style: const TextStyle(
+                                      fontFamily: "Cairo",
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                   Text(
-                                    "12-12-2024 | 10:3 - 10:00 ص",
-                                    style: TextStyle(
-                                        fontFamily: "Cairo",
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600),
+                                    widget.reservation.dateOfDelivery,
+                                    style: const TextStyle(
+                                      fontFamily: "Cairo",
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "الموقع",
-                                    style: TextStyle(
-                                        fontFamily: "Cairo",
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500),
+                                    style: const TextStyle(
+                                      fontFamily: "Cairo",
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                   Text(
-                                    " النزله - اسيوط",
-                                    style: TextStyle(
-                                        fontFamily: "Cairo",
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600),
+                                    widget.reservation.location,
+                                    style: const TextStyle(
+                                      fontFamily: "Cairo",
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               widget.index == 2
-                                  ? NextReserveButtons()
+                                  ? NextReserveButtons(reservation: widget.reservation)
                                   : widget.index == 0
                                       ? CompletedAndCanceledReserveButton(
-                                          btnFunctoin: () {print("اعادة الحجز");},
-                                          btnText: "اعادة الحجز")
+                                          btnFunctoin: () {
+                                            setState(() {
+                                              widget.reservation.status = 'accepted';
+                                            });
+                                          },
+                                          btnText: "اعادة الحجز",
+                                        )
                                       : CompletedAndCanceledReserveButton(
-                                          btnFunctoin: () {print("عرض الفاتورة الالكترونية");},
-                                          btnText: "عرض الفاتورة الالكترونية")
+                                          btnFunctoin: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => CheckPage(reservation: widget.reservation),
+                                              ),
+                                            );
+                                          },
+                                          btnText: "عرض الفاتورة الالكترونية",
+                                        ),
                             ],
                           ),
                         ),
-                      ))
+                      ),
+                    )
                   : const SizedBox(
                       height: 0,
                     ),
@@ -197,10 +241,10 @@ class CompletedAndCanceledReserveButton extends StatelessWidget {
   final VoidCallback btnFunctoin;
   final String btnText;
   const CompletedAndCanceledReserveButton({
-    super.key,
+    Key? key,
     required this.btnFunctoin,
     required this.btnText,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -208,28 +252,40 @@ class CompletedAndCanceledReserveButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-            onPressed: btnFunctoin,
-            style: ElevatedButton.styleFrom(
-                backgroundColor: MainColor,
-                side: BorderSide(color: MainColor),
-                elevation: 0,
-                fixedSize: Size(320, 25)),
-            child: Text(
-              btnText,
-              style: const TextStyle(
-                  fontFamily: "Cairo",
-                  fontSize: 13,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800),
-            ))
+          onPressed: btnFunctoin,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MainColor,
+            side: const BorderSide(color: MainColor),
+            elevation: 0,
+            fixedSize: const Size(320, 25),
+          ),
+          child: Text(
+            btnText,
+            style: const TextStyle(
+              fontFamily: "Cairo",
+              fontSize: 13,
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
       ],
     );
   }
 }
 
-class NextReserveButtons extends StatelessWidget {
-  const NextReserveButtons({super.key});
+class NextReserveButtons extends StatefulWidget {
+  final Reservation reservation;
+  const NextReserveButtons({
+    Key? key,
+    required this.reservation,
+  }) : super(key: key);
 
+  @override
+  State<NextReserveButtons> createState() => _NextReserveButtonsState();
+}
+
+class _NextReserveButtonsState extends State<NextReserveButtons> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -240,7 +296,10 @@ class NextReserveButtons extends StatelessWidget {
           mainColor: Colors.white,
           btn_text: "عرض الفاتورة ",
           btn_function: () {
-            print("عرض الفاتورة ");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CheckPage(reservation: widget.reservation)),
+            );
           },
         ),
         CardButton(
@@ -248,9 +307,11 @@ class NextReserveButtons extends StatelessWidget {
           mainColor: MainColor,
           btn_text: " الغاء الحجز",
           btn_function: () {
-            print(" الغاء الحجز");
+            setState(() {
+              widget.reservation.status = 'rejected';
+            });
           },
-        )
+        ),
       ],
     );
   }
@@ -262,30 +323,33 @@ class CardButton extends StatelessWidget {
   final String btn_text;
   final VoidCallback btn_function;
   const CardButton({
-    super.key,
+    Key? key,
     required this.btn_backgroung,
     required this.mainColor,
     required this.btn_text,
     required this.btn_function,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: btn_function,
-        style: ElevatedButton.styleFrom(
-            backgroundColor: btn_backgroung,
-            side: BorderSide(color: mainColor),
-            elevation: 0,
-            fixedSize: Size(155, 25)),
-        child: Text(
-          btn_text,
-          style: TextStyle(
-              fontFamily: "Cairo",
-              fontSize: 13,
-              color: mainColor,
-              fontWeight: FontWeight.w800),
-        ));
+      onPressed: btn_function,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: btn_backgroung,
+        side: BorderSide(color: mainColor),
+        elevation: 0,
+        fixedSize: const Size(155, 25),
+      ),
+      child: Text(
+        btn_text,
+        style: TextStyle(
+          fontFamily: "Cairo",
+          fontSize: 13,
+          color: mainColor,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
   }
 }
 
@@ -296,12 +360,13 @@ Text checkStatus(int ind) {
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
     );
   } else if (ind == 1) {
+
     return const Text(
       'مكتمل',
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
     );
   } else {
-    return  const Text(
+    return const Text(
       'قادم',
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
     );

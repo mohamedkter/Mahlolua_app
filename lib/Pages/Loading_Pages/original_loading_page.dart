@@ -44,7 +44,7 @@ class OriginalLoadingPage extends StatelessWidget {
                     color: Colors.grey, fontFamily: 'cairo', fontSize: 16),
               ),
               Text(
-                "Ahmed",
+                "",
                 style: TextStyle(
                   fontFamily: 'cairo',
                   fontSize: 21.0,

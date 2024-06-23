@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/offer_model.dart';
 import 'package:mahloula/Models/order_model.dart';
+import 'package:mahloula/Models/service_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_services_page.dart';
 import 'package:mahloula/Pages/User_Pages/bookmark_page.dart';
@@ -19,10 +20,10 @@ import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class OriginalPage extends StatelessWidget {
-  OriginalPage({required this.name});
+  OriginalPage({required this.name, required this.services});
   final String name;
   TextEditingController searchController = TextEditingController();
-
+ final List<Service> services;
   ///////// Offer Slider Data /////////////
   List<Offer> offers = [
     Offer(id: 2, image: "assets/photo/offer7.jfif", desc: "all done"),
@@ -43,7 +44,6 @@ class OriginalPage extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
-                  print(TimeOfDay.now());
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => BookmarkPage()));
                 },
@@ -225,7 +225,7 @@ class OriginalPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                CustomAllSercivces()
+                CustomAllSercivces(services: services,)
               ],
             ),
           ),

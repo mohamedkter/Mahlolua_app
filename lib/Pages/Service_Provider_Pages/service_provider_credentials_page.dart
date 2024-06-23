@@ -287,7 +287,7 @@ class _ServiceProviderCredentialsState
                               SSN: personalIdNumber.text,
                               minPrice: int.parse(priceController.text),
                               userId: widget.id,
-                              serviceId: 1);
+                              serviceId: 3);
                           FormData? livePhoto = personalImage == null
                               ? null
                               : await imageConverter(
