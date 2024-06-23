@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
+import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'Pages/User_Pages/welcome_page_one.dart';
 
 Future<void> main() async {
@@ -17,25 +19,31 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: MainColor,
-        inputDecorationTheme: const InputDecorationTheme(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: MainColor, width: 2.0),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomePageCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: MainColor,
+          inputDecorationTheme: const InputDecorationTheme(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: MainColor, width: 2.0),
+            ),
           ),
         ),
+        home: CacheData.getData(key: "token") == null
+            ? const LoginPage()
+            : CacheData.getData(key: "employee_id") == null
+                ? HomePage(name: "${CacheData.getData(key: "name")}")
+                : ServiceProviderMainPage(
+                    name: "${CacheData.getData(key: "name")}"),
       ),
-      home: CacheData.getData(key: "token") == null
-          ? const LoginPage()
-          : CacheData.getData(key: "employee_id") == null
-              ? HomePage(name: "${CacheData.getData(key: "name")}")
-              : ServiceProviderMainPage(
-                  name: "${CacheData.getData(key: "name")}"),
     );
   }
 }

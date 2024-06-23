@@ -60,7 +60,7 @@ static Future<List<Reservation>> getUserOrders(int userId) async {
 
 ////////////////////Get All Services ///////////////////////////
 
-static Future<void> getAllServices() async {
+static Future<dynamic> getAllServices() async {
   const String url = 'https://mahllola.online/api/services';
   try {
    
@@ -71,11 +71,14 @@ static Future<void> getAllServices() async {
 
     if (response.statusCode == 200) {
       print('Services: ${response.data}');
+      return response.data;
     } else {
       print('Failed to get services: ${response.statusCode}');
+      return null;
     }
   } catch (e) {
     print('Error getting services: $e');
+    return null;
   }
 }
 
