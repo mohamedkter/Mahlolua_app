@@ -175,7 +175,7 @@ class SearchPage extends SearchDelegate {
               itemCount: filteredEmployees.length,
               itemBuilder: (context, index) => ServiceCard(
                   ServiceProviderName: filteredEmployees[index].name,
-                  Price: filteredEmployees[index].price,
+                  Price:filteredEmployees[index].price.toString(),
                   rate: filteredEmployees[index].rate,
                   NumberResidents: filteredEmployees[index].numberResidents,
                   ProvidedService: filteredEmployees[index].providedService,

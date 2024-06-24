@@ -256,12 +256,10 @@ class _GetLocationPageState extends State<GetLocationPage> {
       bottomNavigationBar: CustomBottomAppBar(
         buttonText: "تاكيد الحجز - \$100 ",
         buttonFunction: () {
-
-           widget.obj?.userId = CacheData.getData(key:"userId");
-           widget.obj?.employeeId = 12;  // add employeeId here
-          widget.obj?.location = 'Giza'; // add location here becuase i don't understand where is it
+          widget.obj?.userId = CacheData.getData(key:"userId");
+          widget.obj?.employeeId = 1;  
+          widget.obj?.location = 'Giza'; 
           widget.obj?.orderDescriptions = descController.text;
-          //print('${CacheData.getData(key:"employeeId")}');
           PostMethods.makeOrder(widget.obj!);
           // Navigator.of(context)
           //     .pushReplacement(MaterialPageRoute(builder: (context) => HomePage(name: '',)));

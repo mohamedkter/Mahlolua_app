@@ -29,6 +29,7 @@ class CustomAllSercivces extends StatelessWidget {
         mainAxisExtent: 110
       ),
       itemBuilder: (context, index) => CustomServiceItem(
+        serviceId: services[index].id,
         serviceName: services[index].name,
         imageSource: services[index].image,
       ),

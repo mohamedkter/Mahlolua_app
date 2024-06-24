@@ -14,23 +14,25 @@ class GetMethods {
 ////////////////////////////Get Employees ////////////////////////////////
 
 
-  static Future<void> getAllEmployeeInSpecificService(int serviceId) async {
+  static Future<dynamic> getAllEmployeeInSpecificService(int serviceId) async {
     // id of service
-    final String url = 'https://mahllola.online/api/employees/$serviceId';
+    final String url = 'https://mahllola.online/api/employee/showAllEmployeesByServiceId/$serviceId';
     try {
       final Response response = await dio.get(
         url,
         options: Options(headers: headers),
       );
-
-      if (response.statusCode == 200) {
-        print('Employee details: ${response.data}');
-      } else {
-        print('Failed to get employee details: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error getting employee details: $e');
+    if (response.statusCode == 200) {
+      print('employees details: ${response.data["allemployee"]}');
+      return response.data["allemployee"];
+    } else {
+      print('Failed to get employees: ${response.statusCode}');
+      return null;
     }
+  } catch (e) {
+    print('Error getting employees: $e');
+    return null;
+  }
   }
 
 ////////////////////////Get All Order By User Id ////////////////////

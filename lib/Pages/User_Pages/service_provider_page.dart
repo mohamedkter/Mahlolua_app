@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mahloula/Constants/ObjectOrder.dart';
 import 'package:mahloula/Models/order_model.dart';
+import 'package:mahloula/Models/service_provider_model.dart';
 import 'package:read_more_text/read_more_text.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/reservation_page.dart';
 
 class ServiceProviderPage extends StatelessWidget {
-   ServiceProviderPage({this.nameSerivce, super.key});
-  final String? nameSerivce;
+   ServiceProviderPage({required this.serviceProvider, super.key});
+  final ServiceProvider serviceProvider;
   int price = 30;
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ServiceProviderPage extends StatelessWidget {
           backgroundColor: MainColor,
         ),
         bottomNavigationBar: ClipRRect(
-          borderRadius:  BorderRadius.only(
+          borderRadius:  const BorderRadius.only(
               topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
           child: BottomAppBar(
             child: Row(
@@ -73,20 +73,20 @@ class ServiceProviderPage extends StatelessWidget {
             ),
              SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.bookmark_added_outlined,
                           size: 35,
                         ),
                         Text(
-                          nameSerivce!,
-                          style: TextStyle(
+                          serviceProvider.service!.name,
+                          style: const TextStyle(
                               fontFamily: "Cairo",
                               fontSize: 30,
                               color: Colors.black,
@@ -97,7 +97,7 @@ class ServiceProviderPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 18),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,18 +123,23 @@ class ServiceProviderPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Text(
-                          "محمد محمود",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "Cairo",
-                            fontSize: 23,
-                            color: MainColor,
+                        Container(
+                          width: 150,
+                          child: Text(
+                            serviceProvider.user!.name??"No Name",
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontFamily: "Cairo",
+                              fontSize: 23,
+                              color: MainColor,
+                            ),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -147,7 +152,7 @@ class ServiceProviderPage extends StatelessWidget {
                               fontSize: 15,
                               color: Colors.grey),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Icon(
                             Icons.location_on_outlined,
@@ -157,8 +162,8 @@ class ServiceProviderPage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(3)),
                           child: Text(
-                            nameSerivce!,
-                            style: TextStyle(
+                            serviceProvider.service!.name,
+                            style: const TextStyle(
                               backgroundColor: Color(0xfff1e7ff),
                               fontFamily: "Cairo",
                               fontSize: 15,
@@ -168,13 +173,13 @@ class ServiceProviderPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
+                        const Text(
                           "سعر المعاينه",
                           style: TextStyle(
                             fontFamily: "Cairo",
@@ -183,8 +188,8 @@ class ServiceProviderPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          " 30",
-                          style: TextStyle(
+                        serviceProvider.minPrice.toString()??"0",
+                          style: const TextStyle(
                               fontFamily: "Cairo",
                               fontSize: 35,
                               color: MainColor,
@@ -192,16 +197,16 @@ class ServiceProviderPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 7,
                     ),
-                    Divider(
+                    const Divider(
                       color: Color(0xfff1e7ff),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 7,
                     ),
-                    Text(
+                    const Text(
                       "معلومات عني",
                       style: TextStyle(
                           fontFamily: "Cairo",
@@ -209,33 +214,33 @@ class ServiceProviderPage extends StatelessWidget {
                           color: Colors.black,
                           fontWeight: FontWeight.w800),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: ReadMoreText(
                         readMoreAlign: AlignmentDirectional.topEnd,
-                        readMoreTextStyle: TextStyle(
+                        readMoreTextStyle: const TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 20,
                             color: MainColor,
                             fontWeight: FontWeight.bold),
-                        "انا احمد حسين، فنى اعمال سباكة صحيه وعامة من النزلة اسيوط . وعملت على الكثير من المشاريع على التطبيق وحصلت على تقيمم جيد من العملاء السابقين لقاء خدماتي ",
+                     serviceProvider.desc??"No Des",
                         numLines: 2,
                         readMoreText: "المزيد  ...  ",
                         readLessText: "اخفاء",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: "Cairo",
                           fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -265,13 +270,13 @@ class ServiceProviderPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding:
-                     EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                     const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: GridView.builder(
                     shrinkWrap: true,
-                    physics:  NeverScrollableScrollPhysics(),
-                    itemCount: 20,
+                    physics:  const NeverScrollableScrollPhysics(),
+                    itemCount: serviceProvider.user?.works!.length,
                     gridDelegate:
-                         SliverGridDelegateWithFixedCrossAxisCount(
+                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
                             crossAxisCount: 2),
@@ -279,8 +284,9 @@ class ServiceProviderPage extends StatelessWidget {
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
+                            color: MainColor,
                               borderRadius: BorderRadius.circular(25),
-                              color: MainColor),
+                              image: DecorationImage(image: NetworkImage(serviceProvider.user!.works![index].imageUrl!=""?"https://mahllola.online/public${serviceProvider.user!.works![index].imageUrl}":""),fit: BoxFit.cover)),
                         )),
               ),
             ),

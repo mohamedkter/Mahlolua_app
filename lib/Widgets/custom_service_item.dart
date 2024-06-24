@@ -5,10 +5,11 @@ import 'package:mahloula/Pages/User_Pages/specific_service_page.dart';
 class CustomServiceItem extends StatelessWidget {
   const CustomServiceItem({
     required this.serviceName,
-    required this.imageSource,
+    required this.imageSource, required this.serviceId,
   });
   final String serviceName;
   final String imageSource;
+  final int serviceId;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class CustomServiceItem extends StatelessWidget {
           onPressed: ()
           {
             Navigator.push(context, MaterialPageRoute(builder: (context){
-              return SpecificServicePage(name: serviceName,);
+              return SpecificServicePage(name: serviceName,serviceId: serviceId,);
             }));
           },
           icon: CircleAvatar(
