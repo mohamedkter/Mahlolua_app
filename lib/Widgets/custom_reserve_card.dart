@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/reservation_model.dart';
 import '../../Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/check_page.dart';
+ // Assuming OrderCard is in this file
 
 class CustomReserveCard extends StatefulWidget {
   const CustomReserveCard({
@@ -31,6 +32,18 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
       DateTime dateOfDelivery = DateTime.parse(widget.reservation.dateOfDelivery);
       return dateOfDelivery.isBefore(DateTime.now()) ? 'مكتمل' : 'قادم';
     }
+  }
+
+  void acceptReservation() {
+    setState(() {
+      widget.reservation.status = 'accepted';
+    });
+  }
+
+  void rejectReservation() {
+    setState(() {
+      widget.reservation.status = 'rejected';
+    });
   }
 
   @override
@@ -350,6 +363,7 @@ class CardButton extends StatelessWidget {
         ),
       ),
     );
+
   }
 }
 

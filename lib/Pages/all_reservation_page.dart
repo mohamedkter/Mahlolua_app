@@ -13,8 +13,7 @@ class AllReservationPage extends StatefulWidget {
   State<AllReservationPage> createState() => _AllReservationPageState();
 }
 
-class _AllReservationPageState extends State<AllReservationPage>
-    with TickerProviderStateMixin {
+class _AllReservationPageState extends State<AllReservationPage> with TickerProviderStateMixin {
   late TabController _tabController;
   List<Reservation> reservations = [];
   bool isLoading = true;
@@ -29,10 +28,14 @@ class _AllReservationPageState extends State<AllReservationPage>
   Future<void> fetchReservations() async {
     int userId = CacheData.getData(key: "userId"); // Replace with actual user ID
     List<Reservation> data = await GetMethods.getUserOrders(userId);
-    setState(() {
-      reservations = data;
-      isLoading = false;
-    });
+    
+    // Check if the state is still mounted before calling setState
+    if (mounted) {
+      setState(() {
+        reservations = data;
+        isLoading = false;
+      });
+    }
 
     // Check if data is being fetched correctly
     print('Fetched reservations: ${reservations.length}');

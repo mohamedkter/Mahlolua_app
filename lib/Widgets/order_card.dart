@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Models/employee_orders_model.dart';
+import '../../models/reservation_model.dart';
 
 class OrderCard extends StatefulWidget {
+  final EmployeeOrder order;
+  final Color color;
+
   const OrderCard({
     super.key,
     required this.color,
+    required this.order,
   });
 
-  final Color color;
   @override
   State<OrderCard> createState() => _OrderCardState();
 }
@@ -44,7 +48,7 @@ class _OrderCardState extends State<OrderCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "محمد محمود",
+                        widget.order.employeeName,
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 20,
@@ -55,7 +59,7 @@ class _OrderCardState extends State<OrderCard> {
                         height: 5,
                       ),
                       Text(
-                        "صيانه تكيف",
+                        widget.order.location,
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 15,
@@ -66,7 +70,7 @@ class _OrderCardState extends State<OrderCard> {
                         height: 5,
                       ),
                       Text(
-                        "2024-12-12",
+                          widget.order.dateOfDelivery,
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 15,
@@ -112,7 +116,7 @@ class _OrderCardState extends State<OrderCard> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    "12-12-2024 | 10:3 - 10:00 ص",
+                                      widget.order.dateOfDelivery,
                                     style: TextStyle(
                                         fontFamily: "Cairo",
                                         fontSize: 15,
@@ -137,7 +141,7 @@ class _OrderCardState extends State<OrderCard> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    " النزله - اسيوط",
+                                      widget.order.location,
                                     style: TextStyle(
                                         fontFamily: "Cairo",
                                         fontSize: 15,
@@ -168,7 +172,7 @@ class _OrderCardState extends State<OrderCard> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "عندي مشكله في صرف المطبخ سبب شكلالمشكله دى تقريبا الحوض وفيه تسريب في الحماممن فتره",
+                                        widget.order.orderdescription,
                                       style: TextStyle(
                                           fontFamily: "Cairo",
                                           fontSize: 15,
