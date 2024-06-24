@@ -13,7 +13,8 @@ class AllReservationPage extends StatefulWidget {
   State<AllReservationPage> createState() => _AllReservationPageState();
 }
 
-class _AllReservationPageState extends State<AllReservationPage> with TickerProviderStateMixin {
+class _AllReservationPageState extends State<AllReservationPage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
   List<Reservation> reservations = [];
   bool isLoading = true;
@@ -26,9 +27,10 @@ class _AllReservationPageState extends State<AllReservationPage> with TickerProv
   }
 
   Future<void> fetchReservations() async {
-    int userId = CacheData.getData(key: "userId"); // Replace with actual user ID
+    int userId =
+        CacheData.getData(key: "userId"); // Replace with actual user ID
     List<Reservation> data = await GetMethods.getUserOrders(userId);
-    
+
     // Check if the state is still mounted before calling setState
     if (mounted) {
       setState(() {
@@ -40,7 +42,8 @@ class _AllReservationPageState extends State<AllReservationPage> with TickerProv
     // Check if data is being fetched correctly
     print('Fetched reservations: ${reservations.length}');
     for (var reservation in reservations) {
-      print('Reservation: ${reservation.id}, ${reservation.employeeName}, ${reservation.location}, ${reservation.serviceName}, ${reservation.dateOfDelivery}');
+      print(
+          'Reservation: ${reservation.id}, ${reservation.employeeName}, ${reservation.location}, ${reservation.serviceName}, ${reservation.dateOfDelivery}');
     }
   }
 
@@ -51,9 +54,12 @@ class _AllReservationPageState extends State<AllReservationPage> with TickerProv
 
       if (status == 'ملغي' && reservation.status == 'rejected') {
         return true;
-      } else if (status == 'مكتمل' && reservationDateTime.isBefore(currentTime)) {
+      } else if (status == 'مكتمل' &&
+          reservationDateTime.isBefore(currentTime)) {
         return true;
-      } else if (status == 'قادم' && (reservation.status == 'accepted' || reservation.status == 'waiting')) {
+      } else if (status == 'قادم' &&
+          (reservation.status == 'accepted' ||
+              reservation.status == 'waiting')) {
         return reservationDateTime.isAfter(currentTime);
       }
       return false;
@@ -130,7 +136,8 @@ class _AllReservationPageState extends State<AllReservationPage> with TickerProv
       itemBuilder: (context, index) {
         var filteredReservations = filterReservations(status);
         if (index < filteredReservations.length) {
-          print('Rendering $status reservation: ${filteredReservations[index].id}');
+          print(
+              'Rendering $status reservation: ${filteredReservations[index].id}');
           return CustomReserveCard(
             index: _tabController.index,
             color: color,

@@ -201,7 +201,7 @@ class _OrderCardState extends State<OrderCard> {
                                     btn_backgroung: Colors.white,
                                     mainColor: MainColor,
                                     btn_text: "رفض الطلب",
-                                    btn_function: (){print("Not Accept");},
+                                    btn_function: (){print("rejected");},
                                   )
                                 ],
                               )

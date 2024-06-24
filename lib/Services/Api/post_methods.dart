@@ -141,12 +141,45 @@ class PostMethods {
 }
 ////////////////////////////////edit Employee Method /////////////////////
 
-// work on it later 
+static Future<void> changeOrderStatus(int orderId, String newStatus) async {
+    const String url = 'https://mahllola.online/api/changeOrderStatus';
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = {
+      'order_id': orderId,
+      'new_status': newStatus,
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        print('Order status changed successfully: ${response.data}');
+      } else {
+        print('Failed to change order status: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Error changing order status: ${e.response?.statusCode} - ${e.response?.statusMessage}');
+        print('Response data: ${e.response?.data}');
+      } else {
+        print('Error changing order status: ${e.message}');
+      }
+    }
+  }
+} 
 
 
 
 
-}
+
 
 
 
