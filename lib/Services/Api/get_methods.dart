@@ -114,7 +114,7 @@ static Future<int> getCountOrders(int employeId) async {
     );
   
     if (response.statusCode == 200) {
-      print('Service details: ${response.data}');
+      print('Order details: ${response.data}');
       return response.data["total orders"];
     } else {
       print('Failed to get service details: ${response.statusCode}');
@@ -127,7 +127,27 @@ static Future<int> getCountOrders(int employeId) async {
 }
 
 
-
+              ////////////  Get all Sponsors /////////////////////////////
+  static Future<dynamic> getSponsors() async {
+  const String url = 'https://mahllola.online/api/sponsor';
+  try {
+    final Response response = await dio.get(
+      url,
+      options: Options(headers: headers),
+    );
+  
+    if (response.statusCode == 200) {
+      print('Sponsors details: ${response.data}');
+      return response.data["sponsor"];
+    } else {
+      print('Failed to get service details: ${response.statusCode}');
+      return null;
+    }
+  } catch (e) {
+    print('Error getting service details: $e');
+    return null;
+  }
+}
 
 
 

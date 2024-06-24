@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Constants/ObjectOrder.dart';
 import 'package:mahloula/Functions/validation.dart';
 import 'package:mahloula/Pages/Auth_Pages/create_profile_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/forget_password_page.dart';
@@ -190,6 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                                             key: "name",
                                             value: responseData.data["user"]
                                                 ["name"]);
+                                        name = responseData.data["user"]
+                                        ["name"];
                                         CacheData.setData(
                                             key: "image",
                                             value: responseData.data["user"]
@@ -237,6 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const ErrorPage(
+                                                  imageParh: "assets/photo/loginError.json",
                                                   upperMessage:
                                                       "خطا في تسجيل الدخول",
                                                   lowerMessage:

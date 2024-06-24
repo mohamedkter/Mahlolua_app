@@ -2,9 +2,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Models/offer_model.dart';
 import 'package:mahloula/Models/order_model.dart';
 import 'package:mahloula/Models/service_model.dart';
+import 'package:mahloula/Models/sponsor_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/all_services_page.dart';
 import 'package:mahloula/Pages/User_Pages/bookmark_page.dart';
@@ -20,17 +20,13 @@ import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class OriginalPage extends StatelessWidget {
-  OriginalPage({required this.name, required this.services});
+  OriginalPage({required this.name, required this.services, required this.sponsors});
   final String name;
   TextEditingController searchController = TextEditingController();
+ /////////// Services Data /////////////
  final List<Service> services;
   ///////// Offer Slider Data /////////////
-  List<Offer> offers = [
-    Offer(id: 2, image: "assets/photo/offer7.jfif", desc: "all done"),
-    Offer(id: 3, image: "assets/photo/offerone.jpg", desc: "all done"),
-    Offer(id: 4, image: "assets/photo/offertwo.jfif", desc: "all done"),
-  ];
-
+ final List<Sponsor> sponsors;
 //////////////////////////////////////
 
   @override
@@ -186,7 +182,7 @@ class OriginalPage extends StatelessWidget {
 
 ///////////////////////// Offer Slider Section ///////////////////////////////////////////////
 
-                OfferSlider(offers: offers),
+                OfferSlider(offers: sponsors),
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -241,7 +237,7 @@ class OfferSlider extends StatefulWidget {
     required this.offers,
   });
 
-  final List<Offer> offers;
+  final List<Sponsor> offers;
 
   @override
   State<OfferSlider> createState() => _OfferSliderState();
@@ -274,8 +270,8 @@ class _OfferSliderState extends State<OfferSlider> {
                               horizontal: 7, vertical: 7),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                              e.image,
+                            child: Image.network(
+                              PartImagePath+e.image,
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),

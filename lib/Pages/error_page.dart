@@ -4,7 +4,8 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 
 class ErrorPage extends StatelessWidget {
-  const ErrorPage({super.key, required this.upperMessage, required this.lowerMessage});
+  const ErrorPage({super.key, required this.upperMessage, required this.lowerMessage, required this.imageParh});
+final String imageParh;
 final String upperMessage;
 final String lowerMessage;
   @override
@@ -19,7 +20,7 @@ final String lowerMessage;
                 width: 250,
                 height: 250,
                 child: Lottie.asset(
-                  'assets/photo/loginError.json',
+                  imageParh,
                   fit: BoxFit.cover,
                 )),
              Text(
