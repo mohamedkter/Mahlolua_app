@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 
 class ServiceCard extends StatefulWidget {
-  final String ServiceProviderName;
-  final double Price;
-  final double rate;
+  final String? ServiceProviderName;
+  final String? Price;
+  final double? rate;
   final int NumberResidents;
   final String ProvidedService;
   final VoidCallback ToDoFunction;
@@ -47,10 +47,16 @@ class _ServiceCardState extends State<ServiceCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      widget.ServiceProviderName,
-                      style: TextStyle(
-                          fontFamily: "Cairo", fontSize: 15, color: Colors.grey),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        widget.ServiceProviderName ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                            fontFamily: "Cairo", fontSize: 15, color: Colors.grey),
+                      ),
+
                     ),
                     Container(
                       width: 150,
@@ -58,7 +64,7 @@ class _ServiceCardState extends State<ServiceCard> {
                         textDirection: TextDirection.rtl,
                         child: Text(
                           widget.ProvidedService,
-                          style: TextStyle(
+                          style: const TextStyle(
                           
                               fontFamily: "Cairo",
                               fontSize: 23,

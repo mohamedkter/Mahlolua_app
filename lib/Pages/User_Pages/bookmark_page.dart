@@ -100,7 +100,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                   child: GestureDetector(
                         child: ServiceCard(
                           NumberResidents: 1200,
-                          Price: 135,
+                          Price: "125",
                           ProvidedService: "صيانه تكيف",
                           rate: 3.5,
                           ServiceProviderName: "محمد محمود",
@@ -115,8 +115,8 @@ class _BookmarkPageState extends State<BookmarkPage> {
                           },
                         ),
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  ServiceProviderPage()));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (context) =>  ServiceProviderPage(serviceProvider: null,)));
                         },
                       ),
                 ),

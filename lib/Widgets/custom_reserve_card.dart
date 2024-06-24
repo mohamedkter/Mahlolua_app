@@ -66,21 +66,26 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10),
-                    child: const Icon(Icons.maps_home_work_outlined),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0, left: 10),
+                    child: Icon(Icons.maps_home_work_outlined),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        widget.reservation.employeeName,
-                        style: const TextStyle(
-                          fontFamily: "Cairo",
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                      Container(
+                        width: 150,
+                        child: Text(
+                          widget.reservation.employeeName,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(
+                            fontFamily: "Cairo",
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                       const SizedBox(
