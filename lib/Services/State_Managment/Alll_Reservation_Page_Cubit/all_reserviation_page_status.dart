@@ -1,0 +1,5 @@
+abstract class AllReservationPageStatus{}
+class InitialState extends AllReservationPageStatus{}
+class  AllReservationPageLoadingStatus extends AllReservationPageStatus{}
+class  AllReservationPageSuccessStatus extends AllReservationPageStatus{}
+class  AllReservationPageErrorStatus extends AllReservationPageStatus{}

@@ -8,12 +8,13 @@ import 'package:mahloula/Services/Data/cache_data.dart';
 class PostMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
-    //'accept': '*/*',
+    'accept': '*/*',
     'Content-Type': 'application/json',
   //  'Authorization': 'Bearer '
   };
 
 //////////////////////////////// Make Order Method /////////////////////////////
+
   static Future<void> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
     final Dio dio = Dio();
@@ -48,12 +49,10 @@ class PostMethods {
 
 
   ///////////////////////////// Create User Method //////////////////////////
+  
   static Future<dynamic> createUser(User user, FormData? image) async {
   const String url = 'https://mahllola.online/api/register'; 
-
   try {
-    
-
     final formData = FormData.fromMap(user.toMap());
     if (image != null && image.files.isNotEmpty) {
       final imageFile = image.files.first;
@@ -142,15 +141,14 @@ class PostMethods {
 ////////////////////////////////edit Employee Method /////////////////////
 
 static Future<void> changeOrderStatus(int orderId, String newStatus) async {
-    const String url = 'https://mahllola.online/api/changeOrderStatus';
+    final String url = 'https://mahllola.online/api/changeOrderStatus/$orderId';
 
     final headers = {
       'Content-Type': 'application/json',
     };
 
     final body = {
-      'order_id': orderId,
-      'new_status': newStatus,
+      'status': newStatus,
     };
 
     try {

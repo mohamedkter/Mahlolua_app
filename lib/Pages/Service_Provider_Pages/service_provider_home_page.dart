@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Models/employee_orders_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
@@ -20,7 +19,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
   bool _isSwitched = false;
   bool isLoad = true;
   late int countOfOrders;
-  List<EmployeeOrder> orders = [];
+  List<Reservation> orders = [];
 
   @override
   void initState() {
@@ -39,7 +38,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
 
   Future<void> getOrders() async {
     final employeeId = CacheData.getData(key: "employee_id");
-    List<EmployeeOrder> fetchedOrders = await GetMethods.getEmployeeOrders(employeeId);
+    List<Reservation> fetchedOrders = await GetMethods.getEmployeeOrders(employeeId);
     setState(() {
       orders = fetchedOrders;
     });

@@ -7,6 +7,7 @@ import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_cubit.dart';
+import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_cubit.dart';
 import 'Pages/User_Pages/welcome_page_one.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
           create: (context) => HomePageCubit(),
         ),
         BlocProvider(create: (context) => CredentialsCubit()),
-        BlocProvider(create: (context) => SpecificServicePageCubit())
+        BlocProvider(create: (context) => SpecificServicePageCubit()),
+        BlocProvider(create: (context) => AllReservitionPageCubit())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -16,7 +16,7 @@ class ServiceProviderMainPage extends StatefulWidget {
 class _ServiceProviderMainPageState extends State<ServiceProviderMainPage> {
   int index = 2;
   Map<int,Widget> Screens = {
-    1 : AllReservationPage(),
+    1 : ServiceProviderAllReservationPage(),
     0 : ServiceProviderProfilePage(),
   };
   @override
