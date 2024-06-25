@@ -60,10 +60,10 @@ class _LoginPageState extends State<LoginPage> {
                           textDirection: TextDirection.rtl,
                           controller: _usernameController,
                           validator: (value) {
-                            return validateEmail(value);
+                            return validateEmailOrPhoneNumber(value);
                           },
                           decoration: InputDecoration(
-                              labelText: 'البريد الإلكتروني',
+                              labelText: ' البريد الإلكتروني او رقم الهاتف',
                               prefixIcon: Icon(Icons.email),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),

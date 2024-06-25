@@ -62,8 +62,9 @@ class GetMethods {
   }
 
 //////////////////////////////////////////////
-static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
-    final String url = 'https://mahllola.online/api/getEmployeeOrders/$employeeId';
+  static Future<List<Reservation>> getEmployeeOrders(int employeeId) async {
+    final String url =
+        'https://mahllola.online/api/getEmployeeOrders/$employeeId';
     try {
       final Response response = await dio.get(
         url,
@@ -71,8 +72,9 @@ static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> data = response.data['message']; // Assuming the orders are under 'message' key
-        return data.map((json) => EmployeeOrder.fromJson(json)).toList();
+        List<dynamic> data = response
+            .data['message']; // Assuming the orders are under 'message' key
+        return data.map((json) => Reservation.fromJson(json)).toList();
       } else {
         print('Failed to get employee orders: ${response.statusCode}');
         return [];
@@ -199,8 +201,7 @@ static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
 
   ////////////////////////////////
   static Future<List<UserNotification>> getUserNotifications(int userId) async {
-    final String url =
-        'https://mahllola.online/api/user/notifications/$userId';
+    final String url = 'https://mahllola.online/api/user/notifications/$userId';
     try {
       final Response response = await dio.get(
         url,
@@ -218,6 +219,29 @@ static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
     } catch (e) {
       print('Error getting user notifications: $e');
       return [];
+    }
+  }
+
+  //////////////////// Get Feedback by service provider id ///////////////////
+  static Future<dynamic> getFeedbacksByServiceProviderId(
+      int serviceProviderId) async {
+    final String url =
+        'https://mahllola.online/api/getEmployeeFeedback/$serviceProviderId';
+    try {
+      final Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+      if (response.statusCode == 200) {
+        print('employees feedbacks: ${response.data["message"]}');
+        return response.data["message"];
+      } else {
+        print('Failed to get employees feedbacks: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error getting employees: $e');
+      return null;
     }
   }
 }

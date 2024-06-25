@@ -8,12 +8,12 @@ class AuthMethods {
     'X-CSRF-TOKEN': '',
   };
 /////////////////// login Method /////////////////////////////////
-  static Future<dynamic?> login(String email, String password,) async {
+  static Future<dynamic?> login(String emailOrPhoneNumber, String password,) async {
     try {
       final response = await Dio().post(
         'https://mahllola.online/api/login',
         data: {
-          'email': email,
+          'email_or_phone': emailOrPhoneNumber,
           'password': password,
         },
         options: Options(
