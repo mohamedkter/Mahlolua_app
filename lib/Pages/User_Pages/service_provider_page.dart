@@ -310,14 +310,14 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                                 mainAxisSpacing: 10,
                                 crossAxisCount: 2),
                         itemBuilder: (context, index) => FullScreenWidget(
-                              disposeLevel: DisposeLevel.Medium,
+                              disposeLevel: DisposeLevel.High,
                               child: Container(
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
                                     color: MainColor,
                                     borderRadius: BorderRadius.circular(25),
-                                    image: DecorationImage(
+                                    image: widget.serviceProvider.user!.works![index].imageUrl!=null?DecorationImage(
                                         image: NetworkImage(widget
                                                     .serviceProvider
                                                     .user!
@@ -326,7 +326,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                                                 ""
                                             ? "https://mahllola.online/public${widget.serviceProvider.user!.works![index].imageUrl}"
                                             : ""),
-                                        fit: BoxFit.cover)),
+                                        fit: BoxFit.cover):DecorationImage(image: AssetImage("assets/photo/notfoundimage.jpg"),fit: BoxFit.cover)),
                               ),
                             )),
                   ),
@@ -727,7 +727,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                                 decoration: BoxDecoration(
                                     color: MainColor,
                                     borderRadius: BorderRadius.circular(25),
-                                    image: DecorationImage(
+                                    image: widget.serviceProvider.user!.works![index].imageUrl!=null?DecorationImage(
                                         image: NetworkImage(widget
                                                     .serviceProvider
                                                     .user!
@@ -736,7 +736,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                                                 ""
                                             ? "https://mahllola.online/public${widget.serviceProvider.user!.works![index].imageUrl}"
                                             : ""),
-                                        fit: BoxFit.cover)),
+                                        fit: BoxFit.cover):DecorationImage(image: AssetImage("assets/photo/notfoundimage.jpg"),fit: BoxFit.cover)),
                               ),
                             )),
                   ),
