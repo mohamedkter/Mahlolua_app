@@ -4,7 +4,7 @@ import 'package:mahloula/Models/service_provider_model.dart';
 import 'package:read_more_text/read_more_text.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/reservation_page.dart';
-
+import 'package:full_screen_image/full_screen_image.dart';
 class ServiceProviderPage extends StatelessWidget {
    ServiceProviderPage({required this.serviceProvider, super.key});
   final ServiceProvider serviceProvider;
@@ -280,14 +280,18 @@ class ServiceProviderPage extends StatelessWidget {
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
                             crossAxisCount: 2),
-                    itemBuilder: (context, index) => Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: MainColor,
-                              borderRadius: BorderRadius.circular(25),
-                              image: DecorationImage(image: NetworkImage(serviceProvider.user!.works![index].imageUrl!=""?"https://mahllola.online/public${serviceProvider.user!.works![index].imageUrl}":""),fit: BoxFit.cover)),
-                        )),
+                    itemBuilder: (context, index) => FullScreenWidget(
+                
+                      disposeLevel: DisposeLevel.Medium,
+                      child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: MainColor,
+                                borderRadius: BorderRadius.circular(25),
+                                image: DecorationImage(image: NetworkImage(serviceProvider.user!.works![index].imageUrl!=""?"https://mahllola.online/public${serviceProvider.user!.works![index].imageUrl}":""),fit: BoxFit.cover)),
+                          ),
+                    )),
               ),
             ),
           ],
