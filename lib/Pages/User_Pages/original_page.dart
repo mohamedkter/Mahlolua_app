@@ -12,6 +12,7 @@ import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Pages/User_Pages/specific_offer_page.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Pages/User_Pages/offers_page.dart';
+import 'package:mahloula/Pages/user_notification_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_all_services.dart';
@@ -52,7 +53,7 @@ class OriginalPage extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NotificationsPage()));
+                          builder: (context) => UserNotificationSettingsScreen()));
                 },
                 icon: Icon(
                   Icons.notifications_none,

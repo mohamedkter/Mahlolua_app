@@ -9,7 +9,7 @@ class EmployeeOrder {
   String orderdescription;
   String price;
 
-  EmployeeOrder(
+  EmployeeOrder( 
       {required this.id,
       required this.employeeName,
       required this.serviceName,

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:mahloula/Models/employee_notification_model.dart';
+import 'package:mahloula/Models/user_notification_model.dart'; // استبدال باسم الملف الصحيح
+import 'package:mahloula/Services/Api/get_methods.dart';
 import '../../Constants/Color_Constants.dart';
 import '../../Services/Data/cache_data.dart';
-import 'package:mahloula/Services/Api/get_methods.dart';
 
-class NotificationSettingsScreen extends StatefulWidget {
+class UserNotificationSettingsScreen extends StatefulWidget {
   @override
-  _NotificationSettingsScreenState createState() => _NotificationSettingsScreenState();
+  _NotificationSettingsScreenState createState() =>
+      _NotificationSettingsScreenState();
 }
 
-class _NotificationSettingsScreenState extends State<NotificationSettingsScreen> {
-  late Future<List<EmployeeNotification>> futureNotifications;
+class _NotificationSettingsScreenState
+    extends State<UserNotificationSettingsScreen> {
+  late Future<List<UserNotification>> futureNotifications;
 
   @override
   void initState() {
     super.initState();
-    final employeeId = CacheData.getData(key: "employee_id");
-    futureNotifications = GetMethods.getEmployeeNotifications(employeeId); // Replace with actual employeeId
+    //final userId = CacheData.getData(key: "user_id");
+    futureNotifications =  GetMethods.getUserNotifications(1);
+       // استبدال برقم المستخدم الفعلي
   }
 
   @override
@@ -36,27 +39,27 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   const Text(
                     "الاشعارات",
                     style: TextStyle(
-                      fontFamily: 'cairo',
-                      fontSize: 23.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontFamily: 'cairo',
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(
+                    width: 5,
+                  ),
                   Container(
                     decoration: BoxDecoration(
-                      color: MainColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                        color: MainColor,
+                        borderRadius: BorderRadius.circular(10)),
                     width: 30,
                     height: 30,
-                  ),
+                  )
                 ],
-              ),
+              )
             ],
           ),
         ),
       ),
-      body: FutureBuilder<List<EmployeeNotification>>(
+      body: FutureBuilder<List<UserNotification>>(
         future: futureNotifications,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -90,7 +93,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                         children: [
                           Expanded(
                             child: Text(
-                              notification.userName,
+                              notification.employeename,
                               style: TextStyle(
                                 fontFamily: "Cairo",
                                 fontSize: 20,
@@ -99,6 +102,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                               ),
                             ),
                           ),
+                          
                         ],
                       ),
                       children: [
@@ -110,7 +114,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                             children: [
                               const SizedBox(height: 5),
                               Text(
-                                notification.descriptions,
+                                notification.message,
                                 style: TextStyle(
                                   fontFamily: "Cairo",
                                   fontSize: 17,
@@ -119,24 +123,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                                 ),
                               ),
                               const SizedBox(height: 5),
-                              Text(
-                                'الموقع: ${notification.location}',
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                'تاريخ التوصيل: ${notification.dateOfDelivery}',
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                            
                               Text(
                                 'التوقيت: ${notification.timestamp}',
                                 style: TextStyle(

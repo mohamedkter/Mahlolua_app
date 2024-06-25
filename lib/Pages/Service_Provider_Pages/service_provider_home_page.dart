@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/employee_orders_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
 import 'package:mahloula/Pages/notifications_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -90,7 +91,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationsPage()));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationSettingsScreen()));
                                 },
                                 icon: const Icon(Icons.notifications_none_rounded),
                                 color: Colors.white,
