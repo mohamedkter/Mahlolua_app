@@ -62,7 +62,7 @@ class GetMethods {
   }
 
 //////////////////////////////////////////////
-static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
+static Future<List<Reservation>> getEmployeeOrders(int employeeId) async {
     final String url = 'https://mahllola.online/api/getEmployeeOrders/$employeeId';
     try {
       final Response response = await dio.get(
@@ -72,7 +72,7 @@ static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
 
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['message']; // Assuming the orders are under 'message' key
-        return data.map((json) => EmployeeOrder.fromJson(json)).toList();
+        return data.map((json) => Reservation.fromJson(json)).toList();
       } else {
         print('Failed to get employee orders: ${response.statusCode}');
         return [];
