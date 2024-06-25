@@ -77,10 +77,10 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                 child: ListView.builder(
                   itemBuilder: (context, index) => GestureDetector(
                     child: ServiceCard(
-                      NumberResidents: 1200,
+                      NumberResidents: serviceProviders[index].total_rates??0,
                       Price: serviceProviders[index].minPrice,
                       ProvidedService: serviceProviders[index].service!.name,
-                      rate: 3.5,
+                      rate:double.parse(serviceProviders[index].average_rating??"0.0"),
                       ServiceProviderName: serviceProviders[index].user?.name,
                       ToDoFunction: () {
                         print("bookmarked");

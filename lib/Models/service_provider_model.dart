@@ -2,8 +2,10 @@ import 'package:mahloula/Models/service_model.dart';
 
 class ServiceProvider {
   int? id;
+  int? total_rates;
+  String? average_rating;
   String? desc;
-String? minPrice;
+  String? minPrice;
   String? status;
   String? checkByAdmin;
   User? user;
@@ -16,12 +18,16 @@ String? minPrice;
       this.status,
       this.checkByAdmin,
       this.user,
-      this.service});
+      this.service,
+      this.total_rates,
+      this.average_rating});
 
   ServiceProvider.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    total_rates = json["total_rates"];
+    average_rating = json["average_rating"];
     desc = json['desc'];
-    minPrice =json['min_price'];
+    minPrice = json['min_price'];
     status = json['status'];
     checkByAdmin = json['checkByAdmin'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -29,6 +35,7 @@ String? minPrice;
         json['service'] != null ? new Service.fromJson(json['service']) : null;
   }
 }
+
 class User {
   int? id;
   String? name;
@@ -36,13 +43,7 @@ class User {
   String? phone;
   String? image;
   List<Works>? works;
-  User(
-      {this.id,
-      this.name,
-      this.email,
-      this.phone,
-      this.image,
-      this.works});
+  User({this.id, this.name, this.email, this.phone, this.image, this.works});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,7 +58,6 @@ class User {
       });
     }
   }
-
 }
 
 class Works {
