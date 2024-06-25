@@ -6,6 +6,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Pages/help_center_page.dart';
 import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Pages/user_notification_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -148,7 +149,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 size: 32,
               ),
               OptionCardtext: "تعديل الملف",
-              OptionFunction: () {},
+              OptionFunction: () {
+                   
+              },
             ),
             OptionCard(
               OptionCardIcon: const Icon(
@@ -156,7 +159,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: () {},
+              OptionFunction: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return UserNotificationSettingsScreen();
+                }));
+              },
             ),
             OptionCard(
               OptionCardIcon: const Icon(

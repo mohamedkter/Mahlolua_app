@@ -24,7 +24,7 @@ class AllReservitionPageCubit extends  Cubit<AllReservationPageStatus>{
 
    Future<void> getAllReservationForServiceProvider()async {
     emit(AllReservationPageLoadingStatus());
-   employeeOrders = await GetMethods.getEmployeeOrders(CacheData.getData(key: "employee_id"));
+   employeeOrders = (await GetMethods.getEmployeeOrders(CacheData.getData(key: "employee_id"))).cast<Reservation>();
    print("Doneeeeeeeeeeeeeeeeeeeee");
    emit(AllReservationPageSuccessStatus());
   }

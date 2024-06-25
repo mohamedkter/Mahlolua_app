@@ -82,7 +82,11 @@ class ServiceProviderProfilePage extends StatelessWidget {
                           bottom: 0,
                           right: 0,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return EditProfile();
+                }));
+                              },
                               icon: Container(
                                   width: 25,
                                   height: 25,
