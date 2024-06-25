@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_notification_model.dart';
-
 import 'package:mahloula/Models/employee_orders_model.dart';
 import 'package:mahloula/Models/user_notification_model.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -63,9 +62,8 @@ class GetMethods {
   }
 
 //////////////////////////////////////////////
-  static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
-    final String url =
-        'https://mahllola.online/api/getEmployeeOrders/$employeeId';
+static Future<List<EmployeeOrder>> getEmployeeOrders(int employeeId) async {
+    final String url = 'https://mahllola.online/api/getEmployeeOrders/$employeeId';
     try {
       final Response response = await dio.get(
         url,
@@ -73,8 +71,7 @@ class GetMethods {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> data = response
-            .data['message']; // Assuming the orders are under 'message' key
+        List<dynamic> data = response.data['message']; // Assuming the orders are under 'message' key
         return data.map((json) => EmployeeOrder.fromJson(json)).toList();
       } else {
         print('Failed to get employee orders: ${response.statusCode}');

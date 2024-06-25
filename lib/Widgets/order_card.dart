@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Models/employee_orders_model.dart';
 import '../../models/reservation_model.dart';
 
 class OrderCard extends StatefulWidget {
-  final EmployeeOrder order;
+  final Reservation order;
   final Color color;
 
   const OrderCard({
@@ -48,7 +47,7 @@ class _OrderCardState extends State<OrderCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        widget.order.employeeName,
+                        widget.order.username,
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 20,

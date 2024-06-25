@@ -7,7 +7,7 @@ class Reservation {
   String location;
   String status; // Add this field
   String orderdescription;
-
+  String price;
   Reservation({
     required this.id,
     required this.employeeName,
@@ -15,6 +15,7 @@ class Reservation {
     required this.dateOfDelivery,
     required this.location,
     required this.status,
+              required this.price,
     required this.username,
     required this.orderdescription // Add this field
   });
@@ -22,6 +23,7 @@ class Reservation {
   factory Reservation.fromJson(Map<String, dynamic> json) {
     return Reservation(
       id: json['id'].toString(),
+      price: json['price'],
       employeeName: json['employee']['user']['name'],
       location: json['location'],
       serviceName: json['employee']['service']['name'],

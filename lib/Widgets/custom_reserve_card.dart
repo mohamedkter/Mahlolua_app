@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
+import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
 import '../../models/reservation_model.dart';
 import '../../Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/check_page.dart';
- // Assuming OrderCard is in this file
+// Assuming OrderCard is in this file
 
 class CustomReserveCard extends StatefulWidget {
   const CustomReserveCard({
@@ -24,12 +27,14 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
   bool isTabed = false;
 
   String getStatusText() {
-    if (widget.reservation.status == 'accepted' || widget.reservation.status == 'waiting') {
+    if (widget.reservation.status == 'accepted' ||
+        widget.reservation.status == 'waiting') {
       return 'قادم';
     } else if (widget.reservation.status == 'rejected') {
       return 'ملغي';
     } else {
-      DateTime dateOfDelivery = DateTime.parse(widget.reservation.dateOfDelivery);
+      DateTime dateOfDelivery =
+          DateTime.parse(widget.reservation.dateOfDelivery);
       return dateOfDelivery.isBefore(DateTime.now()) ? 'مكتمل' : 'قادم';
     }
   }
@@ -150,7 +155,8 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                 height: 3,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "الوقت والتاريخ",
@@ -176,7 +182,8 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                 height: 5,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "الموقع",
@@ -202,13 +209,18 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                 height: 15,
                               ),
                               widget.index == 2
-                                  ? NextReserveButtons(reservation: widget.reservation)
+                                  ? NextReserveButtons(
+                                      reservation: widget.reservation)
                                   : widget.index == 0
                                       ? CompletedAndCanceledReserveButton(
                                           btnFunctoin: () {
-                                            setState(() {
-                                              widget.reservation.status = 'accepted';
-                                            });
+                                            BlocProvider.of<
+                                                        AllReservitionPageCubit>(
+                                                    context)
+                                                .changeOrderStatusForUser(
+                                                    CacheData.getData(
+                                                        key: "userId"),
+                                                    "waiting");
                                           },
                                           btnText: "اعادة الحجز",
                                         )
@@ -217,7 +229,9 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => CheckPage(reservation: widget.reservation),
+                                                builder: (context) => CheckPage(
+                                                    reservation:
+                                                        widget.reservation),
                                               ),
                                             );
                                           },
@@ -316,7 +330,9 @@ class _NextReserveButtonsState extends State<NextReserveButtons> {
           btn_function: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CheckPage(reservation: widget.reservation)),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      CheckPage(reservation: widget.reservation)),
             );
           },
         ),
@@ -325,9 +341,8 @@ class _NextReserveButtonsState extends State<NextReserveButtons> {
           mainColor: MainColor,
           btn_text: " الغاء الحجز",
           btn_function: () {
-            setState(() {
-              widget.reservation.status = 'rejected';
-            });
+            BlocProvider.of<AllReservitionPageCubit>(context)
+                .changeOrderStatusForUser(CacheData.getData(key: "userId"), "rejected");
           },
         ),
       ],
@@ -368,7 +383,6 @@ class CardButton extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
 
@@ -379,7 +393,6 @@ Text checkStatus(int ind) {
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
     );
   } else if (ind == 1) {
-
     return const Text(
       'مكتمل',
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),

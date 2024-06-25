@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart'; // For date parsing and comparison
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/User_Pages/specific_service_page.dart';
+import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
+import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_status.dart';
 import '../../Constants/Color_Constants.dart';
 import '../../Widgets/custom_reserve_card.dart';
 import '../../models/reservation_model.dart';
@@ -16,39 +21,18 @@ class AllReservationPage extends StatefulWidget {
 class _AllReservationPageState extends State<AllReservationPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  List<Reservation> reservations = [];
-  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    fetchReservations();
+    _tabController.index=2;
+    BlocProvider.of<AllReservitionPageCubit>(context)
+        .getAllReservationForUser(CacheData.getData(key: "userId"));
   }
 
-  Future<void> fetchReservations() async {
-    int userId =
-        CacheData.getData(key: "userId"); // Replace with actual user ID
-    List<Reservation> data = await GetMethods.getUserOrders(userId);
-
-    // Check if the state is still mounted before calling setState
-    if (mounted) {
-      setState(() {
-        reservations = data;
-        isLoading = false;
-      });
-    }
-
-    // Check if data is being fetched correctly
-    print('Fetched reservations: ${reservations.length}');
-    for (var reservation in reservations) {
-      print(
-          'Reservation: ${reservation.id}, ${reservation.employeeName}, ${reservation.location}, ${reservation.serviceName}, ${reservation.dateOfDelivery}');
-    }
-  }
-
-  List<Reservation> filterReservations(String status) {
-    return reservations.where((reservation) {
+  List<Reservation> filterReservations(String status, List<Reservation> res) {
+    return res.where((reservation) {
       final currentTime = DateTime.now();
       final reservationDateTime = DateTime.parse(reservation.dateOfDelivery);
 
@@ -69,85 +53,92 @@ class _AllReservationPageState extends State<AllReservationPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  const Text(
-                    " الحجوزات",
-                    style: TextStyle(
-                        fontFamily: 'cairo',
-                        fontSize: 23.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: MainColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    width: 30,
-                    height: 30,
-                  )
-                ],
-              )
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      " الحجوزات",
+                      style: TextStyle(
+                          fontFamily: 'cairo',
+                          fontSize: 23.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: MainColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      width: 30,
+                      height: 30,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          centerTitle: true,
+          bottom: TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorColor: MainColor,
+            indicatorWeight: 4,
+            controller: _tabController,
+            labelStyle: TextStyle(
+                fontSize: 19.0,
+                fontFamily: 'cairo',
+                color: MainColor,
+                fontWeight: FontWeight.bold),
+            tabs: [
+              Tab(text: 'ملغي'),
+              Tab(text: 'مكتمل'),
+              Tab(text: 'قادم'),
             ],
           ),
         ),
-        centerTitle: true,
-        bottom: TabBar(
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorColor: MainColor,
-          indicatorWeight: 4,
-          controller: _tabController,
-          labelStyle: TextStyle(
-              fontSize: 19.0,
-              fontFamily: 'cairo',
-              color: MainColor,
-              fontWeight: FontWeight.bold),
-          tabs: [
-            Tab(text: 'ملغي'),
-            Tab(text: 'مكتمل'),
-            Tab(text: 'قادم'),
-          ],
-        ),
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : TabBarView(
+        body: BlocBuilder<AllReservitionPageCubit, AllReservationPageStatus>(
+            builder: (context, state) {
+          if (state is AllReservationPageLoadingStatus) {
+            return GenerelLoadingPage();
+          } else if (state is AllReservationPageSuccessStatus) {
+            return TabBarView(
               controller: _tabController,
               children: [
                 buildReservationList('ملغي', Colors.red),
                 buildReservationList('مكتمل', Colors.green),
                 buildReservationList('قادم', Colors.orange),
               ],
-            ),
-    );
+            );
+          } else {
+            return const NotFoundPage();
+          }
+        }));
   }
 
   Widget buildReservationList(String status, Color color) {
     return ListView.builder(
       itemBuilder: (context, index) {
-        var filteredReservations = filterReservations(status);
+        var filteredReservations = filterReservations(
+            status, BlocProvider.of<AllReservitionPageCubit>(context).data);
         if (index < filteredReservations.length) {
-          print(
-              'Rendering $status reservation: ${filteredReservations[index].id}');
           return CustomReserveCard(
             index: _tabController.index,
             color: color,
             reservation: filteredReservations[index],
           );
         } else {
-          return SizedBox(); // or any other fallback widget
+          return const SizedBox(); // or any other fallback widget
         }
       },
-      itemCount: filterReservations(status).length,
+      itemCount: filterReservations(
+              status, BlocProvider.of<AllReservitionPageCubit>(context).data)
+          .length,
     );
   }
 }
