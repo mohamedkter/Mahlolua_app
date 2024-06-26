@@ -203,6 +203,36 @@ static Future<dynamic> SearchFunction(String query) async {
       return null;
     }
   }
+
+  static Future<dynamic> changeServiceProviderId(String state) async {
+    final String url = 'https://mahllola.online/api/employee/changeEmployeeStatus/${CacheData.getData(key: "employee_id")}';
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = {
+      'status': state,
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+      print(response.data);
+        return response.data;
+      } else {
+        print('Failed to get employees: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
 } 
 
 

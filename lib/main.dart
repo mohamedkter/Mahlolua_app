@@ -10,6 +10,7 @@ import 'package:mahloula/Services/State_Managment/FeedBack_Cubit/feedback_cubit.
 import 'package:mahloula/Services/State_Managment/Search_Cubit/search_cubit.dart';
 import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_cubit.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
+import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/ServiceProviderHomePage_Cubit/serviceprovider_homepage_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_cubit.dart';
 import 'Pages/User_Pages/welcome_page_one.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SpecificServicePageCubit()),
         BlocProvider(create: (context) => AllReservitionPageCubit()),
         BlocProvider(create: (context)=>FeedbackCubit()),
-        BlocProvider(create: (context)=>SearchCubit())
+        BlocProvider(create: (context)=>SearchCubit()),
+        BlocProvider(create: (context)=>ServiceProviderHomePageCubit())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

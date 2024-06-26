@@ -210,6 +210,10 @@ class _LoginPageState extends State<LoginPage> {
                                             value: responseData.data["employee"]
                                                 ["id"]);
                                         CacheData.setData(
+                                            key: "employee_status",
+                                            value: responseData.data["employee"]
+                                                ["status"]);
+                                        CacheData.setData(
                                             key: "token",
                                             value: responseData
                                                     .data["authorisation"]
