@@ -29,7 +29,6 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
   void initState() {
     BlocProvider.of<FeedbackCubit>(context)
         .getServiceProviderByServiceId(widget.serviceProvider.id);
-    // print(BlocProvider.of<FeedbackCubit>(context).feedBacks[0].user?.name);
     super.initState();
   }
 

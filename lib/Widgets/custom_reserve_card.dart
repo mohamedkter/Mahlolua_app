@@ -342,7 +342,7 @@ class _NextReserveButtonsState extends State<NextReserveButtons> {
           btn_text: " الغاء الحجز",
           btn_function: () {
             BlocProvider.of<AllReservitionPageCubit>(context)
-                .changeOrderStatusForUser(CacheData.getData(key: "userId"), "rejected");
+                .changeOrderStatusForUser(int.parse(widget.reservation.id), "rejected");
           },
         ),
       ],
