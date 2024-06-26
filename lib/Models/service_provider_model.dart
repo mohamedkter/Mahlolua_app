@@ -27,6 +27,8 @@ class ServiceProvider {
         desc: json['employee']['desc'],
         minPrice: json['employee']['min_price'],
         status: json['employee']['status'],
+        total_rates:json['employee']['total_rates'],
+        average_rating:json['employee']['average_rating'],
         user: json['user'] != null ? User.fromJson(json['user']) : null,
         service: json['service'] != null ? Service.fromJson(json['service']) : null,
       );
