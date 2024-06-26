@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
-import 'package:mahloula/Pages/notifications_page.dart';
+import 'package:mahloula/Pages/General_Pages/notifications_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/order_card.dart';

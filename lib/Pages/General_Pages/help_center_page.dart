@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
-import 'package:mahloula/Pages/help_center1_page.dart';
+import 'package:mahloula/Pages/General_Pages/help_center1_page.dart';
 
 class HelpCenterPage extends StatefulWidget {
   @override

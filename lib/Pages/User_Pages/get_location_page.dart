@@ -9,7 +9,7 @@ import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import '../../Models/order_model.dart';
-import '../all_reservation_page.dart';
+import '../General_Pages/all_reservation_page.dart';
 import 'home_page.dart';
 
 class GetLocationPage extends StatefulWidget {

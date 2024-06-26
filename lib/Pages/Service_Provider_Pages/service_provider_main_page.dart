@@ -3,7 +3,7 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_all_resevation_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_home_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_profile_page.dart';
-import 'package:mahloula/Pages/all_reservation_page.dart';
+import 'package:mahloula/Pages/General_Pages/all_reservation_page.dart';
 
 class ServiceProviderMainPage extends StatefulWidget {
   ServiceProviderMainPage({required this.name});

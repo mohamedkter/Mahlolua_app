@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
-import 'package:mahloula/Pages/welcome_page_two.dart';
+import 'package:mahloula/Pages/General_Pages/welcome_page_two.dart';
 
-import 'Auth_Pages/regester_page.dart';
+import '../Auth_Pages/regester_page.dart';
 
 
 class IdentifyPage extends StatelessWidget {
