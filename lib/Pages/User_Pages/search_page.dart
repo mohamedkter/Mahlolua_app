@@ -189,6 +189,10 @@ class SearchPage extends SearchDelegate {
                                   )));
                         },
                         child: ServiceCard(
+                          image:BlocProvider.of<SearchCubit>(context)
+                                    .serviceProvider[index]
+                                    .user!
+                                    .image??"" ,
                             ServiceProviderName:
                                 BlocProvider.of<SearchCubit>(context)
                                     .serviceProvider[index]
