@@ -9,8 +9,8 @@ import 'package:mahloula/Functions/validation.dart';
 import 'package:mahloula/Models/user_model.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
-import 'package:mahloula/Pages/error_page.dart';
-import 'package:mahloula/Pages/success_page.dart';
+import 'package:mahloula/Pages/General_Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/success_page.dart';
 import '../../Services/Api/post_methods.dart';
 import '../Service_Provider_Pages/service_provider_credentials_page.dart';
 

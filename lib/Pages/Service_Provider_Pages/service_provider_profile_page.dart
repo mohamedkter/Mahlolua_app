@@ -3,8 +3,8 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_edit_profile.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_security_page.dart';
-import 'package:mahloula/Pages/help_center_page.dart';
-import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Pages/General_Pages/help_center_page.dart';
+import 'package:mahloula/Pages/General_Pages/privacy_policy_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 

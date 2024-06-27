@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/original_loading_page.dart';
-import 'package:mahloula/Pages/all_reservation_page.dart';
+import 'package:mahloula/Pages/General_Pages/all_reservation_page.dart';
 import 'package:mahloula/Pages/User_Pages/original_page.dart';
 import 'package:mahloula/Pages/User_Pages/user_profile_page.dart';
-import 'package:mahloula/Pages/all_reservation_page.dart';
-import 'package:mahloula/Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/all_reservation_page.dart';
+import 'package:mahloula/Pages/General_Pages/error_page.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_status.dart';
 

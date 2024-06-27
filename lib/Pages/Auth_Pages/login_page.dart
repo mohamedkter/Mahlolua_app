@@ -9,8 +9,8 @@ import 'package:mahloula/Pages/Auth_Pages/regester_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_credentials_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page.dart';
-import 'package:mahloula/Pages/error_page.dart';
-import 'package:mahloula/Pages/identify_page.dart';
+import 'package:mahloula/Pages/General_Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/identify_page.dart';
 import 'package:mahloula/Services/Api/auth_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
@@ -209,6 +209,10 @@ class _LoginPageState extends State<LoginPage> {
                                             key: "employee_id",
                                             value: responseData.data["employee"]
                                                 ["id"]);
+                                        CacheData.setData(
+                                            key: "employee_status",
+                                            value: responseData.data["employee"]
+                                                ["status"]);
                                         CacheData.setData(
                                             key: "token",
                                             value: responseData

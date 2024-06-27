@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
+import 'package:mahloula/Pages/User_Pages/service_provider_page.dart';
+import 'package:mahloula/Services/State_Managment/Search_Cubit/search_cubit.dart';
+import 'package:mahloula/Services/State_Managment/Search_Cubit/search_states.dart';
 import 'package:mahloula/Widgets/service_card.dart';
 
 class Employee {
@@ -129,14 +133,12 @@ List<Employee> employees = [
 ];
 
 class SearchPage extends SearchDelegate {
-  List<Employee> filteredEmployees = [];
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
           onPressed: () {
-            query='';
+            query = '';
           },
           icon: Icon(
             Icons.close,
@@ -164,59 +166,93 @@ class SearchPage extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
     if (query != "") {
-      filteredEmployees =
-          employees.where((element) => element.name.contains(query)||element.providedService.contains(query)||element.rate.toString().startsWith(query)).toList();
-      if (filteredEmployees != []) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: ListView.builder(
-              itemCount: filteredEmployees.length,
-              itemBuilder: (context, index) => ServiceCard(
-                  ServiceProviderName: filteredEmployees[index].name,
-                  Price:filteredEmployees[index].price.toString(),
-                  rate: filteredEmployees[index].rate,
-                  NumberResidents: filteredEmployees[index].numberResidents,
-                  ProvidedService: filteredEmployees[index].providedService,
-                  ToDoFunction: () {})),
-        );
-      } 
-      else{
-        return  Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(width: 200,height: 200,child: Image.asset("assets/photo/sideface.png",fit: BoxFit.cover,),),
-              const Text(
-                  "Not Found",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'cairo',
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.w700),
+      BlocProvider.of<SearchCubit>(context).Search(query);
+      return BlocBuilder<SearchCubit, SearchState>(
+        builder: (context, state) {
+          if (state is SearchLoading) {
+            return const CardLoadingPage();
+          } else if (state is SearchSuccess) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListView.builder(
+                  itemCount: BlocProvider.of<SearchCubit>(context)
+                      .serviceProvider
+                      .length,
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ServiceProviderPage(
+                                    serviceProvider:
+                                        BlocProvider.of<SearchCubit>(context)
+                                            .serviceProvider[index],
+                                  )));
+                        },
+                        child: ServiceCard(
+                          image:BlocProvider.of<SearchCubit>(context)
+                                    .serviceProvider[index]
+                                    .user!
+                                    .image??"" ,
+                            ServiceProviderName:
+                                BlocProvider.of<SearchCubit>(context)
+                                    .serviceProvider[index]
+                                    .user!
+                                    .name,
+                            Price: BlocProvider.of<SearchCubit>(context)
+                                .serviceProvider[index]
+                                .minPrice,
+                            rate: double.parse(
+                                BlocProvider.of<SearchCubit>(context)
+                                        .serviceProvider[index]
+                                        .average_rating ??
+                                    "0.0"),
+                            NumberResidents:
+                                BlocProvider.of<SearchCubit>(context)
+                                        .serviceProvider[index]
+                                        .total_rates ??
+                                    0,
+                            ProvidedService:
+                                BlocProvider.of<SearchCubit>(context)
+                                    .serviceProvider[index]
+                                    .service!
+                                    .name,
+                            ToDoFunction: () {}),
+                      )),
+            );
+          } else {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 200,
+                      height: 200,
+                      child: Image.asset(
+                        "assets/photo/sideface.png",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    const Text(
+                      "لا يوجد مقدم خدمه بهذا الاسم",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MainColor,
+                          fontFamily: 'cairo',
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ],
                 ),
-            ],
-          ),
-        ],
+              ],
+            );
+          }
+        },
       );
-      }
     } else {
       return CardLoadingPage();
-      // return Padding(
-      //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      //   child: ListView.builder(
-      //       itemCount: employees.length,
-      //       itemBuilder: (context, index) => ServiceCard(
-      //           ServiceProviderName: employees[index].name,
-      //           Price: employees[index].price,
-      //           rate: employees[index].rate,
-      //           NumberResidents: employees[index].numberResidents,
-      //           ProvidedService: employees[index].providedService,
-      //           ToDoFunction: () {})),
-      // );
     }
   }
 }

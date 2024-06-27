@@ -99,6 +99,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                         child: ServiceCard(
+                          image: "",
                           NumberResidents: 1200,
                           Price: "125",
                           ProvidedService: "صيانه تكيف",
