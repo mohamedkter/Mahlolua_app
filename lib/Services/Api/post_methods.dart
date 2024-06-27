@@ -233,6 +233,38 @@ static Future<dynamic> SearchFunction(String query) async {
       return null;
     }
   }
+   static Future<dynamic> makeFeedback(int empId,String Comment,int rating,int orderId) async {
+    const String url = 'https://mahllola.online/api/makeFeedback';
+
+    final headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    final body = {
+      'order_id':orderId,
+      'employee_id':empId,
+      'user_id':CacheData.getData(key: "userId"),
+      'rating':rating,
+      'comment':Comment
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+      print(response.data);
+        return response.data;
+      } else {
+        print('Failed to Make Feedback: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
 } 
 
 

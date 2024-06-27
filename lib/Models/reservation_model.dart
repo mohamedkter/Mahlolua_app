@@ -1,5 +1,6 @@
 class Reservation {
   String id;
+  int employeeId;
   String username;
   String employeeName;
   String serviceName;
@@ -19,7 +20,8 @@ class Reservation {
     required this.status,
               required this.price,
     required this.username,
-    required this.orderdescription // Add this field
+    required this.orderdescription, 
+   required  this.employeeId// Add this field
   });
 
   factory Reservation.fromJson(Map<String, dynamic> json) {
@@ -33,7 +35,8 @@ class Reservation {
       dateOfDelivery: json['date_of_delivery'],
       orderdescription:json['order_descriptions'],
       status: json['status'],
-      username: json['user']['name'] // Add this field
+      username: json['user']['name'],
+      employeeId: json['employee']['id'],// Add this field
     );
   }
 }

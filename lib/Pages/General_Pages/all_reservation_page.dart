@@ -31,23 +31,28 @@ class _AllReservationPageState extends State<AllReservationPage>
         .getAllReservationForUser(CacheData.getData(key: "userId"));
   }
 
-  List<Reservation> filterReservations(String status, List<Reservation> res) {
-    return res.where((reservation) {
-      final currentTime = DateTime.now();
-      final reservationDateTime = DateTime.parse(reservation.dateOfDelivery);
+  List<List<Reservation>> filterReservations(List<Reservation> reservations) {
+    List<Reservation> upcomingList = [];
+    List<Reservation> rejectedList = [];
+    List<Reservation> completedList = [];
 
-      if (status == 'ملغي' && reservation.status == 'rejected') {
-        return true;
-      } else if (status == 'مكتمل' &&
-          reservationDateTime.isBefore(currentTime)) {
-        return true;
-      } else if (status == 'قادم' &&
-          (reservation.status == 'accepted' ||
-              reservation.status == 'waiting')) {
-        return reservationDateTime.isAfter(currentTime);
+    for (var reservation in reservations) {
+      switch (reservation.status) {
+        case 'waiting':
+          upcomingList.add(reservation);
+          break;
+        case 'accepted':
+          upcomingList.add(reservation);
+          break;
+        case 'completed':
+          completedList.add(reservation);
+          break;
+        case 'rejected':
+          rejectedList.add(reservation);
+          break;
       }
-      return false;
-    }).toList();
+    }
+    return [upcomingList, completedList, rejectedList];
   }
 
   @override
@@ -110,12 +115,14 @@ class _AllReservationPageState extends State<AllReservationPage>
           if (state is AllReservationPageLoadingStatus) {
             return GenerelLoadingPage();
           } else if (state is AllReservationPageSuccessStatus) {
+            List<List<Reservation>> AllReservation = filterReservations(
+                BlocProvider.of<AllReservitionPageCubit>(context).data);
             return TabBarView(
               controller: _tabController,
               children: [
-                buildReservationList('ملغي', Colors.red),
-                buildReservationList('مكتمل', Colors.green),
-                buildReservationList('قادم', Colors.orange),
+                buildReservationList('ملغي', Colors.red, AllReservation[2]),
+                buildReservationList('مكتمل', Colors.green, AllReservation[1]),
+                buildReservationList('قادم', Colors.orange, AllReservation[0]),
               ],
             );
           } else {
@@ -124,24 +131,18 @@ class _AllReservationPageState extends State<AllReservationPage>
         }));
   }
 
-  Widget buildReservationList(String status, Color color) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        var filteredReservations = filterReservations(
-            status, BlocProvider.of<AllReservitionPageCubit>(context).data);
-        if (index < filteredReservations.length) {
-          return CustomReserveCard(
-            index: _tabController.index,
-            color: color,
-            reservation: filteredReservations[index],
-          );
-        } else {
-          return const SizedBox(); // or any other fallback widget
-        }
-      },
-      itemCount: filterReservations(
-              status, BlocProvider.of<AllReservitionPageCubit>(context).data)
-          .length,
-    );
+  Widget buildReservationList(
+      String status, Color color, List<Reservation> reservations) {
+    return reservations.isEmpty
+        ? const NotFoundPage()
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              return CustomReserveCard(
+                index: _tabController.index,
+                color: color,
+                reservation: reservations[index],
+              );
+            },
+            itemCount: reservations.length);
   }
 }
