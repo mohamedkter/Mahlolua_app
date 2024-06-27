@@ -5,6 +5,8 @@ import 'package:mahloula/Models/user_model.dart';
 import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
+import '../../Models/location_model.dart';
+
 class PostMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
@@ -15,7 +17,8 @@ class PostMethods {
 
 //////////////////////////////// Make Order Method /////////////////////////////
 
-  static Future<void> makeOrder(Order order) async {
+
+   Future<void> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
     final Dio dio = Dio();
 
@@ -48,6 +51,71 @@ class PostMethods {
   }
 
 
+  Future<void> makeOrderWithVoucher(Order order, {String? code}) async {
+    Map x = {'voucher_code':code};
+    const String url = 'https://mahllola.online/api/makeOrder';
+    final Dio dio = Dio();
+
+    final headers = {
+      //'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',  // Adjust if needed
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        queryParameters: order.toMap(),data: x['voucher_code'],
+        options: Options(headers: headers),
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('Order made successfully: ${response.data}');
+      } else {
+        print('Failed to make order: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Error making order: ${e.response?.statusCode} - ${e.response?.statusMessage}');
+        print('Response data: ${e.response?.data}');
+      } else {
+        print('Error making order: ${e.message}');
+      }
+    }
+  }
+//////////////////////////////// Make Location Method /////////////////////////////
+
+  static Future<void> makeLocation(LocationModel loc) async {
+    const String url = 'https://mahllola.online/api/location/store';
+    final Dio dio = Dio();
+
+    final headers = {
+      //'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',  // Adjust if needed
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        queryParameters: loc.toMap(),
+        options: Options(headers: headers),
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('Location stored successfully: ${response.data}');
+      } else {
+        print('Failed to store location: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Error store location: ${e.response?.statusCode} - ${e.response?.statusMessage}');
+        print('Response data: ${e.response?.data}');
+      } else {
+        print('Error store location null: ${e.message}');
+      }
+    }
+  }
   ///////////////////////////// Create User Method //////////////////////////
   
   static Future<dynamic> createUser(User user, FormData? image) async {

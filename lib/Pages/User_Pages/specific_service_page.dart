@@ -77,6 +77,7 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                 child: ListView.builder(
                   itemBuilder: (context, index) => GestureDetector(
                     child: ServiceCard(
+                      id: serviceProviders[index].id,
                       NumberResidents: serviceProviders[index].total_rates??0,
                       Price: serviceProviders[index].minPrice,
                       ProvidedService: serviceProviders[index].service!.name,

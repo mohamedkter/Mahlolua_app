@@ -15,4 +15,14 @@ class Voucher {
         required this.expiredAt,
     });
 
+    factory Voucher.fromJson(Map<String, dynamic> json) {
+        return Voucher(
+            id: json['id'],
+            code: json['code'],
+            type: json['type'],
+            discount: json['discount'],
+            status: json['status'],
+            expiredAt: json['expiredAt'],
+        );
+    }
 }

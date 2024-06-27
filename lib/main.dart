@@ -12,6 +12,7 @@ import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/al
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_cubit.dart';
 import 'Pages/User_Pages/welcome_page_one.dart';
+import 'Services/State_Managment/cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,9 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context){
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => HomePageCubit(),
-        ),
+        BlocProvider(create: (context) => HomePageCubit(),),
+        BlocProvider(create: (context) => Cubite()..createDatabase(),),
         BlocProvider(create: (context) => CredentialsCubit()),
         BlocProvider(create: (context) => SpecificServicePageCubit()),
         BlocProvider(create: (context) => AllReservitionPageCubit()),

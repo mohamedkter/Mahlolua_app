@@ -3,6 +3,7 @@ import 'package:mahloula/Models/employee_notification_model.dart';
 import 'package:mahloula/Models/employee_orders_model.dart';
 import 'package:mahloula/Models/user_notification_model.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
+import '../../Models/voucher_model.dart';
 import '../../models/reservation_model.dart';
 
 class GetMethods {
@@ -60,7 +61,29 @@ class GetMethods {
       return [];
     }
   }
+////////////////////////////////////////////// Get All Vouchers /////////////////////
+  static Future<List<dynamic>> getAllVouchers() async {
+    final String url = 'https://mahllola.online/api/vouchers';
+    try {
+      final Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
 
+      if (response.statusCode == 200) {
+        List<dynamic> vouchers = response
+            .data['vouchers'];
+
+        return vouchers;
+      } else {
+        print('Failed to get Vouchers: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('Error getting Vouchers: $e');
+      return [];
+    }
+  }
 //////////////////////////////////////////////
   static Future<List<Reservation>> getEmployeeOrders(int employeeId) async {
     final String url =
@@ -98,6 +121,29 @@ class GetMethods {
       if (response.statusCode == 200) {
         print('Services: ${response.data}');
         return response.data;
+      } else {
+        print('Failed to get services: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error getting services: $e');
+      return null;
+    }
+  }
+
+  ////////////////////Get All Locations By ID  ///////////////////////////
+
+  static Future<dynamic> getAllLocations(int id) async {
+     String url = 'https://mahllola.online/api/location/showUsersLocation/$id';
+    try {
+      final Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        //print(response.data['locations']);
+        return response.data['locations'];
       } else {
         print('Failed to get services: ${response.statusCode}');
         return null;

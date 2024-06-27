@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
@@ -23,6 +24,9 @@ class _ReservationPageState extends State<ReservationPage> {
   TextEditingController _controller = TextEditingController();
   Voucher? selectedVouche;
   TextEditingController addVoucher=TextEditingController();
+  GlobalKey<FormState> key = GlobalKey();
+  dynamic vouchers;
+  String code = '';
 
   String DateAndTime = '';
   @override
@@ -64,150 +68,169 @@ class _ReservationPageState extends State<ReservationPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "اختر التاريخ",
-                style: TextStyle(
+          child: Form(
+            key: key,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "اختر التاريخ",
+                  style: TextStyle(
+                      fontFamily: "Cairo",
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: CalendarDatePicker(
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                      onDateChanged: (value)
+                      {
+                        String x = value.toString();
+                        print(x.substring(0,10));
+                        DateAndTime = x.substring(0,10) + ' ';
+                      }),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "اختر وقت المعاينه",
+                  style: TextStyle(
                     fontFamily: "Cairo",
                     fontSize: 20,
                     color: Colors.black,
-                    fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                child: CalendarDatePicker(
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2023),
-                    lastDate: DateTime(2040),
-                    onDateChanged: (value)
-                    {
-                      String x = value.toString();
-                      print(x.substring(0,10));
-                      DateAndTime = x.substring(0,10) + ' ';
-                    }),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "اختر وقت المعاينه",
-                style: TextStyle(
-                  fontFamily: "Cairo",
-                  fontSize: 20,
-                  color: Colors.black,
+                  ),
                 ),
-              ),
-              Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextFormField(
-              controller: _controller,
-              decoration: InputDecoration(
-                //labelText: 'Select Date and Time',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.calendar_today),
-                  onPressed: () => _selectDateTime(context),
+                Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextFormField(
+                controller: _controller,
+                validator: (value){
+                  if(value!.isEmpty){
+                    return 'يجب ان تدخل الوقت';
+                  }
+                },
+                decoration: InputDecoration(
+                  //labelText: 'Select Date and Time',
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today),
+                    onPressed: () => _selectDateTime(context),
+                  ),
                 ),
               ),
             ),
-          ),
 
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "كود الخصم",
-                style: TextStyle(
-                  fontFamily: "Cairo",
-                  fontSize: 20,
-                  color: Colors.black,
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                      onPressed: () async {
-                        Voucher ?voucher = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => AddDiscountPage()));
-                        setState(() {
-                          selectedVouche = voucher;
-                        });
-                        addVoucher.text=selectedVouche==null?"":selectedVouche!.code;
-                        selectedVouche?.discount;
-                        //DateAndTime += _controller.text;
-                        // widget.object?.voucherCode = '';//selectedVouche?.discount;
-                         //order.dateOfDelivery = DateAndTime;
-
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        color: MainColor,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          alignment: Alignment.center,
-                          backgroundColor: Color(0xfff1E7ff),
-                          minimumSize: Size(45, 45),
-                          fixedSize: const Size(45, 45),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100.0)))),
-                  Container(
-                    padding: EdgeInsets.only(right: 10),
-                    width: 290,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Color(0xfff1E7ff),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: TextFormField(
-                        controller: addVoucher,
-                        style: TextStyle(
-                          fontFamily: "Cairo",
-                          fontSize: 18,
-                          color: Colors.black,
+                const Text(
+                  "كود الخصم",
+                  style: TextStyle(
+                    fontFamily: "Cairo",
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () async {
+                           vouchers = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => AddDiscountPage()));
+                          setState(() {
+                            if(widget.obj!.price! > vouchers?['discount']){
+                              widget.obj?.price = (widget.obj!.price! - vouchers?['discount']) as int?;
+                            }else
+                              {
+                                widget.obj?.price = (widget.obj!.price! - 20) as int?;
+                              }
+                            print(widget.obj?.price);
+                            //addVoucher.text =  'empty';
+                            if(vouchers != null)
+                            {
+                              addVoucher.text = vouchers?['code'];
+                            }
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          color: MainColor,
                         ),
-                        decoration: InputDecoration(
-
-                          hintStyle: TextStyle(
+                        style: ElevatedButton.styleFrom(
+                            alignment: Alignment.center,
+                            backgroundColor: Color(0xfff1E7ff),
+                            minimumSize: Size(45, 45),
+                            fixedSize: const Size(45, 45),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100.0)))),
+                    Container(
+                      padding: EdgeInsets.only(right: 10),
+                      width: 290,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Color(0xfff1E7ff),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextFormField(
+                          controller: addVoucher,
+                          style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 18,
-                            color: const Color.fromARGB(255, 118, 115, 115),
+                            color: Colors.black,
                           ),
-                          hintText: "ادخل كود الخضم",
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none),
-                          border: InputBorder.none,
-                          fillColor: Color(0xfff1E7ff),
-                          filled: true,
+                          decoration: InputDecoration(
+                            enabled: false,
+                            hintStyle: TextStyle(
+                              fontFamily: "Cairo",
+                              fontSize: 18,
+                              color: const Color.fromARGB(255, 118, 115, 115),
+                            ),
+                            hintText: "ادخل كود الخضم",
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide.none),
+                            border: InputBorder.none,
+                            fillColor: Color(0xfff1E7ff),
+                            filled: true,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              )
-            ],
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
       bottomNavigationBar: CustomBottomAppBar(
-        buttonText: "100\$  -الحجز ",
+        buttonText: "${widget.obj?.price}\$  الحجز ",
         buttonFunction: () {
-          //DateAndTime += _controller.text;
-          widget.obj?.dateOfDelivery = DateAndTime;
-          print(DateAndTime);
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) =>  GetLocationPage(obj: widget.obj)));
+          if(key.currentState!.validate()){
+            widget.obj?.dateOfDelivery = DateAndTime;
+            if(vouchers != null)
+              {
+                code = addVoucher.text;
+              }
+            print(DateAndTime);
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) =>  GetLocationPage(obj: widget.obj,code: code)));
+          }
+
         },
       ),
     );
