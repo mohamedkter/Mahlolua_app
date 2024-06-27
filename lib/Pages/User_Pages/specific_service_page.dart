@@ -77,15 +77,13 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                 child: ListView.builder(
                   itemBuilder: (context, index) => GestureDetector(
                     child: ServiceCard(
-<<<<<<< HEAD
                       id: serviceProviders[index].id,
-=======
-                      image:serviceProviders[index].user!.image??"" ,
->>>>>>> e7a7180855432b988c2c7e6332d9dd56cb2a958c
-                      NumberResidents: serviceProviders[index].total_rates??0,
+                      image: serviceProviders[index].user!.image ?? "",
+                      NumberResidents: serviceProviders[index].total_rates ?? 0,
                       Price: serviceProviders[index].minPrice,
                       ProvidedService: serviceProviders[index].service!.name,
-                      rate:double.parse(serviceProviders[index].average_rating??"0.0"),
+                      rate: double.parse(
+                          serviceProviders[index].average_rating ?? "0.0"),
                       ServiceProviderName: serviceProviders[index].user?.name,
                       ToDoFunction: () {
                         print("bookmarked");
@@ -120,31 +118,33 @@ class NotFoundPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                width: 200,
-                child: Image.asset("assets/photo/sideface.png")),
-                SizedBox(height: 20,),
+                width: 200, child: Image.asset("assets/photo/sideface.png")),
+            SizedBox(
+              height: 20,
+            ),
             const Text(
               "لم يتم العثور",
               style: TextStyle(
-                fontFamily: 'cairo',
-                fontSize: 24.0,
-                fontWeight: FontWeight.w700
-              ),
+                  fontFamily: 'cairo',
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Directionality(
               textDirection: TextDirection.rtl,
               child: Container(
-                width: MediaQuery.of(context).size.width/1.1,
+                width: MediaQuery.of(context).size.width / 1.1,
                 child: Text(
-                    "اسف هذه الخدمه غير متوفر في الوقت الحالي يرجي المحاوله في وقت قادم",
-                    style: TextStyle(
-                      fontFamily: 'cairo',
-                      fontSize: 20.0,
-                    ),
-                    textAlign: TextAlign.center,
-                    softWrap: true,
+                  "اسف هذه الخدمه غير متوفر في الوقت الحالي يرجي المحاوله في وقت قادم",
+                  style: TextStyle(
+                    fontFamily: 'cairo',
+                    fontSize: 20.0,
                   ),
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                ),
               ),
             )
           ],

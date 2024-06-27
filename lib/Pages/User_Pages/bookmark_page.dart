@@ -108,20 +108,12 @@ class _BookmarkPageState extends State<BookmarkPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: GestureDetector(
                         child: ServiceCard(
-<<<<<<< HEAD
+                          image: "",
                           NumberResidents: Info[index]['NumberResidents'],
                           Price: Info[index]['Price'],
                           ProvidedService: Info[index]['ProvidedService'],
                           rate: Info[index]['rate'],
                           ServiceProviderName: Info[index]['ServiceProviderName'],
-=======
-                          image: "",
-                          NumberResidents: 1200,
-                          Price: "125",
-                          ProvidedService: "صيانه تكيف",
-                          rate: 3.5,
-                          ServiceProviderName: "محمد محمود",
->>>>>>> e7a7180855432b988c2c7e6332d9dd56cb2a958c
                           ToDoFunction: () {
                             showModalBottomSheet(
                               isScrollControlled: true,

@@ -9,7 +9,6 @@ import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import '../../Models/order_model.dart';
-<<<<<<< HEAD
 import '../../Services/Api/get_methods.dart';
 import 'home_page.dart';
 
@@ -17,13 +16,6 @@ class GetLocationPage extends StatefulWidget {
   const GetLocationPage({this.obj,this.code, super.key});
 
   final String? code;
-=======
-import '../General_Pages/all_reservation_page.dart';
-import 'home_page.dart';
-
-class GetLocationPage extends StatefulWidget {
-  const GetLocationPage({this.obj, super.key});
->>>>>>> e7a7180855432b988c2c7e6332d9dd56cb2a958c
   final Order? obj;
   @override
   State<GetLocationPage> createState() => _GetLocationPageState();
@@ -240,7 +232,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
                           {
                             cities.add(element['city']);
                           });
-<<<<<<< HEAD
                           showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
@@ -276,14 +267,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
                           //           myLocation.longitude)));
                           // });
                           // await _updatePlacemark(myLocation);
-=======
-                          List<Placemark> placemarks =
-                              await placemarkFromCoordinates(
-                                  myLocation.latitude, myLocation.longitude);
-                          Placemark place = placemarks[0];
-                          textEditingController.text = "${place.street}"; // this is loaction for 
-                          
->>>>>>> e7a7180855432b988c2c7e6332d9dd56cb2a958c
                         },
                         child: const Icon(
                           Icons.location_on_outlined,
