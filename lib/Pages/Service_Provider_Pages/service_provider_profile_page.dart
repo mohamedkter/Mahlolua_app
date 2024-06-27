@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_edit_profile.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
@@ -13,42 +11,56 @@ import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 class ServiceProviderProfilePage extends StatelessWidget {
   const ServiceProviderProfilePage({super.key});
 
+  void navigateToEditProfile(BuildContext context) {
+    final employeeId = CacheData.getData(key: "employee_id");
+
+    if (employeeId != null) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return EditServiceProviderProfile(employeeId: employeeId);
+      }));
+    } else {
+      // معالجة الحالة عندما يكون employeeId فارغًا، مثل عرض رسالة خطأ
+      print('Error: employeeId is null');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "الملف الشخصي",
-                        style: TextStyle(
-                            fontFamily: 'cairo',
-                            fontSize: 23.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: MainColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: 30,
-                        height: 30,
-                      )
-                    ],
+                  const Text(
+                    "الملف الشخصي",
+                    style: TextStyle(
+                        fontFamily: 'cairo',
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: MainColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    width: 30,
+                    height: 30,
                   )
                 ],
-              ),
-            ),),
+              )
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-           
             const SizedBox(
               height: 20,
             ),
@@ -73,7 +85,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(75),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image:  NetworkImage(
+                                    image: NetworkImage(
                                         "$PartImagePath${CacheData.getData(key: "image")}"))),
                           ),
                         ],
@@ -83,9 +95,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
                           right: 0,
                           child: IconButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditProfile();
-                }));
+                                navigateToEditProfile(context);
                               },
                               icon: Container(
                                   width: 25,
@@ -135,11 +145,8 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "تعديل الملف",
-              OptionFunction: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditProfile();
-                }));
+              OptionFunction: () {
+                navigateToEditProfile(context);
               },
             ),
             OptionCard(

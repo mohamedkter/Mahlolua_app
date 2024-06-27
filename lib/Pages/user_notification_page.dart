@@ -18,7 +18,7 @@ class _NotificationSettingsScreenState
   @override
   void initState() {
     super.initState();
-    //final userId = CacheData.getData(key: "user_id");
+    //final userId = CacheData.getData(key: "userId");
     futureNotifications =  GetMethods.getUserNotifications(1);
        // استبدال برقم المستخدم الفعلي
   }

@@ -1,240 +1,313 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/error_page.dart';
+import 'package:mahloula/Pages/success_page.dart';
+import 'package:mahloula/Services/Api/post_methods.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 
-import '../../Constants/Color_Constants.dart';
-
-class EditProfile extends StatefulWidget {
-   EditProfile({Key? key}) : super(key: key);
+class EditServiceProviderProfile extends StatefulWidget {
+  final int employeeId;
+  EditServiceProviderProfile({Key? key, required this.employeeId}) : super(key: key);
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  _EditServiceProviderProfileState createState() => _EditServiceProviderProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditServiceProviderProfileState extends State<EditServiceProviderProfile> {
+  bool isLoading = false;
+  ImagePicker picker = ImagePicker();
+  final formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController minPriceController = TextEditingController();
+  File? personalImage;
+  File? workImageOne;
+  File? workImageTwo;
+  File? workImageThree;
+  File? workImageFour;
 
-  GlobalKey<FormState> _formKey = GlobalKey();
-  final TextEditingController _genderController = TextEditingController();
-  final TextEditingController DateController = TextEditingController();
-  String? _selectedGender;
+  Future<void> _pickImage(Function(File?) setImage) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        setImage(File(pickedFile.path));
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool profileUpdated = await PostMethods.updateEmployeeProfile(
+      employeeId: widget.employeeId,
+      name: nameController.text.isNotEmpty ? nameController.text : null,
+      description: descController.text.isNotEmpty ? descController.text : null,
+      minPrice: minPriceController.text.isNotEmpty ? int.parse(minPriceController.text) : null,
+      image: personalImage,
+    );
+
+    if (profileUpdated) {
+      bool workImagesUpdated = await PostMethods.updateWorkImages(
+        employeeId: widget.employeeId,
+        workImageOne: workImageOne,
+        workImageTwo: workImageTwo,
+        workImageThree: workImageThree,
+        workImageFour: workImageFour,
+      );
+
+      if (workImagesUpdated) {
+        _showSuccessPage();
+      } else {
+        _showErrorPage();
+      }
+    } else {
+      _showErrorPage();
+    }
+  }
+
+  void _showErrorPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ErrorPage(
+          imageParh: "assets/photo/loginError.json",
+          upperMessage: "هناك خطا ما حدث",
+          lowerMessage: "يرجي اعادة المحاوله",
+        ),
+      ),
+    );
+  }
+
+  void _showSuccessPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SuccessPage(
+          imageParh: 'assets/photo/doneAnamition.json',
+          upperMessage: "تم تحديث البيانات بنجاح",
+          lowerMessage: "جاري مراجعة بياناتك من قبل المختص",
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title:  Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                const Text(
-                  "تعديل الملف ",
-                  style: TextStyle(
-                      fontFamily: 'cairo',
-                      fontSize: 23.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: MainColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  width: 30,
-                  height: 30,
-                )
-              ],
-            )
-          ],
+        title: const Text(
+          "تعديل بيانات",
+          style: TextStyle(fontFamily: 'cairo', fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
-      ),),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              _buildTextField(label: 'الاسم الأول'),
-              SizedBox(height: 16),
-              _buildTextField(label: 'اسم العائلة'),
-              SizedBox(height: 16),
-              _buildTextField(icon:Icons.date_range,con: DateController ,
-                  fun: ()
-                  {
-                    showDatePicker(context: context, firstDate: DateTime(1960), lastDate: DateTime(2027)).then((value)
-                    {
-                      String x = value.toString();
-
-                      DateController.text = x.substring(0,10);
-                    });
-                    }
-                  ,label: 'تاريخ الميلاد'),
-              SizedBox(height: 16),
-              _buildTextField(icon:Icons.email,label: 'البريد الإلكتروني'),
-              SizedBox(height: 16),
-              _buildPhoneNumberField(),
-              SizedBox(height: 16),
-              _buildTextField(label: 'المحافظة'),
-              SizedBox(height: 16),
-              _buildGenderField(),
-              SizedBox(height: 16),
-              _buildTextField(label: 'العنوان التفصيلي'),
-              SizedBox(height: 32),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MainColor, // Set the background color to blue
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Save edits
-                  }
-                },
-
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 10.0),
-                  child: Text('حفظ التعديلات',style: TextStyle(
-                    fontFamily: 'cairo',
-                    fontSize: 21.0,
-                    color: Colors.white
-                  ),),
+      ),
+      body: isLoading
+          ? GenerelLoadingPage()
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: nameController,
+                        decoration: InputDecoration(labelText: 'الاسم', border: OutlineInputBorder()),
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: descController,
+                        decoration: InputDecoration(labelText: 'الوصف', border: OutlineInputBorder()),
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: minPriceController,
+                        decoration: InputDecoration(labelText: 'سعر المعاينة', border: OutlineInputBorder()),
+                        keyboardType: TextInputType.number,
+                      ),
+                      SizedBox(height: 20),
+                      PersonalImagePickerWidget(
+                        image: personalImage,
+                        imageTitle: "الصورة الشخصية",
+                        getImageFunction: () => _pickImage((image) => personalImage = image),
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 400, // Fixed height for the grid view
+                        child: GridView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            crossAxisCount: 2,
+                          ),
+                          children: [
+                            PastWorkImagePickerWidget(
+                              getImageFunction: () => _pickImage((image) => workImageOne = image),
+                              image: workImageOne,
+                            ),
+                            PastWorkImagePickerWidget(
+                              getImageFunction: () => _pickImage((image) => workImageTwo = image),
+                              image: workImageTwo,
+                            ),
+                            PastWorkImagePickerWidget(
+                              getImageFunction: () => _pickImage((image) => workImageThree = image),
+                              image: workImageThree,
+                            ),
+                            PastWorkImagePickerWidget(
+                              getImageFunction: () => _pickImage((image) => workImageFour = image),
+                              image: workImageFour,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                      ElevatedButton(
+                        onPressed: _updateProfile,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MainColor,
+                          fixedSize: Size(MediaQuery.of(context).size.width / 1.1, 50),
+                        ),
+                        child: const Text(
+                          "تاكيد",
+                          style: TextStyle(
+                            fontFamily: 'cairo',
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+            ),
+    );
+  }
+}
+
+class PersonalImagePickerWidget extends StatelessWidget {
+  final String imageTitle;
+  final VoidCallback getImageFunction;
+  final File? image;
+  const PersonalImagePickerWidget({
+    Key? key,
+    required this.imageTitle,
+    required this.getImageFunction,
+    required this.image,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        InkWell(
+          onTap: getImageFunction,
+          child: Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              width: 168,
+              height: 112,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  image == null
+                      ? Container(
+                          width: 110,
+                          height: 110,
+                          child: Image.asset(
+                            "assets/photo/takePhoto.png",
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Container(
+                          width: 110,
+                          height: 110,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: FileImage(image!)),
+                          ),
+                        ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Text(
+          imageTitle,
+          style: const TextStyle(
+            fontFamily: 'cairo',
+            color: MainColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PastWorkImagePickerWidget extends StatelessWidget {
+  final VoidCallback getImageFunction;
+  final File? image;
+  const PastWorkImagePickerWidget({
+    Key? key,
+    required this.getImageFunction,
+    required this.image,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: getImageFunction,
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(40),
+        child: Container(
+          width: 168,
+          height: 112,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              image == null
+                  ? Container(
+                      width: 110,
+                      height: 110,
+                      child: Image.asset(
+                        "assets/photo/takePhoto.png",
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Container(
+                      width: 110,
+                      height: 110,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: FileImage(image!)),
+                      ),
+                    ),
             ],
           ),
         ),
       ),
     );
   }
-
-
-
-  Widget _buildPhoneNumberField() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextFormField(
-
-        decoration: InputDecoration(
-          suffixIcon: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/photo/download.jpg',
-              width: 20,
-              height: 20,
-            ),
-          ),
-          suffixText: '+20 ',
-          labelText: 'رقم الهاتف',
-          labelStyle: TextStyle(
-              fontFamily: 'cairo',
-              color: Colors.grey[500]
-          ),
-          fillColor: Colors.grey[200],
-          filled: true,
-          border :InputBorder.none,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 0.1
-              )
-          ),
-          focusedBorder: InputBorder.none,
-        ),
-        keyboardType: TextInputType.phone,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'الرجاء إدخال رقم الهاتف';
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-   Widget _buildTextField({IconData? icon,VoidCallback? fun,TextEditingController? con ,required String label}) {
-     return Directionality(
-       textDirection: TextDirection.rtl,
-       child: TextFormField(
-         controller: con,
-         decoration: InputDecoration(
-           suffixIcon: IconButton(onPressed: fun,
-               icon: Icon(icon,color: Colors.grey[500],)),
-           labelText: label,
-           border: InputBorder.none,
-           enabledBorder: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(15),
-             borderSide: BorderSide(
-               color: Colors.grey,
-               width: 0.1
-             )
-           ),
-           focusedBorder: InputBorder.none,
-           labelStyle: TextStyle(
-             fontFamily: 'cairo',
-             color: Colors.grey[500]
-           ),
-           fillColor: Colors.grey[200],
-           filled: true,
-         ),
-         validator: (value) {
-           if (value == null || value.isEmpty) {
-             return 'الرجاء إدخال $label';
-           }
-           return null;
-         },
-       ),
-     );
-   }
-
-  Widget _buildGenderField() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextFormField(
-        controller: _genderController,
-        readOnly: true,
-        decoration: InputDecoration(
-          labelText: 'الجنس',
-          labelStyle: TextStyle(
-              fontFamily: 'cairo',
-              color: Colors.grey[500]
-          ),
-          fillColor: Colors.grey[200],
-          filled: true,
-          border: InputBorder.none,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 0.1
-              )
-          ),
-          focusedBorder: InputBorder.none,
-          suffixIcon: DropdownButton<String>(
-            icon: Icon(Icons.expand_more_sharp,size: 30,),
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedGender = newValue;
-                _genderController.text = newValue!;
-              });
-            },
-            items: <String>['ذكر', 'أنثى'].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'الرجاء اختيار الجنس';
-          }
-          return null;
-        },
-      ),
-    );
-  }
 }
+
+
