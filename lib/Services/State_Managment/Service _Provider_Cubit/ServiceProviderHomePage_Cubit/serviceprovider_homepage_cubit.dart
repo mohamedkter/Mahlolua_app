@@ -11,7 +11,7 @@ class ServiceProviderHomePageCubit
   late int countOfOrders;
   List<Reservation> waitingOrders = [];
   late int total_rates;
-  late String average_rating;
+  late String? average_rating;
   late String status;
   Future<void> getWaitingOrders() async {
     emit(ServiceProviderHomePageLoading());

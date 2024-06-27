@@ -140,7 +140,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      BlocProvider.of<ServiceProviderHomePageCubit>(context).average_rating,
+                                      BlocProvider.of<ServiceProviderHomePageCubit>(context).average_rating??"0.0",
                                       style: const TextStyle(
                                           fontFamily: "Cairo",
                                           fontSize: 15,
