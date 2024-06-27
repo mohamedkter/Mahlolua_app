@@ -24,7 +24,7 @@ class ServiceProviderPage extends StatefulWidget {
 }
 
 class _ServiceProviderPageState extends State<ServiceProviderPage> {
-  int price = 30;
+
   @override
   void initState() {
     BlocProvider.of<FeedbackCubit>(context)
@@ -53,7 +53,8 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                         fixedSize: Size(170, 50)),
                     onPressed: () {
                       Order obj = Order();
-                      obj.price = price;
+                      obj.price = int.parse(widget.serviceProvider.minPrice!.substring(0,2));
+                      obj.employeeId = widget.serviceProvider.id;
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ReservationPage(obj: obj)));
                     },
