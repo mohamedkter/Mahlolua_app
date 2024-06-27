@@ -483,7 +483,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                                         style: const TextStyle(
                                           fontFamily: "Cairo",
                                           fontSize: 15,
-                                          color: Colors.black,
+                                          color: MainColor,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),

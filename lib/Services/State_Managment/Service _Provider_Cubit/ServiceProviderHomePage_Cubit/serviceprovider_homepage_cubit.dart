@@ -18,12 +18,13 @@ class ServiceProviderHomePageCubit
     final employeeId = CacheData.getData(key: "employee_id");
     getCountOfOrders();
     List<Reservation> orders = await GetMethods.getEmployeeOrders(employeeId);
-
+    List<Reservation> order = [];
     for (var ord in orders) {
       if (ord.status == "waiting") {
-        waitingOrders.add(ord);
+        order.add(ord);
       }
     }
+    waitingOrders = order;
     dynamic resp = await GetMethods.getServiceProviderProfile(employeeId);
     if (resp != null) {
       total_rates = resp["total_rates"];
