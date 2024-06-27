@@ -79,6 +79,7 @@ class _AllReservationPageState extends State<ServiceProviderAllReservationPage>
                     ),
                     Container(
                       decoration: BoxDecoration(
+                        image: DecorationImage(image:AssetImage("assets/photo/logo.png"),),
                           color: MainColor,
                           borderRadius: BorderRadius.circular(10)),
                       width: 30,

@@ -35,6 +35,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
+                          image: DecorationImage(image:AssetImage("assets/photo/logo.png"),),
                             color: MainColor,
                             borderRadius: BorderRadius.circular(10)),
                         width: 30,

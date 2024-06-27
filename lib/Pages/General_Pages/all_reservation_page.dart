@@ -26,7 +26,7 @@ class _AllReservationPageState extends State<AllReservationPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _tabController.index=2;
+    _tabController.index = 2;
     BlocProvider.of<AllReservitionPageCubit>(context)
         .getAllReservationForUser(CacheData.getData(key: "userId"));
   }
@@ -74,6 +74,9 @@ class _AllReservationPageState extends State<AllReservationPage>
                     ),
                     Container(
                       decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage("assets/photo/logo.png"),
+                          ),
                           color: MainColor,
                           borderRadius: BorderRadius.circular(10)),
                       width: 30,
