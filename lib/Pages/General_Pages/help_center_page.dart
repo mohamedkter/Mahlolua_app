@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/General_Pages/help_center1_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpCenterPage extends StatefulWidget {
   @override
@@ -33,7 +35,9 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                     image: DecorationImage(image:AssetImage("assets/photo/logo.png"),),
+                    image: DecorationImage(
+                      image: AssetImage("assets/photo/logo.png"),
+                    ),
                     color: MainColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -44,16 +48,15 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
             ),
           ),
           bottom: TabBar(
-            
             indicatorColor: MainColor,
             indicatorSize: TabBarIndicatorSize.tab, // زيادة عرض الـ indicator
             indicatorWeight: 3.0,
             labelStyle: TextStyle(
-              fontSize: 19.0,
-              fontFamily: 'cairo',
-              color: MainColor,
-              fontWeight: FontWeight.bold),
-              // زيادة طول الخط
+                fontSize: 19.0,
+                fontFamily: 'cairo',
+                color: MainColor,
+                fontWeight: FontWeight.bold),
+            // زيادة طول الخط
             tabs: [
               Tab(
                 child: Text(
@@ -67,7 +70,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
                     letterSpacing: -0.40799999237060547,
                   ),
                   textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.right,  // تغيير محاذاة النص
+                  textAlign: TextAlign.right, // تغيير محاذاة النص
                 ),
               ),
               Tab(
@@ -82,7 +85,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
                     letterSpacing: -0.40799999237060547,
                   ),
                   textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.right,  // تغيير محاذاة النص
+                  textAlign: TextAlign.right, // تغيير محاذاة النص
                 ),
               ),
             ],
@@ -90,9 +93,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
         ),
         body: TabBarView(
           children: [
-            
             ContactUsTab(),
-            HelpCenterPage1(), // مباشرة إلى الصفحة الثانية بدون تعيين تبويبات جديدة
+            HelpCenterPage1(),
           ],
         ),
       ),
@@ -101,6 +103,13 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
 }
 
 class ContactUsTab extends StatelessWidget {
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -108,12 +117,44 @@ class ContactUsTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          HelpCenterBox(text: "خدمة العملاء"),
-          HelpCenterBox(text: "واتساب"),
-          HelpCenterBox(text: "موقع الويب"),
-          HelpCenterBox(text: "فيسبوك"),
-          HelpCenterBox(text: "تطبيق X"),
-          HelpCenterBox(text: "انستجرام"),
+          GestureDetector(
+              onTap: () {
+                // _launchUrl("");
+              },
+              child: HelpCenterBox(text: "خدمة العملاء")),
+          GestureDetector(
+              onTap: () async {
+                final Uri smsLaunchUri = Uri(
+                  scheme: 'sms',
+                  path: '+2011005763000',
+                  queryParameters: <String, String>{
+                    'body': Uri.encodeComponent('احتاج الي مساعده'),
+                  },
+                );
+                await launchUrl(smsLaunchUri);
+              },
+              child: HelpCenterBox(text: "واتساب")),
+          GestureDetector(
+              onTap: () {
+                _launchUrl("https://mahllola.online");
+              },
+              child: HelpCenterBox(text: "موقع الويب")),
+          GestureDetector(
+              onTap: () {
+                _launchUrl(
+                    "https://www.facebook.com/profile.php?id=61560792118858");
+              },
+              child: HelpCenterBox(text: "فيسبوك")),
+          GestureDetector(
+              onTap: () {
+                _launchUrl("https://x.com/Mahloula_2024");
+              },
+              child: HelpCenterBox(text: "تطبيق X")),
+          GestureDetector(
+              onTap: () {
+                _launchUrl("https://www.instagram.com/mahloula2024/");
+              },
+              child: HelpCenterBox(text: "انستجرام")),
         ],
       ),
     );
@@ -147,7 +188,6 @@ class HelpCenterBox extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(right: 50.0),
           child: Row(
-            
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
@@ -170,7 +210,3 @@ class HelpCenterBox extends StatelessWidget {
     );
   }
 }
-
-
-
-

@@ -12,7 +12,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const Text(
-                "  مركز المساعده",
+                "سياسة الخصوصية",
                 style: TextStyle(
                     fontFamily: 'cairo',
                     fontSize: 23.0,
