@@ -240,6 +240,67 @@ static Future<void> changeOrderStatus(int orderId, String newStatus) async {
       }
     }
   }
+
+  
+static Future<dynamic> SearchFunction(String query) async {
+    final String url = 'https://mahllola.online/api/employee/search';
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = {
+      'query': query,
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+        print('employees details: ${response.data["allemployee"]}');
+        return response.data["allemployee"];
+      } else {
+        print('Failed to get employees: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> changeServiceProviderId(String state) async {
+    final String url = 'https://mahllola.online/api/employee/changeEmployeeStatus/${CacheData.getData(key: "employee_id")}';
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = {
+      'status': state,
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+      print(response.data);
+        return response.data;
+      } else {
+        print('Failed to get employees: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
 } 
 
 

@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/user_notification_model.dart'; // استبدال باسم الملف الصحيح
+import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
-import '../../Constants/Color_Constants.dart';
-import '../../Services/Data/cache_data.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
+import '../../../Constants/Color_Constants.dart';
 
 class UserNotificationSettingsScreen extends StatefulWidget {
   @override
@@ -18,9 +21,8 @@ class _NotificationSettingsScreenState
   @override
   void initState() {
     super.initState();
-    //final userId = CacheData.getData(key: "user_id");
-    futureNotifications =  GetMethods.getUserNotifications(1);
-       // استبدال برقم المستخدم الفعلي
+    futureNotifications = GetMethods.getUserNotifications(
+        CacheData.getData(key: "employee_id") ?? CacheData.getData(key: "userId"));
   }
 
   @override
@@ -63,11 +65,11 @@ class _NotificationSettingsScreenState
         future: futureNotifications,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return GenerelLoadingPage();
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No notifications available'));
+            return Center(child: Text('لا يوجد اشعارات'));
           } else {
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -78,16 +80,14 @@ class _NotificationSettingsScreenState
                   return Card(
                     color: Colors.white,
                     elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(color: Colors.black, width: 0.8),
-                    ),
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: ExpansionTile(
+
                       leading: Padding(
                         padding: const EdgeInsets.only(top: 10.0, left: 10),
                         child: Icon(Icons.notifications),
                       ),
+
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -102,12 +102,12 @@ class _NotificationSettingsScreenState
                               ),
                             ),
                           ),
-                          
                         ],
                       ),
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
+                          padding: const EdgeInsets.only(
+                              top: 15, left: 10, right: 10),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -123,7 +123,6 @@ class _NotificationSettingsScreenState
                                 ),
                               ),
                               const SizedBox(height: 5),
-                            
                               Text(
                                 'التوقيت: ${notification.timestamp}',
                                 style: TextStyle(

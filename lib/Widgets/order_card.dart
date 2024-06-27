@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Constants/ObjectOrder.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_all_resevation_page.dart';
+import 'package:mahloula/Pages/User_Pages/check_page.dart';
+import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
 import '../../models/reservation_model.dart';
 
 class OrderCard extends StatefulWidget {
@@ -70,7 +75,7 @@ class _OrderCardState extends State<OrderCard> {
                       ),
                       Text(
                           widget.order.dateOfDelivery,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 15,
                             color: Colors.black,
@@ -81,7 +86,8 @@ class _OrderCardState extends State<OrderCard> {
                   Container(
                     width: 100,
                     height: 100,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image: NetworkImage("$PartImagePath${widget.order.userImage}")),
                         color: MainColor,
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                   ),
@@ -187,6 +193,7 @@ class _OrderCardState extends State<OrderCard> {
                               SizedBox(
                                 height: 15,
                               ),
+                              widget.order.status=="waiting"?
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -194,16 +201,25 @@ class _OrderCardState extends State<OrderCard> {
                                     btn_backgroung: MainColor,
                                     mainColor: Colors.white,
                                     btn_text: "قبول الطلب",
-                                    btn_function: (){print("Accept");},
+                                    btn_function: (){BlocProvider.of<AllReservitionPageCubit>(context).changeOrderStatusForServiceProvider(int.parse(widget.order.id),"accepted");},
                                   ),
                                   OredrCardButton(
                                     btn_backgroung: Colors.white,
                                     mainColor: MainColor,
                                     btn_text: "رفض الطلب",
-                                    btn_function: (){print("rejected");},
+                                    btn_function: (){BlocProvider.of<AllReservitionPageCubit>(context).changeOrderStatusForServiceProvider(int.parse(widget.order.id),"rejected");},
                                   )
                                 ],
-                              )
+                              ):CompletedAndCanceledReserveButton(btnFunctoin: (){
+                                 Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => CheckPage(
+                                                    reservation:
+                                                        widget.order),
+                                              ),
+                                            );
+                              },btnText: "عرض الفاتوره الاكترونيه",)
                             ],
                           ),
                         ),

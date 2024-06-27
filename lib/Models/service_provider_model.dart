@@ -1,4 +1,3 @@
-import 'package:mahloula/Models/service_model.dart';
 
 class ServiceProvider {
   int? id;
@@ -21,7 +20,19 @@ class ServiceProvider {
       this.service,
       this.total_rates,
       this.average_rating});
-
+ static List<ServiceProvider> fromJsonArray(List<dynamic> jsonArray) {
+    return jsonArray.map((json) {
+      return ServiceProvider(
+        id: json['employee']['id'],
+        desc: json['employee']['desc'],
+        minPrice: json['employee']['min_price'],
+        status: json['employee']['status'],
+        total_rates:json['employee']['total_rates'],
+        average_rating:json['employee']['average_rating'],
+        user: json['user'] != null ? User.fromJson(json['user']) : null,
+        service: json['service'] != null ? Service.fromJson(json['service']) : null,
+      );
+    }).toList();}
   ServiceProvider.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     total_rates = json["total_rates"];
@@ -68,5 +79,17 @@ class Works {
   Works.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     imageUrl = json['image_url'];
+  }
+}
+class Service{
+ final int id;
+ final String name;
+
+Service({required this.id, required this.name});
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 }

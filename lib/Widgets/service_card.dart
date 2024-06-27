@@ -5,6 +5,7 @@ import 'package:mahloula/Services/State_Managment/cubit.dart';
 class ServiceCard extends StatefulWidget {
   final int? id;
   final String? ServiceProviderName;
+  final String? image;
   final String? Price;
   final double? rate;
   final int NumberResidents;
@@ -19,6 +20,7 @@ class ServiceCard extends StatefulWidget {
     required this.NumberResidents,
     required this.ProvidedService,
     required this.ToDoFunction,
+    required this.image,
   });
 
   @override
@@ -76,9 +78,10 @@ class _ServiceCardState extends State<ServiceCard> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
                         style: const TextStyle(
-                            fontFamily: "Cairo", fontSize: 15, color: Colors.grey),
+                            fontFamily: "Cairo",
+                            fontSize: 15,
+                            color: Colors.grey),
                       ),
-
                     ),
                     Container(
                       width: 150,
@@ -87,7 +90,6 @@ class _ServiceCardState extends State<ServiceCard> {
                         child: Text(
                           widget.ProvidedService,
                           style: const TextStyle(
-                          
                               fontFamily: "Cairo",
                               fontSize: 23,
                               color: Colors.black,
@@ -100,7 +102,7 @@ class _ServiceCardState extends State<ServiceCard> {
                     ),
                     Text(
                       "${widget.Price}\$",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: "Cairo",
                           fontSize: 24,
                           color: MainColor,
@@ -108,7 +110,7 @@ class _ServiceCardState extends State<ServiceCard> {
                     ),
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           "تقييم",
                           style: TextStyle(
                               fontFamily: "Cairo",
@@ -135,7 +137,14 @@ class _ServiceCardState extends State<ServiceCard> {
             Container(
               width: 120,
               height: 120,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
+                  image: widget.image != null
+                      ? DecorationImage(
+                          image: NetworkImage(PartImagePath + "${widget.image}"),
+                          fit: BoxFit.cover)
+                      : DecorationImage(
+                          image: AssetImage("assets/photo/profileImage.jpg"),
+                          fit: BoxFit.cover),
                   color: MainColor,
                   borderRadius: BorderRadius.all(Radius.circular(30))),
             )

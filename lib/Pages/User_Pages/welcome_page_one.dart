@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:mahloula/Pages/identify_page.dart';
-import 'package:mahloula/Pages/welcome_page_two.dart';
+import 'package:mahloula/Pages/General_Pages/identify_page.dart';
+import 'package:mahloula/Pages/General_Pages/welcome_page_two.dart';
 
 class WelcomePageOne extends StatefulWidget {
   const WelcomePageOne({super.key});

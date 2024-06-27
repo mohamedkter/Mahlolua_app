@@ -5,11 +5,11 @@ import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/specific_service_page.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_status.dart';
-import '../../Constants/Color_Constants.dart';
-import '../../Widgets/custom_reserve_card.dart';
-import '../../models/reservation_model.dart';
-import '../../Services/Api/get_methods.dart';
-import '../../Services/Data/cache_data.dart';
+import '../../../Constants/Color_Constants.dart';
+import '../../../Widgets/custom_reserve_card.dart';
+import '../../../models/reservation_model.dart';
+import '../../../Services/Api/get_methods.dart';
+import '../../../Services/Data/cache_data.dart';
 
 class AllReservationPage extends StatefulWidget {
   AllReservationPage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _AllReservationPageState extends State<AllReservationPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _tabController.index=2;
+    _tabController.index = 2;
     BlocProvider.of<AllReservitionPageCubit>(context)
         .getAllReservationForUser(CacheData.getData(key: "userId"));
   }
@@ -74,6 +74,9 @@ class _AllReservationPageState extends State<AllReservationPage>
                     ),
                     Container(
                       decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage("assets/photo/logo.png"),
+                          ),
                           color: MainColor,
                           borderRadius: BorderRadius.circular(10)),
                       width: 30,

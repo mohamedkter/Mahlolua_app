@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_notification_model.dart';
-import 'package:mahloula/Models/employee_orders_model.dart';
 import 'package:mahloula/Models/user_notification_model.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import '../../Models/voucher_model.dart';
@@ -287,6 +286,29 @@ class GetMethods {
       }
     } catch (e) {
       print('Error getting employees: $e');
+      return null;
+    }
+  }
+
+  static Future<dynamic> getServiceProviderProfile(
+      int serviceProviderId) async {
+    final String url =
+        'https://mahllola.online/api/employee/employeeProfile/$serviceProviderId';
+    try {
+      final Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        dynamic data = response.data['data'];
+        return data;
+      } else {
+        print('Failed to get Service Provider Profile: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error getting Service Provider Profile: $e');
       return null;
     }
   }

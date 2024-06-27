@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Models/service_provider_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
-import 'package:mahloula/Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/error_page.dart';
 import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_status.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_status.dart';
@@ -77,7 +77,11 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                 child: ListView.builder(
                   itemBuilder: (context, index) => GestureDetector(
                     child: ServiceCard(
+<<<<<<< HEAD
                       id: serviceProviders[index].id,
+=======
+                      image:serviceProviders[index].user!.image??"" ,
+>>>>>>> e7a7180855432b988c2c7e6332d9dd56cb2a958c
                       NumberResidents: serviceProviders[index].total_rates??0,
                       Price: serviceProviders[index].minPrice,
                       ProvidedService: serviceProviders[index].service!.name,

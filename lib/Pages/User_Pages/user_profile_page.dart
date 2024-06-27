@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
-import 'package:mahloula/Pages/help_center_page.dart';
-import 'package:mahloula/Pages/privacy_policy_page.dart';
+import 'package:mahloula/Pages/General_Pages/help_center_page.dart';
+import 'package:mahloula/Pages/General_Pages/privacy_policy_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -52,6 +52,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
+                      image: const DecorationImage(image:AssetImage("assets/photo/logo.png"),),
                         color: MainColor,
                         borderRadius: BorderRadius.circular(10)),
                     width: 30,

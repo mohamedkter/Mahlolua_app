@@ -7,7 +7,7 @@ import 'package:mahloula/Models/order_model.dart';
 import 'package:mahloula/Models/service_provider_model.dart';
 import 'package:mahloula/Models/feedback_model.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
-import 'package:mahloula/Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/error_page.dart';
 import 'package:mahloula/Services/State_Managment/FeedBack_Cubit/feedback_cubit.dart';
 import 'package:mahloula/Services/State_Managment/FeedBack_Cubit/feedback_states.dart';
 import 'package:read_more_text/read_more_text.dart';
@@ -29,7 +29,6 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
   void initState() {
     BlocProvider.of<FeedbackCubit>(context)
         .getServiceProviderByServiceId(widget.serviceProvider.id);
-    // print(BlocProvider.of<FeedbackCubit>(context).feedBacks[0].user?.name);
     super.initState();
   }
 
@@ -485,7 +484,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                                         style: const TextStyle(
                                           fontFamily: "Cairo",
                                           fontSize: 15,
-                                          color: Colors.black,
+                                          color: MainColor,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
