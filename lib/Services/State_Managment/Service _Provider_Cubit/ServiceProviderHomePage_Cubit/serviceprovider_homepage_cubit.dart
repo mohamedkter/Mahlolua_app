@@ -42,14 +42,20 @@ class ServiceProviderHomePageCubit
   }
 
   Future<void> changeServiceProviderState(String status) async {
+    emit(ServiceProviderHomePageLoading());
     dynamic resp = await PostMethods.changeServiceProviderId(status);
     if (resp != null) {
-      getWaitingOrders();
-      CacheData.setData(key: "employee_status", value: "$status");
-
+    await  getWaitingOrders();
       emit(ServiceProviderHomePageSuccess());
     } else {
       emit(ServiceProviderHomePageEmpty());
     }
+  }
+   Future<void> changeOrderStatusForServiceProviderInHomePage(
+      int orderId, String newStatus) async {
+    emit(ServiceProviderHomePageLoading());
+    await PostMethods.changeOrderStatus(orderId, newStatus);
+    await getWaitingOrders();
+    emit(ServiceProviderHomePageSuccess());
   }
 }

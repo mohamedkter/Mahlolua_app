@@ -10,11 +10,12 @@ import '../../models/reservation_model.dart';
 class OrderCard extends StatefulWidget {
   final Reservation order;
   final Color color;
-
+final VoidCallback acceptedFunctoin;
+final VoidCallback rejectedFunctoin;
   const OrderCard({
     super.key,
     required this.color,
-    required this.order,
+    required this.order, required this.acceptedFunctoin, required this.rejectedFunctoin,
   });
 
   @override
@@ -87,9 +88,9 @@ class _OrderCardState extends State<OrderCard> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage("$PartImagePath${widget.order.userImage}")),
+                      image: DecorationImage(image: NetworkImage("$PartImagePath${widget.order.userImage}"),fit: BoxFit.cover),
                         color: MainColor,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                        borderRadius: const BorderRadius.all(Radius.circular(30))),
                   ),
                 ],
               ),
@@ -201,13 +202,13 @@ class _OrderCardState extends State<OrderCard> {
                                     btn_backgroung: MainColor,
                                     mainColor: Colors.white,
                                     btn_text: "قبول الطلب",
-                                    btn_function: (){BlocProvider.of<AllReservitionPageCubit>(context).changeOrderStatusForServiceProvider(int.parse(widget.order.id),"accepted");},
+                                    btn_function: widget.acceptedFunctoin,
                                   ),
                                   OredrCardButton(
                                     btn_backgroung: Colors.white,
                                     mainColor: MainColor,
                                     btn_text: "رفض الطلب",
-                                    btn_function: (){BlocProvider.of<AllReservitionPageCubit>(context).changeOrderStatusForServiceProvider(int.parse(widget.order.id),"rejected");},
+                                    btn_function: widget.rejectedFunctoin,
                                   )
                                 ],
                               ):CompletedAndCanceledReserveButton(btnFunctoin: (){

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart'; // For date parsing and comparison
+import 'package:mahloula/Pages/General_Pages/not_found_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/specific_service_page.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
@@ -126,7 +127,7 @@ class _AllReservationPageState extends State<AllReservationPage>
               ],
             );
           } else {
-            return const NotFoundPage();
+            return const NotFoundPage(Message: "هناك خطا ما",);
           }
         }));
   }
@@ -134,7 +135,7 @@ class _AllReservationPageState extends State<AllReservationPage>
   Widget buildReservationList(
       String status, Color color, List<Reservation> reservations) {
     return reservations.isEmpty
-        ? const NotFoundPage()
+        ? const NotFoundPage(Message: "لا يوجد حجوزات من هذا النوع",)
         : ListView.builder(
             itemBuilder: (context, index) {
               return CustomReserveCard(

@@ -7,6 +7,7 @@ import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notificat
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_security_page.dart';
 import 'package:mahloula/Pages/General_Pages/help_center_page.dart';
 import 'package:mahloula/Pages/General_Pages/privacy_policy_page.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/users_feedbacks.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 
@@ -16,40 +17,43 @@ class ServiceProviderProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "الملف الشخصي",
-                        style: TextStyle(
-                            fontFamily: 'cairo',
-                            fontSize: 23.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(image:AssetImage("assets/photo/logo.png"),),
-                            color: MainColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: 30,
-                        height: 30,
-                      )
-                    ],
+                  const Text(
+                    "الملف الشخصي",
+                    style: TextStyle(
+                        fontFamily: 'cairo',
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/photo/logo.png"),
+                        ),
+                        color: MainColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    width: 30,
+                    height: 30,
                   )
                 ],
-              ),
-            ),),
+              )
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-           
             const SizedBox(
               height: 20,
             ),
@@ -74,7 +78,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(75),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image:  NetworkImage(
+                                    image: NetworkImage(
                                         "$PartImagePath${CacheData.getData(key: "image")}"))),
                           ),
                         ],
@@ -132,9 +136,8 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "تعديل الملف",
-              OptionFunction: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+              OptionFunction: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return EditProfile();
                 }));
               },
@@ -145,23 +148,27 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+              OptionFunction: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return NotificationSettingsScreen();
                 }));
               },
             ),
-             OptionCard(
+            OptionCard(
               OptionCardIcon: const Icon(
                 Icons.rate_review_rounded,
                 size: 32,
               ),
               OptionCardtext: "تقيمات العملاء",
-              OptionFunction: () {},
+              OptionFunction: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UsersFeedbacks()),
+                );
+              },
             ),
             OptionCard(
-              OptionCardIcon:const Icon(
+              OptionCardIcon: const Icon(
                 Icons.preview_rounded,
                 size: 32,
               ),
@@ -169,19 +176,19 @@ class ServiceProviderProfilePage extends StatelessWidget {
               OptionFunction: () {},
             ),
             OptionCard(
-              OptionCardIcon:const Icon(
+              OptionCardIcon: const Icon(
                 Icons.security_rounded,
                 size: 32,
               ),
               OptionCardtext: "الامان",
-              OptionFunction: ()
-              {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+              OptionFunction: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return SecuritySettingsScreen();
                 }));
               },
-            ), OptionCard(
-              OptionCardIcon:const Icon(
+            ),
+            OptionCard(
+              OptionCardIcon: const Icon(
                 Icons.lock_person,
                 size: 32,
               ),
@@ -194,7 +201,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               },
             ),
             OptionCard(
-              OptionCardIcon:const Icon(
+              OptionCardIcon: const Icon(
                 Icons.help_center_rounded,
                 size: 32,
               ),
@@ -215,13 +222,13 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: (){
-                       showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return const LogoutBottomSheet();
-                              });
+                    onTap: () {
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return const LogoutBottomSheet();
+                          });
                     },
                     child: Container(
                       width: 150,
@@ -237,7 +244,9 @@ class ServiceProviderProfilePage extends StatelessWidget {
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w700),
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Icon(
                             Icons.logout_rounded,
                             color: Colors.red,
