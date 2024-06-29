@@ -303,7 +303,7 @@ static Future<void> deleteLocation(int id) async {
       'city': "${loc.city}",
       'bitTitle':"${loc.bitTitle}",
       'street': "${loc.street}",
-      'specialMarque': "mark",
+      'specialMarque': "${loc.specialMarque}",
       'lat': "${loc.lat}",
       'long': "${loc.long}",
       'user_id': loc.user_id.toString(),

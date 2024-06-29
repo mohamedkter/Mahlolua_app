@@ -345,7 +345,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                                             Container(
                                                               width: 150,
                                                               child: Text(
-                                                                "شقه ${BlocProvider.of<AddressCubit>(context).locations[index]["id"]}",
+                                                                "${BlocProvider.of<AddressCubit>(context).locations[index]["specialMarque"]}",
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,

@@ -36,14 +36,14 @@ class AddressCubit extends Cubit<AddressState> {
     }
   }
 
-  Future<void> addAddress() async {
+  Future<void> addAddress(String locationTitle) async {
     emit(AddAddressState());
     dynamic res = await PostMethods.makeLocation(LocationModel(
         user_id: CacheData.getData(key: "userId"),
         city: place!.locality ?? "اسيوط",
         street: place!.street ?? " ",
         bitTitle: place!.name ?? " ",
-        specialMarque: place?.subLocality ?? "mark",
+        specialMarque: locationTitle ?? "Locatoin",
         lat: latLng!.latitude,
         long: latLng!.longitude));
         

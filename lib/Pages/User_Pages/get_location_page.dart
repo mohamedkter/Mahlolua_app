@@ -27,13 +27,13 @@ class GetLocationPage extends StatefulWidget {
 }
 
 class _GetLocationPageState extends State<GetLocationPage> {
-  //LatLng myLocation = LatLng(27.185696, 31.176038);
+  final formKey = GlobalKey<FormState>();
   MapType mapType = MapType.normal;
   List<Marker> marker = [];
   late LocationModel loc;
   double latitude = 0.0;
   double longitude = 0.0;
-
+  TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -228,7 +228,7 @@ class _GetLocationPageState extends State<GetLocationPage> {
                   height: 200,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width / 1.2,
                         height: 100,
                         child: Text(
@@ -255,7 +255,102 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                   elevation: 1,
                                   fixedSize: Size(350, 50)),
                               onPressed: () {
-                                BlocProvider.of<AddressCubit>(context).addAddress();
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                          child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.2,
+                                        height: 300,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            color: Colors.white),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 20),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Form(
+                                                key: formKey,
+                                                child: TextFormField(
+                                                  validator: (value){
+                                                    if (value=="") {
+                                                      return " قم باضافة اختصار حتي تتم العمليه ";
+                                                    }
+                                                  },
+                                                  autofocus: true,
+                                                  style: const TextStyle(
+                                                      fontSize: 20),
+                                                  decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: Colors.grey),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15))),
+                                                  controller:
+                                                      textEditingController,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              const Text(
+                                                "قم باضافة وصف لهذا الموقع",
+                                                style: TextStyle(
+                                                  fontFamily: "Cairo",
+                                                  fontSize: 20,
+                                                  color: MainColor,
+                                                ),
+                                              ),
+                                              const Text(
+                                                "مثال : منزل , شركه",
+                                                style: TextStyle(
+                                                  fontFamily: "Cairo",
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 30,
+                                              ),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      backgroundColor:
+                                                          MainColor,
+                                                      shadowColor: Colors.black,
+                                                      elevation: 1,
+                                                      fixedSize: Size(
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              1.4,
+                                                          50)),
+                                                  onPressed: () {
+                                                    if (formKey.currentState!.validate()) {
+                                                      BlocProvider.of<AddressCubit>(context).addAddress(textEditingController.text);
+                                                    Navigator.of(context).pop();
+                                                    }
+                                                  },
+                                                  child: const Text(
+                                                    "اضف الموقع",
+                                                    style: TextStyle(
+                                                      fontFamily: "Cairo",
+                                                      fontSize: 20,
+                                                      color: Color.fromARGB(
+                                                          255, 241, 242, 243),
+                                                    ),
+                                                  )),
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                                    });
+                                
                               },
                               child: const Text(
                                 "نعم هذا هو المكان",

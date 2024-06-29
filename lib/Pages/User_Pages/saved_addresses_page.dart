@@ -17,7 +17,6 @@ class SavedAddressesPage extends StatefulWidget {
 class _SavedAddressesPageState extends State<SavedAddressesPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<AddressCubit>(context).getAllAddresses();
   }
@@ -122,7 +121,7 @@ class _SavedAddressesPageState extends State<SavedAddressesPage> {
                                                   Container(
                                                     width: 150,
                                                     child: Text(
-                                                      "شقه ${BlocProvider.of<AddressCubit>(context).locations[index]["id"]}",
+                                                      "${BlocProvider.of<AddressCubit>(context).locations[index]["specialMarque"]}",
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       textAlign:
