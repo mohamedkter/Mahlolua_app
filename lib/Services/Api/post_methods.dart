@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Models/order_model.dart';
@@ -8,17 +8,95 @@ import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
 import '../../Models/location_model.dart';
+import '../../Pages/Service_Provider_Pages/all_worksImage_page.dart';
 
 class PostMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
     'accept': '*/*',
     'Content-Type': 'application/json',
-  //  'Authorization': 'Bearer '
+    // 'Authorization': 'Bearer '
   };
 
-//////////////////////////////// Make Order Method /////////////////////////////
+  // الطريقة الأولى لتحديث ملف التعريف الشخصي
+  static Future<bool> updateEmployeeProfile({
+    required int employeeId,
+    String? name,
+    String? description,
+    int? minPrice,
+    File? image,
+  }) async {
+    try {
+      final String url = 'https://mahllola.online/api/employee/editEmployeeProfile/$employeeId';
 
+      FormData formData = FormData.fromMap({
+        if (name != null) 'name': name,
+        if (description != null) 'des': description,
+        if (minPrice != null) 'min_price': minPrice,
+        if (image != null) 'image': await MultipartFile.fromFile(image.path, filename: 'profile_image.jpg'),
+      });
+
+      Response response = await dio.post(url, data: formData);
+ 
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  static Future<bool> updateWorkImages({
+    required int employeeId,
+    File? workImageOne,
+    File? workImageTwo,
+    File? workImageThree,
+    File? workImageFour,
+  }) async {
+    try {
+      final String url = 'https://mahllola.online/api/employee/updateWorksImage/$employeeId';
+
+      FormData formData = FormData.fromMap({
+        if (workImageOne != null) 'works[0][image]': await MultipartFile.fromFile(workImageOne.path, filename: 'work_image_1.jpg'),
+        if (workImageTwo != null) 'works[1][image]': await MultipartFile.fromFile(workImageTwo.path, filename: 'work_image_2.jpg'),
+        if (workImageThree != null) 'works[2][image]': await MultipartFile.fromFile(workImageThree.path, filename: 'work_image_3.jpg'),
+        if (workImageFour != null) 'works[3][image]': await MultipartFile.fromFile(workImageFour.path, filename: 'work_image_4.jpg'),
+      });
+
+      Response response = await dio.post(url, data: formData);
+
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+////////////////////////////////////
+static Future<bool> updateUserProfile({
+    required int userid,
+    String? name,
+    
+    
+    File? image,
+  }) async {
+    try {
+      final String url = 'https://mahllola.online/api/editUserProfile/$userid';
+
+      FormData formData = FormData.fromMap({
+        if (name != null) 'name': name,
+        
+        if (image != null) 'image': await MultipartFile.fromFile(image.path, filename: 'profile_image.jpg'),
+      });
+
+      Response response = await dio.post(url, data: formData);
+ 
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+//////////////////////////////// Make Order Method /////////////////////////////
 
    Future<void> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
@@ -52,7 +130,52 @@ class PostMethods {
     }
   }
 
+//////////////////// Update Work Images for employee ///////////////
+  Future<bool> updateProfileInfo(int userid, File? image,String imgName,String? name,String? desc,int? price) async {
+    try{
+      final String url = 'https://mahllola.online/api/employee/editEmployeeProfile/$userid';
+      FormData formData = FormData.fromMap({
+        if (name != null) 'name': name,
+        if (desc != null) 'desc': desc,
+        if (price != null) 'min_price': price,
+        if (image != null) '$imgName': await MultipartFile.fromFile(image.path, filename:imgName),
+      });
+      formData.fields.forEach((field) {
+        print('Field: ${field.key} = ${field.value}');
+      });
+      Response response = await dio.post(url, data: formData);
 
+      print('success');
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+    // try {
+    //   //final formData = FormData.fromMap(elmId.toMap());
+    //   if (image != null && image.files.isNotEmpty) {
+    //     final imageFile = image.files.first;
+    //     formData.files.addAll([imageFile]);
+    //   }
+    //   final response = await Dio().post(
+    //     url,
+    //     options: Options(
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     ),
+    //     data: formData,
+    //   );
+
+    // if (response.statusCode == 200) {
+    //   print('Success: ${response.statusCode}');
+    // } else {
+    //   print('Failed to update work image: ${response.statusCode}');
+    // }
+    // } catch (e) {
+    //   print('Error updating image: $e');
+    // }
+  }
   Future<void> makeOrderWithVoucher(Order order, {String? code}) async {
     Map x = {'voucher_code':code};
     const String url = 'https://mahllola.online/api/makeOrder';

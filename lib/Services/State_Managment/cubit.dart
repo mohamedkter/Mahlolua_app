@@ -15,11 +15,11 @@ class Cubite extends Cubit<Statees>{
   // required this.NumberResidents,
   // required this.ProvidedService,
   void createDatabase() {
-    openDatabase('bookmark', version: 1, onCreate: (database, version) async {
+    openDatabase('bookMark', version: 1, onCreate: (database, version) async {
       print('database created');
       await database
           .execute(
-          'CREATE TABLE BookMarks(id int,ServiceProviderName TEXT,Price TEXT,rate double,NumberResidents int,ProvidedService TEXT)')
+          'CREATE TABLE BookMarks(id int,ServiceProviderName TEXT,image TEXT,Price TEXT,rate double,NumberResidents int,ProvidedService TEXT)')
           .then((value) {
         print('table created');
       }).catchError((onError) {
@@ -39,6 +39,7 @@ class Cubite extends Cubit<Statees>{
   Future insertToDatabase({
     required int id,
     required String ServiceProviderName,
+    required String image,
     required String Price,
     required double rate,
     required int NumberResidents,
@@ -47,8 +48,8 @@ class Cubite extends Cubit<Statees>{
     await database?.transaction((txn) {
       txn
           .rawInsert(
-          'INSERT INTO BookMarks(id,ServiceProviderName,Price,rate,NumberResidents,ProvidedService)'
-              ' VALUES("$id","$ServiceProviderName","$Price","$rate","$NumberResidents","$ProvidedService")')
+          'INSERT INTO BookMarks(id,ServiceProviderName,image,Price,rate,NumberResidents,ProvidedService)'
+              ' VALUES("$id","$ServiceProviderName","$image","$Price","$rate","$NumberResidents","$ProvidedService")')
           .then((value) {
         print('$value inserted successfully');
         //info.add(value);

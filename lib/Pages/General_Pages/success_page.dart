@@ -4,7 +4,8 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 
 class SuccessPage extends StatelessWidget {
-  const SuccessPage({super.key, required this.upperMessage, required this.lowerMessage});
+  const SuccessPage({super.key, required this.upperMessage, required this.lowerMessage, required this.imageParh});
+final String imageParh;
 final String upperMessage;
 final String lowerMessage;
   @override
