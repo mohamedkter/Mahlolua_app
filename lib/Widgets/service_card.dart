@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Services/State_Managment/cubit.dart';
 
 class ServiceCard extends StatefulWidget {
@@ -10,7 +11,7 @@ class ServiceCard extends StatefulWidget {
   final double? rate;
   final int NumberResidents;
   final String ProvidedService;
-  final VoidCallback ToDoFunction;
+  final VoidCallback? ToDoFunction;
   const ServiceCard({
     super.key,
      this.id,
@@ -19,7 +20,7 @@ class ServiceCard extends StatefulWidget {
     required this.rate,
     required this.NumberResidents,
     required this.ProvidedService,
-    required this.ToDoFunction,
+     this.ToDoFunction,
     required this.image,
   });
 
@@ -46,22 +47,26 @@ class _ServiceCardState extends State<ServiceCard> {
             GestureDetector(
                 onTap: ()
                 {
-                  setState(() {
-                    bookMarkClicked = !bookMarkClicked;
-                    if(bookMarkClicked){
+                    if(!bookMarkClicked){
                       Cubite.get(context).insertToDatabase(
                           id: widget.id!,
                           ServiceProviderName: widget.ServiceProviderName!,
+                          image: widget.image!,
                           Price: widget.Price!,
                           rate: widget.rate!,
                           NumberResidents: widget.NumberResidents,
                           ProvidedService: widget.ProvidedService
                       );
+                      setState(() {
+                        bookMarkClicked = !bookMarkClicked;
+                      });
                     }else
                       {
                         Cubite.get(context).deleteFromDatabase(id: widget.id!);
+                       setState(() {
+                         bookMarkClicked = !bookMarkClicked;
+                       });
                       }
-                  });
                 },
                 child: bookMarkClicked ? Icon(Icons.bookmark, size: 27,color: MainColor,) :
                 Icon(Icons.bookmark, size: 27,)),

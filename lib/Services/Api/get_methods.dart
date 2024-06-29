@@ -173,6 +173,27 @@ class GetMethods {
     }
   }
 
+  //////////////////// Get Work Images for employee ///////////////
+  Future<Map> getWorkImages(int elmId, int index) async {
+    final String url = 'https://mahllola.online/api/employee/showEmployeeLastWorks/$elmId';
+    try {
+      final Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['Employee Work Image'][index];
+      } else {
+        print('Failed to get service details: ${response.statusCode}');
+        return {};
+      }
+    } catch (e) {
+      print('Error getting service details: $e');
+      return {};
+    }
+  }
+
 //////////////////// Get Count of Order for employee ///////////////
 
   static Future<int> getCountOrders(int employeId) async {

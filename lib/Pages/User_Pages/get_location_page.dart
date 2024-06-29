@@ -309,12 +309,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
                 lat: latitude,
                 long: longitude
             );
-          print(loc.user_id);
-          print(loc.city);
-          print(loc.street);
-          print(loc.bitTitle);
-          print(loc.lat);
-          print(loc.long);
            PostMethods.makeLocation(loc);
 
           widget.obj?.userId = CacheData.getData(key: "userId");

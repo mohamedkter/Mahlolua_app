@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Models/order_model.dart';
@@ -6,6 +8,7 @@ import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
 import '../../Models/location_model.dart';
+import '../../Pages/Service_Provider_Pages/all_worksImage_page.dart';
 
 class PostMethods {
   static final Dio dio = Dio();
@@ -16,7 +19,6 @@ class PostMethods {
   };
 
 //////////////////////////////// Make Order Method /////////////////////////////
-
 
    Future<void> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
@@ -50,7 +52,93 @@ class PostMethods {
     }
   }
 
+  //////////////////// Update Work Images for employee ///////////////
+  Future<bool> updateWorkImages(int userid, File? image,String name) async {
+    try{
+      final String url = 'https://mahllola.online/api/employee/updateWorksImage/$userid';
+      FormData formData = FormData.fromMap({
 
+        if (image != null) '$name': await MultipartFile.fromFile(image.path, filename: 'profile_image.jpg'),
+      });
+      Response response = await dio.post(url, data: formData);
+
+      print('success');
+      return response.statusCode == 200;
+  } catch (e) {
+  print(e);
+  return false;
+  }
+    // try {
+    //   //final formData = FormData.fromMap(elmId.toMap());
+    //   if (image != null && image.files.isNotEmpty) {
+    //     final imageFile = image.files.first;
+    //     formData.files.addAll([imageFile]);
+    //   }
+    //   final response = await Dio().post(
+    //     url,
+    //     options: Options(
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     ),
+    //     data: formData,
+    //   );
+
+      // if (response.statusCode == 200) {
+      //   print('Success: ${response.statusCode}');
+      // } else {
+      //   print('Failed to update work image: ${response.statusCode}');
+      // }
+    // } catch (e) {
+    //   print('Error updating image: $e');
+    // }
+  }
+//////////////////// Update Work Images for employee ///////////////
+  Future<bool> updateProfileInfo(int userid, File? image,String imgName,String? name,String? desc,int? price) async {
+    try{
+      final String url = 'https://mahllola.online/api/employee/editEmployeeProfile/$userid';
+      FormData formData = FormData.fromMap({
+        if (name != null) 'name': name,
+        if (desc != null) 'desc': desc,
+        if (price != null) 'min_price': price,
+        if (image != null) '$imgName': await MultipartFile.fromFile(image.path, filename:imgName),
+      });
+      formData.fields.forEach((field) {
+        print('Field: ${field.key} = ${field.value}');
+      });
+      Response response = await dio.post(url, data: formData);
+
+      print('success');
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+    // try {
+    //   //final formData = FormData.fromMap(elmId.toMap());
+    //   if (image != null && image.files.isNotEmpty) {
+    //     final imageFile = image.files.first;
+    //     formData.files.addAll([imageFile]);
+    //   }
+    //   final response = await Dio().post(
+    //     url,
+    //     options: Options(
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     ),
+    //     data: formData,
+    //   );
+
+    // if (response.statusCode == 200) {
+    //   print('Success: ${response.statusCode}');
+    // } else {
+    //   print('Failed to update work image: ${response.statusCode}');
+    // }
+    // } catch (e) {
+    //   print('Error updating image: $e');
+    // }
+  }
   Future<void> makeOrderWithVoucher(Order order, {String? code}) async {
     Map x = {'voucher_code':code};
     const String url = 'https://mahllola.online/api/makeOrder';

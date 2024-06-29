@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/all_worksImage_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_edit_profile.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_security_page.dart';
@@ -11,8 +15,17 @@ import 'package:mahloula/Pages/Service_Provider_Pages/users_feedbacks.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/logout_bottom_sheet.dart';
 
-class ServiceProviderProfilePage extends StatelessWidget {
-  const ServiceProviderProfilePage({super.key});
+import '../../Services/Api/post_methods.dart';
+
+class ServiceProviderProfilePage extends StatefulWidget {
+   ServiceProviderProfilePage({super.key});
+
+  @override
+  State<ServiceProviderProfilePage> createState() => _ServiceProviderProfilePageState();
+}
+
+class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage> {
+  File? img;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +100,27 @@ class ServiceProviderProfilePage extends StatelessWidget {
                           bottom: 0,
                           right: 0,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: ()async
+                              {
+                                final picker = ImagePicker();
+                                final pickedFile =
+                                    await picker.pickImage(source: ImageSource.gallery);
+
+                                if (pickedFile != null) {
+                                  setState(() {
+                                    img = File(pickedFile.path);
+                                  });
+                                } else {
+                                  print('No image selected.');
+                                }
+                                PostMethods().updateProfileInfo(
+                                    CacheData.getData(key: "userId"),
+                                    img,'image',
+                                    CacheData.getData(key: "name"),
+                                    'GG',
+                                    50
+                                );
+                              },
                               icon: Container(
                                   width: 25,
                                   height: 25,
@@ -173,7 +206,12 @@ class ServiceProviderProfilePage extends StatelessWidget {
                 size: 32,
               ),
               OptionCardtext: "الأعمال السابقة",
-              OptionFunction: () {},
+              OptionFunction: ()
+              {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return WorkImages();
+                }));
+              },
             ),
             OptionCard(
               OptionCardIcon: const Icon(
