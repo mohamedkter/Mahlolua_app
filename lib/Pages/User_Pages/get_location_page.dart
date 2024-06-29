@@ -4,16 +4,18 @@ import 'package:flutter/widgets.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mahloula/Constants/ObjectOrder.dart';
+import 'package:mahloula/Models/location_model.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import '../../Models/order_model.dart';
-import '../General_Pages/all_reservation_page.dart';
+import '../../Services/Api/get_methods.dart';
 import 'home_page.dart';
 
 class GetLocationPage extends StatefulWidget {
-  const GetLocationPage({this.obj, super.key});
+  const GetLocationPage({this.obj,this.code, super.key});
+
+  final String? code;
   final Order? obj;
   @override
   State<GetLocationPage> createState() => _GetLocationPageState();
@@ -22,6 +24,7 @@ class GetLocationPage extends StatefulWidget {
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
+
 
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
@@ -46,10 +49,18 @@ Future<Position> _determinePosition() async {
 class _GetLocationPageState extends State<GetLocationPage> {
   LatLng myLocation = LatLng(27.185696, 31.176038);
 
+  List<dynamic> locations = [];
+  List<String> cities = [];
   TextEditingController textEditingController = TextEditingController();
   List<Marker> marker = [];
-
   TextEditingController descController = TextEditingController();
+  late LocationModel loc;
+  String city = '';
+  String street = '';
+  String bitTitle = '';
+  double latitude = 0.0;
+  double longitude = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -57,14 +68,32 @@ class _GetLocationPageState extends State<GetLocationPage> {
   }
 
   void _initialize() async {
-    Position myPostion = await _determinePosition();
+    Position myPosition = await _determinePosition();
     setState(() {
-      myLocation = LatLng(myPostion.latitude, myPostion.longitude);
+      myLocation = LatLng(myPosition.latitude, myPosition.longitude);
+      latitude = myPosition.latitude;
+      longitude = myPosition.longitude;
+    });
+    await _updatePlacemark(myLocation);
+  }
+
+  Future<void> _updatePlacemark(LatLng location) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        location.latitude, location.longitude);
+    Placemark place = placemarks[0];
+    setState(() {
+      street = place.street ?? '';
+      city = place.locality ?? '';
+      bitTitle = place.name ?? '';
+      latitude = location.latitude;
+      longitude = location.longitude;
+      textEditingController.text = "${place.locality}";
+      print(textEditingController.text);
     });
   }
 
   final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(27.185696, 31.176038),
     zoom: 14.4746,
@@ -121,17 +150,15 @@ class _GetLocationPageState extends State<GetLocationPage> {
                         tilt: 59.440717697143555,
                         zoom: 18.151926040649414);
                     final GoogleMapController controller =
-                        await _controller.future;
+                    await _controller.future;
                     await controller
                         .animateCamera(CameraUpdate.newCameraPosition(_kLake));
                     setState(() {
                       marker.add(
                           Marker(markerId: MarkerId("1"), position: location));
                     });
-                    List<Placemark> placemarks = await placemarkFromCoordinates(
-                        location.latitude, location.longitude);
-                    Placemark place = placemarks[0];
-                    textEditingController.text = "${place.street}";
+                    await _updatePlacemark(location);
+
                   },
                   markers: marker.toSet(),
                   mapType: MapType.normal,
@@ -199,29 +226,47 @@ class _GetLocationPageState extends State<GetLocationPage> {
                       fillColor: Color(0xfff1E7ff),
                       filled: true,
                       suffixIcon: GestureDetector(
-                        onTap: () async {
-                          CameraPosition _kLake = CameraPosition(
-                              bearing: 192.8334901395799,
-                              target: LatLng(
-                                  myLocation.latitude, myLocation.longitude),
-                              tilt: 59.440717697143555,
-                              zoom: 19.151926040649414);
-                          final GoogleMapController controller =
-                              await _controller.future;
-                          await controller.animateCamera(
-                              CameraUpdate.newCameraPosition(_kLake));
-                          setState(() {
-                            marker.add(Marker(
-                                markerId: MarkerId("1"),
-                                position: LatLng(myLocation.latitude,
-                                    myLocation.longitude)));
+                        onTap: ()  async {
+                          locations = await GetMethods.getAllLocations(CacheData.getData(key: "userId"));
+                          locations.forEach((element)
+                          {
+                            cities.add(element['city']);
                           });
-                          List<Placemark> placemarks =
-                              await placemarkFromCoordinates(
-                                  myLocation.latitude, myLocation.longitude);
-                          Placemark place = placemarks[0];
-                          textEditingController.text = "${place.street}"; // this is loaction for 
-                          
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ListView.builder(
+                                itemCount: cities.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                    title: Text(cities[index]),
+                                    onTap: () {
+                                      textEditingController.text = cities[index];
+                                      print('Selected city: ${cities[index]}');
+                                      //Navigator.pop(context); // Close the bottom sheet
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          );
+                          // CameraPosition _kLake = CameraPosition(
+                          //     bearing: 192.8334901395799,
+                          //     target: LatLng(
+                          //         myLocation.latitude, myLocation.longitude),
+                          //     tilt: 59.440717697143555,
+                          //     zoom: 19.151926040649414);
+                          // final GoogleMapController controller =
+                          // await _controller.future;
+                          // await controller.animateCamera(
+                          //     CameraUpdate.newCameraPosition(_kLake));
+                          // setState(() {
+                          //   marker.add(Marker(
+                          //       markerId: MarkerId("1"),
+                          //       position: LatLng(myLocation.latitude,
+                          //           myLocation.longitude)));
+                          // });
+                          // await _updatePlacemark(myLocation);
                         },
                         child: const Icon(
                           Icons.location_on_outlined,
@@ -240,10 +285,10 @@ class _GetLocationPageState extends State<GetLocationPage> {
                     controller: descController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       labelText: 'اكتب وصف المشكلة',
-                      labelStyle: TextStyle(fontFamily: 'cairo')
+                      labelStyle: TextStyle(fontFamily: 'cairo'),
                     ),
                   ),
                 ),
@@ -253,17 +298,36 @@ class _GetLocationPageState extends State<GetLocationPage> {
         ),
       ),
       bottomNavigationBar: CustomBottomAppBar(
-        buttonText: "تاكيد الحجز - \$100 ",
+        buttonText: "تاكيد الحجز - \$${widget.obj?.price} ",
         buttonFunction: () {
-          widget.obj?.userId = CacheData.getData(key:"userId");
-          widget.obj?.employeeId = 1;  
-          widget.obj?.location = 'Giza'; 
+             loc = LocationModel(
+                user_id: CacheData.getData(key: "userId"),
+                city: city,
+                street: street,
+                bitTitle: bitTitle,
+                specialMarque: 'mark',
+                lat: latitude,
+                long: longitude
+            );
+          print(loc.user_id);
+          print(loc.city);
+          print(loc.street);
+          print(loc.bitTitle);
+          print(loc.lat);
+          print(loc.long);
+           PostMethods.makeLocation(loc);
+
+          widget.obj?.userId = CacheData.getData(key: "userId");
+          widget.obj?.location = textEditingController.text;
           widget.obj?.orderDescriptions = descController.text;
-          PostMethods.makeOrder(widget.obj!);
-          // Navigator.of(context)
-          //     .pushReplacement(MaterialPageRoute(builder: (context) => HomePage(name: '',)));
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (context) => HomePage(name: name,)));
+           if(widget.code != null){
+             PostMethods().makeOrderWithVoucher(widget.obj!,code: widget.code!);
+           }else
+             {
+               PostMethods().makeOrder(widget.obj!);
+             }
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomePage(name: CacheData.getData(key: "name"),)));
         },
       ),
     );

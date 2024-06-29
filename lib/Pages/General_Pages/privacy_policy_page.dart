@@ -1,40 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 
-
 class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-              padding: const EdgeInsets.only( left: 15, right: 15),
-              child: Row(
-                  mainAxisAlignment:MainAxisAlignment.end,
-                children: [
-                  const Text(
-                    "  مركز المساعده",
-                    style: TextStyle(
-                        fontFamily: 'cairo',
-                        fontSize: 23.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: MainColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    width: 30,
-                    height: 30,
-                  )
-                ],
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Text(
+                "سياسة الخصوصية",
+                style: TextStyle(
+                    fontFamily: 'cairo',
+                    fontSize: 23.0,
+                    fontWeight: FontWeight.bold),
               ),
-            ),
+              const SizedBox(
+                width: 5,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/photo/logo.png"),
+                    ),
+                    color: MainColor,
+                    borderRadius: BorderRadius.circular(10)),
+                width: 30,
+                height: 30,
+              )
+            ],
+          ),
+        ),
       ),
       body: SingleChildScrollView(
-      
         child: Padding(
           padding: const EdgeInsets.only(top: 20, left: 22, right: 30),
           child: Column(

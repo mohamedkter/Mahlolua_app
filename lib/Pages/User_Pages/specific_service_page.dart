@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Models/service_provider_model.dart';
+import 'package:mahloula/Pages/General_Pages/not_found_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
 import 'package:mahloula/Pages/General_Pages/error_page.dart';
 import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_status.dart';
@@ -77,11 +78,13 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                 child: ListView.builder(
                   itemBuilder: (context, index) => GestureDetector(
                     child: ServiceCard(
-                      image:serviceProviders[index].user!.image??"" ,
-                      NumberResidents: serviceProviders[index].total_rates??0,
+                      id: serviceProviders[index].id,
+                      image: serviceProviders[index].user!.image ?? "",
+                      NumberResidents: serviceProviders[index].total_rates ?? 0,
                       Price: serviceProviders[index].minPrice,
                       ProvidedService: serviceProviders[index].service!.name,
-                      rate:double.parse(serviceProviders[index].average_rating??"0.0"),
+                      rate: double.parse(
+                          serviceProviders[index].average_rating ?? "0.0"),
                       ServiceProviderName: serviceProviders[index].user?.name,
                       ToDoFunction: () {
                         print("bookmarked");
@@ -97,55 +100,10 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                   itemCount: serviceProviders.length,
                 ));
           } else {
-            return const NotFoundPage();
+            return const NotFoundPage(Message:  "اسف هذه الخدمه غير متوفر في الوقت الحالي يرجي المحاوله في وقت قادم",);
           }
         })));
   }
 }
 
-class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                width: 200,
-                child: Image.asset("assets/photo/sideface.png")),
-                SizedBox(height: 20,),
-            const Text(
-              "لم يتم العثور",
-              style: TextStyle(
-                fontFamily: 'cairo',
-                fontSize: 24.0,
-                fontWeight: FontWeight.w700
-              ),
-            ),
-            const SizedBox(height: 5,),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Container(
-                width: MediaQuery.of(context).size.width/1.1,
-                child: Text(
-                    "اسف هذه الخدمه غير متوفر في الوقت الحالي يرجي المحاوله في وقت قادم",
-                    style: TextStyle(
-                      fontFamily: 'cairo',
-                      fontSize: 20.0,
-                    ),
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                  ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -63,6 +63,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
+                      image: const DecorationImage(image:AssetImage("assets/photo/logo.png"),),
                         color: MainColor,
                         borderRadius: BorderRadius.circular(10)),
                     width: 30,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart'; // For date parsing and comparison
+import 'package:mahloula/Pages/General_Pages/not_found_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/User_Pages/check_page.dart';
 import 'package:mahloula/Pages/User_Pages/specific_service_page.dart';
@@ -79,6 +80,9 @@ class _AllReservationPageState extends State<ServiceProviderAllReservationPage>
                     ),
                     Container(
                       decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/photo/logo.png"),
+                          ),
                           color: MainColor,
                           borderRadius: BorderRadius.circular(10)),
                       width: 30,
@@ -112,41 +116,57 @@ class _AllReservationPageState extends State<ServiceProviderAllReservationPage>
           if (state is AllReservationPageLoadingStatus) {
             return const GenerelLoadingPage();
           } else if (state is AllReservationPageSuccessStatus) {
-         List<List<Reservation>> filteredReservations= filterReservations( BlocProvider.of<AllReservitionPageCubit>(context)
-                            .employeeOrders);
+            List<List<Reservation>> filteredReservations = filterReservations(
+                BlocProvider.of<AllReservitionPageCubit>(context)
+                    .employeeOrders);
             return TabBarView(
               controller: _tabController,
               children: [
                 buildReservationList(
-                    'مكتمل',
-                    Colors.red,
-                    filteredReservations[2],),
+                  'مكتمل',
+                  Colors.red,
+                  filteredReservations[2],
+                ),
                 buildReservationList(
-                    'انتظار',
-                    Colors.green,
-                    filteredReservations[0],),
+                  'انتظار',
+                  Colors.green,
+                  filteredReservations[0],
+                ),
                 buildReservationList(
-                    'قادم',
-                    Colors.orange,
-                    filteredReservations[1]),
+                    'قادم', Colors.orange, filteredReservations[1]),
               ],
             );
           } else {
-            return const NotFoundPage();
+            return const NotFoundPage(
+              Message: "يوجد خطا ما ",
+            );
           }
         }));
   }
 
   Widget buildReservationList(
       String status, Color color, List<Reservation> reservation) {
-    return reservation.length!=0
+    return reservation.length != 0
         ? ListView.builder(
             itemBuilder: (context, index) {
-              return OrderCard(color: color, order: reservation[index]);
+              return OrderCard(
+                color: color,
+                order: reservation[index],
+                acceptedFunctoin: () {
+                  BlocProvider.of<AllReservitionPageCubit>(context)
+                      .changeOrderStatusForServiceProvider(
+                          int.parse(reservation[index].id), "accepted");
+                },
+                rejectedFunctoin: () {
+                  BlocProvider.of<AllReservitionPageCubit>(context)
+                      .changeOrderStatusForServiceProvider(
+                          int.parse(reservation[index].id), "rejected");
+                },
+              );
             },
             itemCount: reservation.length,
           )
-        : NotFoundPage();
+        : NotFoundPage(Message: "لا يوجد حجوزات من هذا النوع");
   }
 }
 

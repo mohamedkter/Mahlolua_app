@@ -6,6 +6,8 @@ import 'package:mahloula/Models/user_model.dart';
 import 'package:mahloula/Pages/User_Pages/search_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 
+import '../../Models/location_model.dart';
+
 class PostMethods {
   static final Dio dio = Dio();
   static final Map<String, dynamic> headers = {
@@ -95,7 +97,8 @@ static Future<bool> updateUserProfile({
 
 //////////////////////////////// Make Order Method /////////////////////////////
 
-  static Future<void> makeOrder(Order order) async {
+
+   Future<void> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
     final Dio dio = Dio();
 
@@ -128,6 +131,71 @@ static Future<bool> updateUserProfile({
   }
 
 
+  Future<void> makeOrderWithVoucher(Order order, {String? code}) async {
+    Map x = {'voucher_code':code};
+    const String url = 'https://mahllola.online/api/makeOrder';
+    final Dio dio = Dio();
+
+    final headers = {
+      //'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',  // Adjust if needed
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        queryParameters: order.toMap(),data: x['voucher_code'],
+        options: Options(headers: headers),
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('Order made successfully: ${response.data}');
+      } else {
+        print('Failed to make order: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Error making order: ${e.response?.statusCode} - ${e.response?.statusMessage}');
+        print('Response data: ${e.response?.data}');
+      } else {
+        print('Error making order: ${e.message}');
+      }
+    }
+  }
+//////////////////////////////// Make Location Method /////////////////////////////
+
+  static Future<void> makeLocation(LocationModel loc) async {
+    const String url = 'https://mahllola.online/api/location/store';
+    final Dio dio = Dio();
+
+    final headers = {
+      //'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',  // Adjust if needed
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        queryParameters: loc.toMap(),
+        options: Options(headers: headers),
+      );
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('Location stored successfully: ${response.data}');
+      } else {
+        print('Failed to store location: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Error store location: ${e.response?.statusCode} - ${e.response?.statusMessage}');
+        print('Response data: ${e.response?.data}');
+      } else {
+        print('Error store location null: ${e.message}');
+      }
+    }
+  }
   ///////////////////////////// Create User Method //////////////////////////
   
   static Future<dynamic> createUser(User user, FormData? image) async {
@@ -252,11 +320,103 @@ static Future<void> changeOrderStatus(int orderId, String newStatus) async {
       }
     }
   }
+
+  
+static Future<dynamic> SearchFunction(String query) async {
+    final String url = 'https://mahllola.online/api/employee/search';
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = {
+      'query': query,
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+        print('employees details: ${response.data["allemployee"]}');
+        return response.data["allemployee"];
+      } else {
+        print('Failed to get employees: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> changeServiceProviderId(String state) async {
+    final String url = 'https://mahllola.online/api/employee/changeEmployeeStatus/${CacheData.getData(key: "employee_id")}';
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = {
+      'status': state,
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+      print(response.data);
+        return response.data;
+      } else {
+        print('Failed to get employees: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
+   static Future<dynamic> makeFeedback(int empId,String Comment,int rating,int orderId) async {
+    const String url = 'https://mahllola.online/api/makeFeedback';
+
+    final headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    final body = {
+      'order_id':orderId,
+      'employee_id':empId,
+      'user_id':CacheData.getData(key: "userId"),
+      'rating':rating,
+      'comment':Comment
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+     if (response.statusCode == 200) {
+      print(response.data);
+        return response.data;
+      } else {
+        print('Failed to Make Feedback: ${response.statusCode}');
+        return null;
+      }
+    }catch (e) {
+      return null;
+    }
+  }
 } 
 
 
 
-////////////////////////////////////////////////////////////////
 
 
 

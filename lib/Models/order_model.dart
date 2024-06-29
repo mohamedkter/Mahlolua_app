@@ -3,7 +3,7 @@ class Order {
    String? location;
    String? dateOfDelivery;
    String? orderDescriptions;
-   String? voucherCode;
+   //String? voucherCode;
    int? userId;
    int? employeeId;
 
@@ -12,7 +12,7 @@ class Order {
      this.location,
      this.dateOfDelivery,
      this.orderDescriptions,
-     this.voucherCode,
+     //this.voucherCode,
      this.userId,
      this.employeeId,
   });
@@ -23,7 +23,7 @@ class Order {
       'location': location,
       'date_of_delivery': dateOfDelivery,
       'order_descriptions': orderDescriptions,
-      //'voucher_code': voucherCode,
+      //'voucher_code': voucherCode != null? voucherCode : 'empty',
       'user_id': userId,
       'employee_id': employeeId,
     };

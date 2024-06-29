@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Constants/ObjectOrder.dart';
 import 'package:mahloula/Pages/General_Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/not_found_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_notifications.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -19,8 +21,7 @@ class ServiceProviderHomePage extends StatefulWidget {
 }
 
 class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
-  bool _isSwitched =
-      CacheData.getData(key: "employee_status") == "available" ? true : false;
+ late bool _isSwitched ;
 
   @override
   void initState() {
@@ -37,6 +38,8 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
         if (state is ServiceProviderHomePageLoading) {
           return GenerelLoadingPage();
         } else if (state is ServiceProviderHomePageSuccess) {
+      _isSwitched= BlocProvider.of<ServiceProviderHomePageCubit>(context).status== "available" ? true : false;
+
           int countOfOrders =
               BlocProvider.of<ServiceProviderHomePageCubit>(context)
                   .countOfOrders;
@@ -64,9 +67,9 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                 Switch(
                                   value: _isSwitched,
                                   onChanged: (value) {
-                                     BlocProvider.of<ServiceProviderHomePageCubit>(context).changeServiceProviderState( CacheData.getData(key:"employee_status")=="available"?"busy":"available");
+                                     BlocProvider.of<ServiceProviderHomePageCubit>(context).changeServiceProviderState(  BlocProvider.of<ServiceProviderHomePageCubit>(context).status=="available"?"busy":"available");
                                     setState(() {
-                                    _isSwitched =CacheData.getData(key:"employee_status") == "available" ? true : false;
+                                    _isSwitched =BlocProvider.of<ServiceProviderHomePageCubit>(context).status == "available" ? true : false;
                                     });
                                   },
                                   activeColor: Colors.green,
@@ -103,7 +106,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 150),
+                      padding: const EdgeInsets.only(top: 150),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -140,7 +143,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      BlocProvider.of<ServiceProviderHomePageCubit>(context).average_rating,
+                                      BlocProvider.of<ServiceProviderHomePageCubit>(context).average_rating??"0.0",
                                       style: const TextStyle(
                                           fontFamily: "Cairo",
                                           fontSize: 15,
@@ -182,7 +185,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                       children: [
                                         Text(
                                           "$countOfOrders",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: MainColor,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w600),
@@ -240,12 +243,18 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                     )
                   ],
                 ),
+                orders.isEmpty?const Padding(
+                  padding: EdgeInsets.symmetric(vertical:20.0),
+                  child: NotFoundPage(Message: "لا توجد حجوزات حديثه",),
+                ):
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final order = orders[index];
                     return OrderCard(
+                      acceptedFunctoin: (){BlocProvider.of<ServiceProviderHomePageCubit>(context).changeOrderStatusForServiceProviderInHomePage(int.parse(order.id),"accepted");},
+                      rejectedFunctoin: (){BlocProvider.of<ServiceProviderHomePageCubit>(context).changeOrderStatusForServiceProviderInHomePage(int.parse(order.id),"rejected");},
                       color: order.status == 'accepted'
                           ? Colors.green
                           : Colors.red,
@@ -258,10 +267,10 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
             ),
           );
         } else {
-          return ErrorPage(
-            imageParh: "",
-            lowerMessage: "",
-            upperMessage: "",
+          return const ErrorPage(
+            imageParh: "assets/photo/NoInternaetAnimation.json",
+            lowerMessage: "يمكنك التحقق من الانترنت ثم اعادة المحاوله",
+            upperMessage: "هنا مشكله ما",
           );
         }
       },

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mahloula/Models/voucher_model.dart';
+import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 import 'package:mahloula/Widgets/voucher_card.dart';
 
@@ -13,38 +14,36 @@ class AddDiscountPage extends StatefulWidget {
 }
 
 class _AddDiscountPageState extends State<AddDiscountPage> {
-   List<Voucher> vouchers = [
-    Voucher(
-      id: 1,
-      code: 'ABC123',
-      type: 'percentage',
-      discount: 10,
-      status: 'active',
-      expiredAt: DateTime.parse('2024-06-30').toString(),
-    ),
-    Voucher(
-      id: 2,
-      code: 'DEF456',
-      type: 'fixed',
-      discount: 50,
-      status: 'expired',
-      expiredAt: DateTime.parse('2023-12-31').toString(),
-    ),
-  ];
+   List<dynamic> vouchers = [];
 
   int? selectedVoucherIndex;
 
+   @override
+   void initState() {
+     super.initState();
+     fetchVouchers();
+   }
+
+   Future<void> fetchVouchers() async {
+     vouchers = await GetMethods.getAllVouchers();
+     setState(() {});
+   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: IconButton(
-          onPressed: () {},
+          onPressed: ()
+          {
+            // setState(() async {
+            //   vouchers =  await GetMethods.getAllVouchers();
+            // });
+          },
           icon: CircleAvatar(
             radius: 20,
             backgroundColor: Colors.grey.shade200,
-            child: const Icon(Icons.search),
+            child: const Icon(Icons.refresh,size: 30,),
           ),
         ),
         automaticallyImplyLeading: false,
@@ -72,9 +71,9 @@ class _AddDiscountPageState extends State<AddDiscountPage> {
         child: ListView.builder(
           itemBuilder: (context, index) => VoucherCard(
             index: index,
-            vouchertype: vouchers[index].type,
-            discount: vouchers[index].discount,
-            voucherDuration: vouchers[index].expiredAt,
+            vouchertype: vouchers[index]['type'],
+            discount: vouchers[index]['discount'],
+            voucherDuration: vouchers[index]['expired_at'],
             selected: selectedVoucherIndex,
             onChanged: (int? value) {
               setState(() {

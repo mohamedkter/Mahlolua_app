@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Services/State_Managment/cubit.dart';
 
 class ServiceCard extends StatefulWidget {
+  final int? id;
   final String? ServiceProviderName;
   final String? image;
   final String? Price;
@@ -11,6 +13,7 @@ class ServiceCard extends StatefulWidget {
   final VoidCallback ToDoFunction;
   const ServiceCard({
     super.key,
+     this.id,
     required this.ServiceProviderName,
     required this.Price,
     required this.rate,
@@ -41,8 +44,27 @@ class _ServiceCardState extends State<ServiceCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-                onTap: widget.ToDoFunction,
-                child: const Icon(Icons.bookmark_border_rounded, size: 27)),
+                onTap: ()
+                {
+                  setState(() {
+                    bookMarkClicked = !bookMarkClicked;
+                    if(bookMarkClicked){
+                      Cubite.get(context).insertToDatabase(
+                          id: widget.id!,
+                          ServiceProviderName: widget.ServiceProviderName!,
+                          Price: widget.Price!,
+                          rate: widget.rate!,
+                          NumberResidents: widget.NumberResidents,
+                          ProvidedService: widget.ProvidedService
+                      );
+                    }else
+                      {
+                        Cubite.get(context).deleteFromDatabase(id: widget.id!);
+                      }
+                  });
+                },
+                child: bookMarkClicked ? Icon(Icons.bookmark, size: 27,color: MainColor,) :
+                Icon(Icons.bookmark, size: 27,)),
             Padding(
               padding: const EdgeInsets.only(right: 15),
               child: Container(

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
+import 'package:mahloula/Services/State_Managment/FeedBack_Cubit/feedback_cubit.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import '../../models/reservation_model.dart';
 import '../../Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/check_page.dart';
-// Assuming OrderCard is in this file
 
 class CustomReserveCard extends StatefulWidget {
   const CustomReserveCard({
@@ -27,28 +28,15 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
   bool isTabed = false;
 
   String getStatusText() {
-    if (widget.reservation.status == 'accepted' ||
-        widget.reservation.status == 'waiting') {
+    if (widget.reservation.status == 'accepted') {
       return 'قادم';
     } else if (widget.reservation.status == 'rejected') {
       return 'ملغي';
+    } else if (widget.reservation.status == 'waiting') {
+      return 'انتظار';
     } else {
-      DateTime dateOfDelivery =
-          DateTime.parse(widget.reservation.dateOfDelivery);
-      return dateOfDelivery.isBefore(DateTime.now()) ? 'مكتمل' : 'قادم';
+      return 'مكتمل';
     }
-  }
-
-  void acceptReservation() {
-    setState(() {
-      widget.reservation.status = 'accepted';
-    });
-  }
-
-  void rejectReservation() {
-    setState(() {
-      widget.reservation.status = 'rejected';
-    });
   }
 
   @override
@@ -132,9 +120,12 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                   Container(
                     width: 100,
                     height: 100,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              "$PartImagePath${widget.reservation.userImage}")),
                       color: MainColor,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
                     ),
                   ),
                 ],
@@ -208,35 +199,40 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              widget.index == 2
+                              widget.reservation.status == "accepted"|| widget.reservation.status=="waiting"
                                   ? NextReserveButtons(
                                       reservation: widget.reservation)
-                                  : widget.index == 0
-                                      ? CompletedAndCanceledReserveButton(
-                                          btnFunctoin: () {
-                                            BlocProvider.of<
-                                                        AllReservitionPageCubit>(
-                                                    context)
-                                                .changeOrderStatusForUser(
-                                                    CacheData.getData(
-                                                        key: "userId"),
-                                                    "waiting");
-                                          },
-                                          btnText: "اعادة الحجز",
-                                        )
-                                      : CompletedAndCanceledReserveButton(
-                                          btnFunctoin: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => CheckPage(
-                                                    reservation:
-                                                        widget.reservation),
-                                              ),
-                                            );
-                                          },
-                                          btnText: "عرض الفاتورة الالكترونية",
-                                        ),
+                                  :widget.reservation.status == "completed"
+                                      ? FeedbackAndResetBtns(
+                                          reservation: widget.reservation)
+                                      : widget.reservation.status == "rejected"
+                                          ? CompletedAndCanceledReserveButton(
+                                              btnFunctoin: () {
+                                                BlocProvider.of<
+                                                            AllReservitionPageCubit>(
+                                                        context)
+                                                    .changeOrderStatusForUser(
+                                                        int.parse(widget
+                                                            .reservation.id),
+                                                        "waiting");
+                                              },
+                                              btnText: "اعادة الحجز",
+                                            )
+                                          : CompletedAndCanceledReserveButton(
+                                              btnFunctoin: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CheckPage(
+                                                            reservation: widget
+                                                                .reservation),
+                                                  ),
+                                                );
+                                              },
+                                              btnText:
+                                                  "عرض الفاتورة الالكترونية",
+                                            ),
                             ],
                           ),
                         ),
@@ -342,7 +338,59 @@ class _NextReserveButtonsState extends State<NextReserveButtons> {
           btn_text: " الغاء الحجز",
           btn_function: () {
             BlocProvider.of<AllReservitionPageCubit>(context)
-                .changeOrderStatusForUser(int.parse(widget.reservation.id), "rejected");
+                .changeOrderStatusForUser(
+                    int.parse(widget.reservation.id), "rejected");
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class FeedbackAndResetBtns extends StatefulWidget {
+  final Reservation reservation;
+  const FeedbackAndResetBtns({
+    Key? key,
+    required this.reservation,
+  }) : super(key: key);
+
+  @override
+  State<FeedbackAndResetBtns> createState() => _FeedbackAndResetBtnsState();
+}
+
+class _FeedbackAndResetBtnsState extends State<FeedbackAndResetBtns> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CardButton(
+          btn_backgroung: MainColor,
+          mainColor: Colors.white,
+          btn_text: "عرض الفاتورة ",
+          btn_function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      CheckPage(reservation: widget.reservation)),
+            );
+          },
+        ),
+        CardButton(
+          btn_backgroung: Colors.white,
+          mainColor: MainColor,
+          btn_text: "تقيم",
+          btn_function: () {
+            showDialog(
+              context: context,
+              barrierDismissible:
+                  true, // set to false if you want to force a rating
+              builder: (context) => FeedbackDialog(
+                reservation: widget.reservation,
+              ),
+            );
+            print("تقيم");
           },
         ),
       ],
@@ -401,6 +449,53 @@ Text checkStatus(int ind) {
     return const Text(
       'قادم',
       style: TextStyle(color: Colors.white, fontFamily: 'cairo', fontSize: 13),
+    );
+  }
+}
+
+class FeedbackDialog extends StatelessWidget {
+  const FeedbackDialog({super.key, required this.reservation});
+  final Reservation reservation;
+  @override
+  Widget build(BuildContext context) {
+    return RatingDialog(
+      submitButtonTextStyle: TextStyle(
+          color: MainColor,
+          fontFamily: "cairo",
+          fontWeight: FontWeight.w700,
+          fontSize: 21),
+      starColor: MainColor,
+      initialRating: 1.0,
+      title: const Text(
+        'تقييم الخدمة',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, fontFamily: "cairo"),
+      ),
+      message: const Text(
+        '.نود معرفة رأيك في الخدمة التي تلقيتها مؤخرًا. يرجى ملء التفاصيل أدناه ',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 15, fontFamily: "cairo"),
+      ),
+      image: Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(70),
+            image: DecorationImage(
+                image: AssetImage("assets/photo/logo.png"), fit: BoxFit.cover),
+          )),
+      submitButtonText: 'ارسال',
+      commentHint: 'تعليق',
+      onCancelled: () => print('cancelled'),
+      onSubmitted: (response) {
+        print(reservation.id);
+        BlocProvider.of<FeedbackCubit>(context).makeFeedback(
+            empId: reservation.employeeId,
+            Comment: response.comment,
+            rating: (response.rating).truncate(),
+            orderId: int.parse(reservation.id));
+      },
     );
   }
 }

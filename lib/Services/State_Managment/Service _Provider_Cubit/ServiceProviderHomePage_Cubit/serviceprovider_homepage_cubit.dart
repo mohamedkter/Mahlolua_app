@@ -11,19 +11,20 @@ class ServiceProviderHomePageCubit
   late int countOfOrders;
   List<Reservation> waitingOrders = [];
   late int total_rates;
-  late String average_rating;
+  late String? average_rating;
   late String status;
   Future<void> getWaitingOrders() async {
     emit(ServiceProviderHomePageLoading());
     final employeeId = CacheData.getData(key: "employee_id");
     getCountOfOrders();
     List<Reservation> orders = await GetMethods.getEmployeeOrders(employeeId);
-
+    List<Reservation> order = [];
     for (var ord in orders) {
       if (ord.status == "waiting") {
-        waitingOrders.add(ord);
+        order.add(ord);
       }
     }
+    waitingOrders = order;
     dynamic resp = await GetMethods.getServiceProviderProfile(employeeId);
     if (resp != null) {
       total_rates = resp["total_rates"];
@@ -41,14 +42,20 @@ class ServiceProviderHomePageCubit
   }
 
   Future<void> changeServiceProviderState(String status) async {
+    emit(ServiceProviderHomePageLoading());
     dynamic resp = await PostMethods.changeServiceProviderId(status);
     if (resp != null) {
-      getWaitingOrders();
-      CacheData.setData(key: "employee_status", value: "$status");
-
+    await  getWaitingOrders();
       emit(ServiceProviderHomePageSuccess());
     } else {
       emit(ServiceProviderHomePageEmpty());
     }
+  }
+   Future<void> changeOrderStatusForServiceProviderInHomePage(
+      int orderId, String newStatus) async {
+    emit(ServiceProviderHomePageLoading());
+    await PostMethods.changeOrderStatus(orderId, newStatus);
+    await getWaitingOrders();
+    emit(ServiceProviderHomePageSuccess());
   }
 }
