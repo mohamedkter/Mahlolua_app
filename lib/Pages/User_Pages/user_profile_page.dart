@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Pages/General_Pages/help_center_page.dart';
 import 'package:mahloula/Pages/General_Pages/privacy_policy_page.dart';
+import 'package:mahloula/Pages/General_Pages/user_notification_page.dart';
+import 'package:mahloula/Pages/User_Pages/user_edit_profile.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -14,19 +15,29 @@ import 'package:mahloula/Widgets/model_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  const UserProfilePage({Key? key}) : super(key: key);
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  
-
   @override
-  void initState(){
-    // TODO: implement initState
-    super.initState();  
+  void initState() {
+    super.initState();
+  }
+
+  void navigateToEditProfile(BuildContext context) {
+    final Userid = CacheData.getData(key: "userId");
+
+    if (Userid != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EditUserProfile(userId: Userid)),
+      );
+    } else {
+      print('Error: user id is null');
+    }
   }
 
   @override
@@ -100,7 +111,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           bottom: 0,
                           right: 0,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navigateToEditProfile(context);
+                              },
                               icon: Container(
                                   width: 25,
                                   height: 25,
@@ -149,7 +162,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 size: 32,
               ),
               OptionCardtext: "تعديل الملف",
-              OptionFunction: () {},
+              OptionFunction: () {
+                navigateToEditProfile(context);
+              },
             ),
             OptionCard(
               OptionCardIcon: const Icon(
@@ -157,7 +172,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 size: 32,
               ),
               OptionCardtext: "الاشعارات",
-              OptionFunction: () {},
+              OptionFunction: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return UserNotificationSettingsScreen();
+                }));
+              },
             ),
             OptionCard(
               OptionCardIcon: const Icon(
@@ -166,6 +185,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
               OptionCardtext: "الامان",
               OptionFunction: () async {
+                // Add functionality for security settings
               },
             ),
             OptionCard(
@@ -195,7 +215,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               },
             ),
 
-////////////Log out Button //////////
+            //////////// Log out Button //////////
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Row(
@@ -250,31 +270,34 @@ class OptionCard extends StatelessWidget {
   final Icon OptionCardIcon;
   final String OptionCardtext;
   final VoidCallback OptionFunction;
+
   const OptionCard({
-    super.key,
+    Key? key,
     required this.OptionCardIcon,
     required this.OptionCardtext,
     required this.OptionFunction,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
-        textDirection: TextDirection.rtl,
-        child: ListTile(
-          onTap: OptionFunction,
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 18,
+      textDirection: TextDirection.rtl,
+      child: ListTile(
+        onTap: OptionFunction,
+        trailing: const Icon(
+          Icons.arrow_forward_ios_rounded,
+          size: 18,
+        ),
+        leading: OptionCardIcon,
+        title: Text(
+          OptionCardtext,
+          style: const TextStyle(
+            fontFamily: 'cairo',
+            fontSize: 15.0,
+            fontWeight: FontWeight.w700,
           ),
-          leading: OptionCardIcon,
-          title: Text(
-            OptionCardtext,
-            style: const TextStyle(
-                fontFamily: 'cairo',
-                fontSize: 15.0,
-                fontWeight: FontWeight.w700),
-          ),
-        ));
+        ),
+      ),
+    );
   }
 }

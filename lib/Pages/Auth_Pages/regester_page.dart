@@ -257,6 +257,7 @@ class _SignupPageState extends State<SignupPage> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const SuccessPage(
+                                                  imageParh: 'assets/photo/doneAnamition.json',
                                                   upperMessage:
                                                       "تم التسجيل بنجاح",
                                                   lowerMessage:

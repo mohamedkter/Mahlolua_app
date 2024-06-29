@@ -353,6 +353,7 @@ class _ServiceProviderCredentialsState
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const SuccessPage(
+                                  imageParh: 'assets/photo/doneAnamition.json',
                                   upperMessage: "تم التسجيل بنجاح",
                                   lowerMessage:
                                       "جاري مراجعة بياناتك من قبل المختص",

@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+=======
+import 'package:flutter/material.dart';
+>>>>>>> a364d7a557a552cc6941a655d3e51c6339dd1b6f
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/all_worksImage_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_edit_profile.dart';
@@ -26,6 +30,19 @@ class ServiceProviderProfilePage extends StatefulWidget {
 
 class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage> {
   File? img;
+
+  void navigateToEditProfile(BuildContext context) {
+    final employeeId = CacheData.getData(key: "employee_id");
+
+    if (employeeId != null) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return EditServiceProviderProfile(employeeId: employeeId);
+      }));
+    } else {
+      // معالجة الحالة عندما يكون employeeId فارغًا، مثل عرض رسالة خطأ
+      print('Error: employeeId is null');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +117,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                           bottom: 0,
                           right: 0,
                           child: IconButton(
+<<<<<<< HEAD
                               onPressed: ()async
                               {
                                 final picker = ImagePicker();
@@ -120,6 +138,10 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                                     'GG',
                                     50
                                 );
+=======
+                              onPressed: () {
+                                navigateToEditProfile(context);
+>>>>>>> a364d7a557a552cc6941a655d3e51c6339dd1b6f
                               },
                               icon: Container(
                                   width: 25,
@@ -170,9 +192,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
               ),
               OptionCardtext: "تعديل الملف",
               OptionFunction: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return EditProfile();
-                }));
+              navigateToEditProfile(context);
               },
             ),
             OptionCard(
