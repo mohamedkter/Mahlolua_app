@@ -130,6 +130,47 @@ static Future<bool> updateUserProfile({
     }
   }
 
+  //////////////////// Update Work Images for employee ///////////////
+  Future<bool> updateWorkImage(int userid, File? image,String name) async {
+    try{
+      final String url = 'https://mahllola.online/api/employee/updateWorksImage/$userid';
+      FormData formData = FormData.fromMap({
+
+        if (image != null) '$name': await MultipartFile.fromFile(image.path, filename: 'profile_image.jpg'),
+      });
+      Response response = await dio.post(url, data: formData);
+
+      print('success');
+      return response.statusCode == 200;
+  } catch (e) {
+  print(e);
+  return false;
+  }
+    // try {
+    //   //final formData = FormData.fromMap(elmId.toMap());
+    //   if (image != null && image.files.isNotEmpty) {
+    //     final imageFile = image.files.first;
+    //     formData.files.addAll([imageFile]);
+    //   }
+    //   final response = await Dio().post(
+    //     url,
+    //     options: Options(
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     ),
+    //     data: formData,
+    //   );
+
+      // if (response.statusCode == 200) {
+      //   print('Success: ${response.statusCode}');
+      // } else {
+      //   print('Failed to update work image: ${response.statusCode}');
+      // }
+    // } catch (e) {
+    //   print('Error updating image: $e');
+    // }
+  }
 //////////////////// Update Work Images for employee ///////////////
   Future<bool> updateProfileInfo(int userid, File? image,String imgName,String? name,String? desc,int? price) async {
     try{

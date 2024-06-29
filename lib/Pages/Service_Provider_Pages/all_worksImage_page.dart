@@ -73,7 +73,7 @@ class _WorkImagesState extends State<WorkImages> {
                   } else {
                     print('No image selected.');
                   }
-                  PostMethods().updateWorkImages(x,workImageOne,'works[0][image]');
+                  PostMethods().updateWorkImage(x,workImageOne,'works[0][image]');
                 },
                 image: m1['image_url']),
             PastWorkImagePickerWidget2(
@@ -90,7 +90,7 @@ class _WorkImagesState extends State<WorkImages> {
                   } else {
                     print('No image selected.');
                   }
-                  PostMethods().updateWorkImages(x,workImageOne,'works[1][image]');
+                  PostMethods().updateWorkImage(x,workImageOne,'works[1][image]');
                 }, image: m2['image_url']),
             PastWorkImagePickerWidget2(
                 updateImageFunction: () async
@@ -106,7 +106,7 @@ class _WorkImagesState extends State<WorkImages> {
                   } else {
                     print('No image selected.');
                   }
-                  PostMethods().updateWorkImages(x,workImageOne,'works[2][image]');
+                  PostMethods().updateWorkImage(x,workImageOne,'works[2][image]');
                 }, image: m3['image_url']),
             PastWorkImagePickerWidget2(
                 updateImageFunction: () async
@@ -122,7 +122,7 @@ class _WorkImagesState extends State<WorkImages> {
                   } else {
                     print('No image selected.');
                   }
-                  PostMethods().updateWorkImages(x,workImageOne,'works[3][image]');
+                  PostMethods().updateWorkImage(x,workImageOne,'works[3][image]');
                 }, image: m4['image_url']),
           ],
         ),
