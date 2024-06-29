@@ -3,15 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
-<<<<<<< HEAD
-import 'package:mahloula/Pages/User_Pages/user_edit_profile.dart';
-import 'package:mahloula/Pages/help_center_page.dart';
-import 'package:mahloula/Pages/privacy_policy_page.dart';
-import 'package:mahloula/Pages/user_notification_page.dart';
-=======
 import 'package:mahloula/Pages/General_Pages/help_center_page.dart';
 import 'package:mahloula/Pages/General_Pages/privacy_policy_page.dart';
->>>>>>> 77a9deaab0b07c41146204cd2f19f07509471e7d
+import 'package:mahloula/Pages/General_Pages/user_notification_page.dart';
+import 'package:mahloula/Pages/User_Pages/user_edit_profile.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';

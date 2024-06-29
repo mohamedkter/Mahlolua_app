@@ -21,7 +21,6 @@ class _NotificationSettingsScreenState
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD:lib/Pages/user_notification_page.dart
     //final userId = CacheData.getData(key: "userId");
     futureNotifications =  GetMethods.getUserNotifications(1);
        // استبدال برقم المستخدم الفعلي

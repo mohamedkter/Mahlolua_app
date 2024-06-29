@@ -2,9 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Pages/General_Pages/error_page.dart';
+import 'package:mahloula/Pages/General_Pages/success_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
-import 'package:mahloula/Pages/error_page.dart';
-import 'package:mahloula/Pages/success_page.dart';
+
 import 'package:mahloula/Services/Api/post_methods.dart';
 
 class EditUserProfile extends StatefulWidget {
