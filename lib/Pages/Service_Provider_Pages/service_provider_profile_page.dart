@@ -48,12 +48,9 @@ class ServiceProviderProfilePage extends StatelessWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
-<<<<<<< HEAD
-=======
                         image: DecorationImage(
                           image: AssetImage("assets/photo/logo.png"),
                         ),
->>>>>>> 842ae53fe1f9354c3916b04eb107e38290608da6
                         color: MainColor,
                         borderRadius: BorderRadius.circular(10)),
                     width: 30,
@@ -153,13 +150,7 @@ class ServiceProviderProfilePage extends StatelessWidget {
               ),
               OptionCardtext: "تعديل الملف",
               OptionFunction: () {
-<<<<<<< HEAD
-                navigateToEditProfile(context);
-=======
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return EditProfile();
-                }));
->>>>>>> 842ae53fe1f9354c3916b04eb107e38290608da6
+              navigateToEditProfile(context);
               },
             ),
             OptionCard(
