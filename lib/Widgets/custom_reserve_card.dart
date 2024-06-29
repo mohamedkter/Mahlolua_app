@@ -123,7 +123,7 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(
-                              "$PartImagePath${widget.reservation.userImage}")),
+                              "$PartImagePath${widget.reservation.userImage}"),fit: BoxFit.cover),
                       color: MainColor,
                       borderRadius: const BorderRadius.all(Radius.circular(30)),
                     ),

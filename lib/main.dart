@@ -6,6 +6,7 @@ import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_main_page
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Pages/Auth_Pages/login_page.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
+import 'package:mahloula/Services/State_Managment/Address_Cubit/address_cubit.dart';
 import 'package:mahloula/Services/State_Managment/FeedBack_Cubit/feedback_cubit.dart';
 import 'package:mahloula/Services/State_Managment/Search_Cubit/search_cubit.dart';
 import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Credentials_Cubit/credentials_cubit.dart';
@@ -27,17 +28,22 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomePageCubit(),),
-        BlocProvider(create: (context) => Cubite()..createDatabase(),),
+        BlocProvider(
+          create: (context) => HomePageCubit(),
+        ),
+        BlocProvider(
+          create: (context) => Cubite()..createDatabase(),
+        ),
         BlocProvider(create: (context) => CredentialsCubit()),
         BlocProvider(create: (context) => SpecificServicePageCubit()),
         BlocProvider(create: (context) => AllReservitionPageCubit()),
-        BlocProvider(create: (context)=>FeedbackCubit()),
-        BlocProvider(create: (context)=>SearchCubit()),
-        BlocProvider(create: (context)=>ServiceProviderHomePageCubit())
+        BlocProvider(create: (context) => FeedbackCubit()),
+        BlocProvider(create: (context) => SearchCubit()),
+        BlocProvider(create: (context) => ServiceProviderHomePageCubit()),
+        BlocProvider(create: (context) => AddressCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,4 +1,5 @@
 class LocationModel {
+  int? id;
   int user_id;
   String city;
   String street;
@@ -7,7 +8,9 @@ class LocationModel {
   double lat;
   double long;
 
-  LocationModel({
+  LocationModel(
+  
+    {
     required this.user_id,
     required this.city,
     required this.street,
@@ -27,5 +30,15 @@ class LocationModel {
       'lat': lat,
       'long': long,
     };
+  }
+  factory LocationModel.fromJson(Map<String, dynamic> json) {
+    return LocationModel(
+      city: json['city']  ,
+      street: json['street'],
+      bitTitle: json['bitTitle'],
+      specialMarque: json['specialMarque'],
+      lat: json['lat'],
+      long: json['long'], user_id: json["user"]["id"],
+    );
   }
 }

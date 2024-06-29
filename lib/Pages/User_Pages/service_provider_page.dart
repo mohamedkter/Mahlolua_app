@@ -43,20 +43,20 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
               topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
           child: BottomAppBar(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: MainColor,
                         shadowColor: Colors.black,
                         elevation: 1,
-                        fixedSize: Size(170, 50)),
+                        fixedSize: Size(MediaQuery.of(context).size.width/1.2, 50)),
                     onPressed: () {
                       Order obj = Order();
                       obj.price = int.parse(widget.serviceProvider.minPrice!.substring(0,2));
                       obj.employeeId = widget.serviceProvider.id;
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ReservationPage(obj: obj)));
+                          builder: (context) => ReservationPage(obj: obj, serviceprovider: widget.serviceProvider,)));
                     },
                     child: const Text(
                       "حجز معاينه",
@@ -66,23 +66,6 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                         color: Color.fromARGB(255, 241, 242, 243),
                       ),
                     )),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xfff1e7ff),
-                      fixedSize: Size(170, 50),
-                      shadowColor: Colors.black,
-                      elevation: 1,
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "راسل",
-                      style: TextStyle(
-                        //backgroundColor: Color(0xfff1e7ff),
-                        fontFamily: "Cairo",
-                        fontSize: 20,
-                        color: Color(0xff31589B),
-                      ),
-                    ))
               ],
             ),
           ),

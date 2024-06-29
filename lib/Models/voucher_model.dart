@@ -22,7 +22,7 @@ class Voucher {
             type: json['type'],
             discount: json['discount'],
             status: json['status'],
-            expiredAt: json['expiredAt'],
+            expiredAt: json['expired_at'],
         );
     }
 }

@@ -6,6 +6,8 @@ import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Pages/General_Pages/help_center_page.dart';
 import 'package:mahloula/Pages/General_Pages/privacy_policy_page.dart';
+import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
+import 'package:mahloula/Pages/User_Pages/saved_addresses_page.dart';
 import 'package:mahloula/Services/Api/get_methods.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -166,6 +168,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
               OptionCardtext: "الامان",
               OptionFunction: () async {
+              },
+            ),
+            OptionCard(
+              OptionCardIcon: const Icon(
+                Icons.edit_location_sharp,
+                size: 32,
+              ),
+              OptionCardtext: "اضافة عنوان",
+              OptionFunction: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    GetLocationPage()));
+              },
+            ),
+            OptionCard(
+              OptionCardIcon: const Icon(
+                Icons.location_history_sharp,
+                size: 32,
+              ),
+              OptionCardtext:"العناوين المحفوظه",
+              OptionFunction: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    const SavedAddressesPage()));
               },
             ),
             OptionCard(

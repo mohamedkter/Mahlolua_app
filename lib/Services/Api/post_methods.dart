@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/employee_profile_model.dart';
 import 'package:mahloula/Models/order_model.dart';
@@ -83,37 +85,84 @@ class PostMethods {
       }
     }
   }
+////////////////////////////////  Delete Location /////////////////////////////////
+static Future<void> deleteLocation(int id) async {
+    const String url = 'https://mahllola.online/api/location/destroy/';
+
+    final headers = {
+      'accept': 'application/json',
+      'X-CSRF-TOKEN': '',
+    };
+
+    try {
+      final Response response = await dio.delete(
+        '$url$id',
+        options: Options(headers: headers),
+      );
+
+      // Handle the response
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        print('Location deleted successfully');
+      } else {
+        print('Failed to delete location: ${response.statusCode}');
+        print('Response data: ${response.data}');
+      }
+    } catch (e) {
+      print('Exception: $e');
+      if (e is DioError) {
+        print('DioError message: ${e.message}');
+        if (e.response != null) {
+          print('DioError response data: ${e.response?.data}');
+        }
+      }
+    }
+  }  
 //////////////////////////////// Make Location Method /////////////////////////////
 
-  static Future<void> makeLocation(LocationModel loc) async {
+  static Future<dynamic> makeLocation(LocationModel loc) async {
     const String url = 'https://mahllola.online/api/location/store';
     final Dio dio = Dio();
 
     final headers = {
       //'Authorization': 'Bearer $authToken',
-      'Content-Type': 'application/json',  // Adjust if needed
+       'accept': 'application/json',
+      'Content-Type': 'multipart/form-data',  
     };
+     print(loc.user_id);
+          print(loc.city);
+          print(loc.street);
+          print(loc.bitTitle);
+          print(loc.lat);
+          print(loc.long);
 
+ FormData formData = FormData.fromMap({
+      'city': "${loc.city}",
+      'bitTitle':"${loc.bitTitle}",
+      'street': "${loc.street}",
+      'specialMarque': "mark",
+      'lat': "${loc.lat}",
+      'long': "${loc.long}",
+      'user_id': loc.user_id.toString(),
+    });
     try {
       final Response response = await dio.post(
         url,
-        queryParameters: loc.toMap(),
+        data: formData,
         options: Options(headers: headers),
       );
 
       // Handle the response
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Location stored successfully: ${response.data}');
+        return response.data;
       } else {
         print('Failed to store location: ${response.statusCode}');
+        return null;
       }
-    } on DioError catch (e) {
-      if (e.response != null) {
-        print('Error store location: ${e.response?.statusCode} - ${e.response?.statusMessage}');
-        print('Response data: ${e.response?.data}');
-      } else {
-        print('Error store location null: ${e.message}');
-      }
+    } catch (e) {
+      print('Exception: $e');
+      print("fefeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      return null;
     }
   }
   ///////////////////////////// Create User Method //////////////////////////
