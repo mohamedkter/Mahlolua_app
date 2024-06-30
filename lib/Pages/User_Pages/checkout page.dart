@@ -13,6 +13,7 @@ import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Services/State_Managment/Address_Cubit/address_cubit.dart';
 import 'package:mahloula/Services/State_Managment/Address_Cubit/address_states.dart';
+import 'package:mahloula/Services/notification/NotificationsServices.dart';
 import 'package:mahloula/Widgets/custom_bottom_appbar.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -30,13 +31,13 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-      BlocProvider.of<AddressCubit>(context).getAllAddresses();
+    BlocProvider.of<AddressCubit>(context).getAllAddresses();
   }
+
   int locationId = -1;
   String? cityname;
   @override
@@ -67,39 +68,58 @@ class _CheckoutPageState extends State<CheckoutPage> {
         buttonText: "اتمام عملية الحجز",
         buttonFunction: () async {
           if (cityname != null) {
-            widget.myOrder!.userId=CacheData.getData(key: "userId");
+            widget.myOrder!.userId = CacheData.getData(key: "userId");
             widget.myOrder!.locationId = locationId;
-            if (widget.voucher==null) {
-           await PostMethods().makeOrder(widget.myOrder!);
-              
-            }else{
-               PostMethods().makeOrderWithVoucher(widget.myOrder!,code: widget.voucher!.code);
+            if (widget.voucher == null) {
+              dynamic respo = await PostMethods().makeOrder(widget.myOrder!);
+              if (respo == true) {
+                NotificationServices.showNotification(
+                    "تم بنجاح ", "لقد تم حجز موعدك بنجاح ");
+              } else {
+                NotificationServices.showNotification(
+                    "هناك مشكله", "لقد حدث مشكه ما اثناء الحجز");
+              }
+            } else {
+              dynamic respo = await PostMethods().makeOrderWithVoucher(
+                  widget.myOrder!,
+                  code: widget.voucher!.code);
+              if (respo == true) {
+                NotificationServices.showNotification(
+                    "تم بنجاح ", "لقد تم حجز موعدك بنجاح ");
+              } else {
+                NotificationServices.showNotification(
+                    "هناك مشكله", "لقد حدث مشكه ما اثناء الحجز");
+              }
             }
-             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomePage(name: CacheData.getData(key: "name"),)),(route) => false,);
-          }else{
-             ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                                  backgroundColor: MainColor,
-                                  showCloseIcon: true,
-                                  content: Column(
-                                    children: [
-                                      Text(
-                                        "قم بختيار عنوان",
-                                        style: TextStyle(
-                                          fontFamily: "Cairo",
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      Text(
-                                        "يرجي اضافة او اختيار عنوان لاتمام الطلب",
-                                        style: TextStyle(
-                                          fontFamily: "Cairo",
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  )));
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => HomePage(
+                        name: CacheData.getData(key: "name"),
+                      )),
+              (route) => false,
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: MainColor,
+                showCloseIcon: true,
+                content: Column(
+                  children: [
+                    Text(
+                      "قم بختيار عنوان",
+                      style: TextStyle(
+                        fontFamily: "Cairo",
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "يرجي اضافة او اختيار عنوان لاتمام الطلب",
+                      style: TextStyle(
+                        fontFamily: "Cairo",
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                )));
           }
         },
       ),

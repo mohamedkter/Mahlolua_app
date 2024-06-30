@@ -98,7 +98,7 @@ static Future<bool> updateUserProfile({
 
 //////////////////////////////// Make Order Method /////////////////////////////
 
-   Future<void> makeOrder(Order order) async {
+   Future<dynamic> makeOrder(Order order) async {
     const String url = 'https://mahllola.online/api/makeOrder';
     final Dio dio = Dio();
 
@@ -117,15 +117,20 @@ static Future<bool> updateUserProfile({
       // Handle the response
       if (response.statusCode == 200) {
         print('Order made successfully: ${response.data}');
+        return true;
       } else {
         print('Failed to make order: ${response.statusCode}');
+      return false;
       }
     } on DioError catch (e) {
       if (e.response != null) {
         print('Error making order: ${e.response?.statusCode} - ${e.response?.statusMessage}');
         print('Response data: ${e.response?.data}');
+        return false;
       } else {
+      
         print('Error making order: ${e.message}');
+        return false;
       }
     }
   }
@@ -217,7 +222,7 @@ static Future<bool> updateUserProfile({
     //   print('Error updating image: $e');
     // }
   }
-  Future<void> makeOrderWithVoucher(Order order, {String? code}) async {
+  Future<dynamic> makeOrderWithVoucher(Order order, {String? code}) async {
     Map x = {'voucher_code':code};
     const String url = 'https://mahllola.online/api/makeOrder';
     final Dio dio = Dio();
@@ -237,15 +242,19 @@ static Future<bool> updateUserProfile({
       // Handle the response
       if (response.statusCode == 200) {
         print('Order made successfully: ${response.data}');
+        return true;
       } else {
         print('Failed to make order: ${response.statusCode}');
+        return false;
       }
     } on DioError catch (e) {
       if (e.response != null) {
         print('Error making order: ${e.response?.statusCode} - ${e.response?.statusMessage}');
         print('Response data: ${e.response?.data}');
+        return false;
       } else {
         print('Error making order: ${e.message}');
+        return false;
       }
     }
   }

@@ -14,6 +14,7 @@ import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/al
 import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/ServiceProviderHomePage_Cubit/serviceprovider_homepage_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_cubit.dart';
+import 'package:mahloula/Services/Notification/NotificationsServices.dart';
 import 'Pages/User_Pages/welcome_page_one.dart';
 import 'Services/State_Managment/cubit.dart';
 
@@ -21,6 +22,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await CacheData.cacheInitialization();
+  await NotificationServices.init();
   runApp(const MyApp());
 }
 

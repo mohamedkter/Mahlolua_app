@@ -19,15 +19,17 @@ import 'package:mahloula/Widgets/custom_all_services.dart';
 import 'package:mahloula/Widgets/custom_offer_item.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../../Services/Notification/NotificationsServices.dart';
 
 class OriginalPage extends StatelessWidget {
-  OriginalPage({required this.name, required this.services, required this.sponsors});
+  OriginalPage(
+      {required this.name, required this.services, required this.sponsors});
   final String name;
   TextEditingController searchController = TextEditingController();
- /////////// Services Data /////////////
- final List<Service> services;
+  /////////// Services Data /////////////
+  final List<Service> services;
   ///////// Offer Slider Data /////////////
- final List<Sponsor> sponsors;
+  final List<Sponsor> sponsors;
 //////////////////////////////////////
 
   @override
@@ -53,7 +55,8 @@ class OriginalPage extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => UserNotificationSettingsScreen()));
+                          builder: (context) =>
+                              UserNotificationSettingsScreen()));
                 },
                 icon: Icon(
                   Icons.notifications_none,
@@ -81,26 +84,21 @@ class OriginalPage extends StatelessWidget {
               ),
             ],
           ),
-          CacheData.getData(key: "image")==null?
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OriginalLoadingPage()));
-            },
-            icon: const Icon(
-              Icons.account_circle,
-              size: 45,
-            ),
-          ):
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "$PartImagePath${CacheData.getData(key: "image")}"),
-            ),
-          )
+          CacheData.getData(key: "image") == null
+              ? IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.account_circle,
+                    size: 45,
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "$PartImagePath${CacheData.getData(key: "image")}"),
+                  ),
+                )
         ],
       ),
       body: Container(
@@ -222,7 +220,9 @@ class OriginalPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                CustomAllSercivces(services: services,)
+                CustomAllSercivces(
+                  services: services,
+                )
               ],
             ),
           ),
@@ -272,7 +272,7 @@ class _OfferSliderState extends State<OfferSlider> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Image.network(
-                              PartImagePath+e.image,
+                              PartImagePath + e.image,
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),
