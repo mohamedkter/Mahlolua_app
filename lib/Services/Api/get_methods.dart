@@ -3,7 +3,7 @@ import 'package:mahloula/Models/employee_notification_model.dart';
 import 'package:mahloula/Models/user_notification_model.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
 import '../../Models/voucher_model.dart';
-import '../../models/reservation_model.dart';
+import '../../Models/reservation_model.dart';
 
 class GetMethods {
   static final Dio dio = Dio();

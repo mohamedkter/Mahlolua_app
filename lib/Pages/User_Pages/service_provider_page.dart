@@ -156,9 +156,9 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text(
-                              "النزله ,اسيوط",
-                              style: TextStyle(
+                             Text(
+                              "${widget.serviceProvider.location}",
+                              style: const TextStyle(
                                   fontFamily: "Cairo",
                                   fontSize: 15,
                                   color: Colors.grey),
@@ -567,7 +567,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "النزله ,اسيوط",
+                          "${widget.serviceProvider.location}",
                               style: TextStyle(
                                   fontFamily: "Cairo",
                                   fontSize: 15,

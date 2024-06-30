@@ -5,7 +5,7 @@ class Reservation {
   String employeeName;
   String serviceName;
   String dateOfDelivery;
-  String location;
+  Location location;
   String status; // Add this field
   String orderdescription;
   String price;
@@ -30,13 +30,46 @@ class Reservation {
       userImage: json['user']['image']  ,
       price: json['price'],
       employeeName: json['employee']['user']['name'],
-      location: json['location'],
+      location: Location.fromJson(json['location']),
       serviceName: json['employee']['service']['name'],
       dateOfDelivery: json['date_of_delivery'],
       orderdescription:json['order_descriptions'],
       status: json['status'],
       username: json['user']['name'],
       employeeId: json['employee']['id'],// Add this field
+    );
+  }
+}
+class Location {
+  int id;
+  String city;
+  String street;
+  String bitTitle;
+  String specialMarque;
+  double lat;
+  double long;
+
+  Location(
+    {
+    required this.id,
+    required this.city,
+    required this.street,
+    required this.bitTitle,
+    required this.specialMarque,
+    required this.lat,
+    required this.long,
+  });
+
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      id: json["id"],
+      city: json['city']  ,
+      street: json['street'],
+      bitTitle: json['bitTitle'],
+      specialMarque: json['specialMarque'],
+      lat: json['lat'],
+      long: json['long'],
     );
   }
 }

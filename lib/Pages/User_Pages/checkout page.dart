@@ -68,7 +68,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         buttonFunction: () async {
           if (cityname != null) {
             widget.myOrder!.userId=CacheData.getData(key: "userId");
-            widget.myOrder!.location = cityname;
+            widget.myOrder!.locationId = locationId;
             if (widget.voucher==null) {
            await PostMethods().makeOrder(widget.myOrder!);
               

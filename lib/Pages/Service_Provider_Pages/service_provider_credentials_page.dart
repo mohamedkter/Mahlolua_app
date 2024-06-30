@@ -38,6 +38,7 @@ class _ServiceProviderCredentialsState
   TextEditingController personalIdNumber = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController serviceproviderDecs = TextEditingController();
+   TextEditingController serviceproviderLocation = TextEditingController();
   File? personalImage;
   File? idImage;
   File? workImageOne;
@@ -149,6 +150,16 @@ class _ServiceProviderCredentialsState
                               },
                               textEditingController: serviceproviderDecs,
                               textFormFieldTitel: "وصف الفنى وخبرتة",
+                            ),
+                             TextFormFieldWidget(
+
+                              validatorFunction: (value) {
+                                if (value=="") {
+                                  return "اكتب المدينة , المحافظه من فضلك";
+                                }
+                              },
+                              textEditingController: serviceproviderLocation,
+                              textFormFieldTitel: "المدينة , المحافظه",
                             ),
                             const SizedBox(
                               height: 20,
@@ -316,7 +327,9 @@ class _ServiceProviderCredentialsState
                               SSN: personalIdNumber.text,
                               minPrice: int.parse(priceController.text),
                               userId: widget.id,
-                              serviceId: serviceId);
+                              serviceId: serviceId,
+                              location:serviceproviderLocation.text
+                              );
                           FormData? livePhoto = personalImage == null
                               ? null
                               : await imageConverter(

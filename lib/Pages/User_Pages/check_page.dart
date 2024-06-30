@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/reservation_model.dart'; // تعديل مسار الاستيراد حسب هيكلة مشروعك
+import '../../Models/reservation_model.dart'; // تعديل مسار الاستيراد حسب هيكلة مشروعك
 
 class CheckPage extends StatelessWidget {
   final Reservation reservation;
@@ -33,7 +33,7 @@ class CheckPage extends StatelessWidget {
                 SizedBox(height: 16),
                 _buildDetailItem('تاريخ التسليم', reservation.dateOfDelivery, fontSize),
                 SizedBox(height: 16),
-                _buildDetailItem('الموقع', reservation.location, fontSize),
+                _buildDetailItem('الموقع', reservation.location.city, fontSize),
                 SizedBox(height: 16),
                 _buildDetailItem('اسم العميل', reservation.username.toString(), fontSize), // تفترض أن السعر قيمة رقمية
               ],

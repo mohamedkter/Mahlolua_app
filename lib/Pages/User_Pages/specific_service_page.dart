@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Models/service_provider_model.dart';
 import 'package:mahloula/Pages/General_Pages/not_found_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/card_loading_page.dart';
@@ -91,19 +92,38 @@ class _SpecificServicePageState extends State<SpecificServicePage> {
                       },
                     ),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ServiceProviderPage(
-                                serviceProvider: serviceProviders[index],
-                              )));
+                      if (serviceProviders[index].status == "busy") {
+                        ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                                  backgroundColor: MainColor,
+                                  showCloseIcon: true,
+                                  content: Column(
+                                    children: [
+                                      Text(
+                                        "مقدم الخدمه  مشغول في الوقت الحالي",
+                                        style: TextStyle(
+                                          fontFamily: "Cairo",
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  )));
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ServiceProviderPage(
+                                  serviceProvider: serviceProviders[index],
+                                )));
+                      }
                     },
                   ),
                   itemCount: serviceProviders.length,
                 ));
           } else {
-            return const NotFoundPage(Message:  "اسف هذه الخدمه غير متوفر في الوقت الحالي يرجي المحاوله في وقت قادم",);
+            return const NotFoundPage(
+              Message:
+                  "اسف هذه الخدمه غير متوفر في الوقت الحالي يرجي المحاوله في وقت قادم",
+            );
           }
         })));
   }
 }
-
-

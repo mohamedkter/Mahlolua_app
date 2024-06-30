@@ -57,7 +57,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
     setState(() {
       marker.add(Marker(markerId: MarkerId("1"), position: location));
     });
-    //  await _updatePlacemark(location);
   }
 
   @override

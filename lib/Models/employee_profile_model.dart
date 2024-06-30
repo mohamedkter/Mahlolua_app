@@ -4,13 +4,14 @@ class EmployeeProfile {
   final int minPrice;
   final int userId;
   final int serviceId;
-
+  final String location;
   EmployeeProfile({
     required this.desc,
     required this.SSN,
     required this.minPrice,
     required this.userId,
     required this.serviceId,
+    required this.location, 
   });
 
   Map<String, dynamic> toMap() {
@@ -20,7 +21,7 @@ class EmployeeProfile {
       'min_price': minPrice,
       'user_id': userId,
       'service_id': serviceId,
-      
+      'location':location
     };
   }
 }

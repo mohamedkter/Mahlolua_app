@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
 import 'package:mahloula/Constants/ObjectOrder.dart';
+import 'package:mahloula/Models/reservation_model.dart';
+import 'package:mahloula/Pages/Service_Provider_Pages/order_details_page.dart';
 import 'package:mahloula/Pages/Service_Provider_Pages/service_provider_all_resevation_page.dart';
 import 'package:mahloula/Pages/User_Pages/check_page.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
-import '../../models/reservation_model.dart';
+
 
 class OrderCard extends StatefulWidget {
   final Reservation order;
   final Color color;
-final VoidCallback acceptedFunctoin;
-final VoidCallback rejectedFunctoin;
+  final VoidCallback acceptedFunctoin;
+  final VoidCallback rejectedFunctoin;
   const OrderCard({
     super.key,
     required this.color,
-    required this.order, required this.acceptedFunctoin, required this.rejectedFunctoin,
+    required this.order,
+    required this.acceptedFunctoin,
+    required this.rejectedFunctoin,
   });
 
   @override
@@ -46,7 +50,13 @@ class _OrderCardState extends State<OrderCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, left: 10),
-                    child: Icon(Icons.maps_home_work_outlined),
+                    child: IconButton(
+                      icon: const Icon(Icons.align_horizontal_left_rounded),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => OrderDetailsPage(reservation: widget.order,)));
+                      },
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +74,7 @@ class _OrderCardState extends State<OrderCard> {
                         height: 5,
                       ),
                       Text(
-                        widget.order.location,
+                        widget.order.location.city,
                         style: TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 15,
@@ -75,7 +85,7 @@ class _OrderCardState extends State<OrderCard> {
                         height: 5,
                       ),
                       Text(
-                          widget.order.dateOfDelivery,
+                        widget.order.dateOfDelivery,
                         style: const TextStyle(
                             fontFamily: "Cairo",
                             fontSize: 15,
@@ -88,9 +98,13 @@ class _OrderCardState extends State<OrderCard> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage("$PartImagePath${widget.order.userImage}"),fit: BoxFit.cover),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                "$PartImagePath${widget.order.userImage}"),
+                            fit: BoxFit.cover),
                         color: MainColor,
-                        borderRadius: const BorderRadius.all(Radius.circular(30))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30))),
                   ),
                 ],
               ),
@@ -122,7 +136,7 @@ class _OrderCardState extends State<OrderCard> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                      widget.order.dateOfDelivery,
+                                    widget.order.dateOfDelivery,
                                     style: TextStyle(
                                         fontFamily: "Cairo",
                                         fontSize: 15,
@@ -147,7 +161,7 @@ class _OrderCardState extends State<OrderCard> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                      widget.order.location,
+                                    widget.order.location.city,
                                     style: TextStyle(
                                         fontFamily: "Cairo",
                                         fontSize: 15,
@@ -178,7 +192,7 @@ class _OrderCardState extends State<OrderCard> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                        widget.order.orderdescription,
+                                      widget.order.orderdescription,
                                       style: TextStyle(
                                           fontFamily: "Cairo",
                                           fontSize: 15,
@@ -194,33 +208,37 @@ class _OrderCardState extends State<OrderCard> {
                               SizedBox(
                                 height: 15,
                               ),
-                              widget.order.status=="waiting"?
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  OredrCardButton(
-                                    btn_backgroung: MainColor,
-                                    mainColor: Colors.white,
-                                    btn_text: "قبول الطلب",
-                                    btn_function: widget.acceptedFunctoin,
-                                  ),
-                                  OredrCardButton(
-                                    btn_backgroung: Colors.white,
-                                    mainColor: MainColor,
-                                    btn_text: "رفض الطلب",
-                                    btn_function: widget.rejectedFunctoin,
-                                  )
-                                ],
-                              ):CompletedAndCanceledReserveButton(btnFunctoin: (){
-                                 Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => CheckPage(
-                                                    reservation:
-                                                        widget.order),
-                                              ),
-                                            );
-                              },btnText: "عرض الفاتوره الاكترونيه",)
+                              widget.order.status == "waiting"
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        OredrCardButton(
+                                          btn_backgroung: MainColor,
+                                          mainColor: Colors.white,
+                                          btn_text: "قبول الطلب",
+                                          btn_function: widget.acceptedFunctoin,
+                                        ),
+                                        OredrCardButton(
+                                          btn_backgroung: Colors.white,
+                                          mainColor: MainColor,
+                                          btn_text: "رفض الطلب",
+                                          btn_function: widget.rejectedFunctoin,
+                                        )
+                                      ],
+                                    )
+                                  : CompletedAndCanceledReserveButton(
+                                      btnFunctoin: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CheckPage(
+                                                reservation: widget.order),
+                                          ),
+                                        );
+                                      },
+                                      btnText: "عرض الفاتوره الاكترونيه",
+                                    )
                             ],
                           ),
                         ),
@@ -261,7 +279,8 @@ class OredrCardButton extends StatelessWidget {
     super.key,
     required this.btn_backgroung,
     required this.mainColor,
-    required this.btn_text, required this.btn_function,
+    required this.btn_text,
+    required this.btn_function,
   });
 
   @override

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 String timeFromNow(String dateStr) {
@@ -30,4 +31,28 @@ String timeFromNow(String dateStr) {
 
   var finalResult = result.split("-");
   return finalResult.join(" ");
+}
+
+List<String> convertToArabicTimeAndDate(String dateTimeString) {
+  DateTime dateTime = DateTime.parse(dateTimeString);
+
+  
+  final List<String> arabicDays = [
+    'الأحد',
+    'الإثنين',
+    'الثلاثاء',
+    'الأربعاء',
+    'الخميس',
+    'الجمعة',
+    'السبت'
+  ];
+
+  String hour = DateFormat('h:mm a').format(dateTime);
+  hour = hour.replaceAll('AM', 'ص').replaceAll('PM', 'م');
+
+  String day = arabicDays[dateTime.weekday % 7];
+  String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+  String dayAndDate = '$day $formattedDate';
+
+  return [hour, dayAndDate];
 }

@@ -1,6 +1,6 @@
 class Order {
    int? price;
-   String? location;
+   int? locationId;
    String? dateOfDelivery;
    String? orderDescriptions;
    //String? voucherCode;
@@ -9,7 +9,7 @@ class Order {
 
   Order({
      this.price,
-     this.location,
+     this.locationId,
      this.dateOfDelivery,
      this.orderDescriptions,
      //this.voucherCode,
@@ -20,7 +20,7 @@ class Order {
   Map<String, dynamic> toMap() {
     return {
       'price': price,
-      'location': location,
+      'location_id': locationId,
       'date_of_delivery': dateOfDelivery,
       'order_descriptions': orderDescriptions,
       //'voucher_code': voucherCode != null? voucherCode : 'empty',

@@ -4,7 +4,7 @@ import 'package:mahloula/Services/Data/cache_data.dart';
 import 'package:mahloula/Services/State_Managment/Alll_Reservation_Page_Cubit/all_reserviation_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/FeedBack_Cubit/feedback_cubit.dart';
 import 'package:rating_dialog/rating_dialog.dart';
-import '../../models/reservation_model.dart';
+import '../../Models/reservation_model.dart';
 import '../../Constants/Color_Constants.dart';
 import 'package:mahloula/Pages/User_Pages/check_page.dart';
 
@@ -186,7 +186,7 @@ class _CustomReserveCardState extends State<CustomReserveCard> {
                                     ),
                                   ),
                                   Text(
-                                    widget.reservation.location,
+                                    widget.reservation.location.city,
                                     style: const TextStyle(
                                       fontFamily: "Cairo",
                                       fontSize: 15,
