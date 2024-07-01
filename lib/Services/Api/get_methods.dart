@@ -253,7 +253,7 @@ class GetMethods {
 
       if (response.statusCode == 200) {
         List<dynamic> data = response.data[
-            'message']; // Assuming the notifications are under 'message' key
+            'message']; 
         return data.map((json) => EmployeeNotification.fromJson(json)).toList();
       } else {
         print('Failed to get employee notifications: ${response.statusCode}');

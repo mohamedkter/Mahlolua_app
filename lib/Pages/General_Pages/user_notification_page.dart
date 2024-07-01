@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:mahloula/Models/user_notification_model.dart'; // استبدال باسم الملف الصحيح
@@ -21,9 +20,9 @@ class _NotificationSettingsScreenState
   @override
   void initState() {
     super.initState();
-    //final userId = CacheData.getData(key: "userId");
-    futureNotifications =  GetMethods.getUserNotifications(1);
-       // استبدال برقم المستخدم الفعلي
+    final userId = CacheData.getData(key: "userId");
+    futureNotifications = GetMethods.getUserNotifications(userId);
+    // استبدال برقم المستخدم الفعلي
   }
 
   @override
@@ -51,14 +50,15 @@ class _NotificationSettingsScreenState
                   ),
                   Container(
                     decoration: BoxDecoration(
-                       image: DecorationImage(image:AssetImage("assets/photo/logo.png"),),
-                        color: MainColor,
-                        borderRadius: BorderRadius.circular(10)),
+                      image: DecorationImage(image: AssetImage("assets/photo/logo.png")),
+                      color: MainColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     width: 30,
                     height: 30,
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -83,61 +83,69 @@ class _NotificationSettingsScreenState
                     color: Colors.white,
                     elevation: 0,
                     margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ExpansionTile(
-
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 10.0, left: 10),
-                        child: Icon(Icons.notifications),
-                      ),
-
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Expanded(
-                            child: Text(
-                              notification.employeename,
-                              style: TextStyle(
-                                fontFamily: "Cairo",
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 10, right: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Row(
                             children: [
-                              const SizedBox(height: 5),
-                              Text(
-                                notification.message,
-                                style: TextStyle(
+                              Icon(Icons.notifications,color: MainColor,),
+                            
+                              Expanded(
+                                child: Text(
+                                  'الرد: ${notification.message}',
+                                  style: TextStyle(
                                   fontFamily: "Cairo",
-                                  fontSize: 17,
-                                  color: Colors.grey.shade700,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                'التوقيت: ${notification.timestamp}',
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
+                                    fontSize: 17,
+                                    color: Colors.grey.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  
+                                  'رقم الاوردر: ${notification.orderId}',
+
+                                  style: TextStyle(
+                                    fontFamily: "Cairo",
+                                    fontSize: 17,
+                                    color: Colors.grey.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'التوقيت: ${notification.timestamp}',
+                                  style: const TextStyle(
+                                    fontFamily: "Cairo",
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

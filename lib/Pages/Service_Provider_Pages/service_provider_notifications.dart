@@ -7,17 +7,20 @@ import 'package:mahloula/Services/Api/get_methods.dart';
 
 class NotificationSettingsScreen extends StatefulWidget {
   @override
-  _NotificationSettingsScreenState createState() => _NotificationSettingsScreenState();
+  _NotificationSettingsScreenState createState() =>
+      _NotificationSettingsScreenState();
 }
 
-class _NotificationSettingsScreenState extends State<NotificationSettingsScreen> {
+class _NotificationSettingsScreenState
+    extends State<NotificationSettingsScreen> {
   late Future<List<EmployeeNotification>> futureNotifications;
 
   @override
   void initState() {
     super.initState();
     final employeeId = CacheData.getData(key: "employee_id");
-    futureNotifications = GetMethods.getEmployeeNotifications(employeeId); // Replace with actual employeeId
+    futureNotifications = GetMethods.getEmployeeNotifications(
+        employeeId); // Replace with actual employeeId
   }
 
   @override
@@ -44,6 +47,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   const SizedBox(width: 5),
                   Container(
                     decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage("assets/photo/logo.png"),
+                      ),
                       color: MainColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -75,81 +81,70 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   return Card(
                     color: Colors.white,
                     elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(color: Colors.black, width: 0.8),
-                    ),
                     margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ExpansionTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 10.0, left: 10),
-                        child: Icon(Icons.notifications),
-                      ),
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Expanded(
-                            child: Text(
-                              notification.userName,
-                              style: TextStyle(
-                                fontFamily: "Cairo",
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Row(
                             children: [
-                              const SizedBox(height: 5),
-                              Text(
-                                notification.descriptions,
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 17,
-                                  color: Colors.grey.shade700,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              const Icon(
+                                Icons.notifications,
+                                color: MainColor,
                               ),
-                              const SizedBox(height: 5),
-                              Text(
-                                'الموقع: ${notification.location}',
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                'تاريخ التوصيل: ${notification.dateOfDelivery}',
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                'التوقيت: ${notification.timestamp}',
-                                style: TextStyle(
-                                  fontFamily: "Cairo",
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
+                              Expanded(
+                                child: Text(
+                                  'رقم الاوردر: ${notification.orderId}',
+                                  style: TextStyle(
+                                    fontFamily: "Cairo",
+                                    fontSize: 17,
+                                    color: Colors.grey.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'التوقيت: ${notification.timestamp}',
+                                  style: TextStyle(
+                                    fontFamily: "Cairo",
+                                    fontSize: 17,
+                                    color: Colors.grey.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  ' يرجى متابعة الملف الشخصى لرؤية تفاصيل الاوردر كاملة...',
+                                  style: TextStyle(
+                                    fontFamily: "Cairo",
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
