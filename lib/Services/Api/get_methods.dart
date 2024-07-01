@@ -60,8 +60,9 @@ class GetMethods {
       return [];
     }
   }
+
 ////////////////////////////////////////////// Get All Vouchers /////////////////////
-  static Future<List<dynamic>> getAllVouchers() async {
+  static Future<dynamic> getAllVouchers() async {
     final String url = 'https://mahllola.online/api/vouchers';
     try {
       final Response response = await dio.get(
@@ -70,19 +71,18 @@ class GetMethods {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> vouchers = response
-            .data['vouchers'];
-
+        dynamic vouchers = response.data['vouchers'];
         return vouchers;
       } else {
         print('Failed to get Vouchers: ${response.statusCode}');
-        return [];
+        return null;
       }
     } catch (e) {
       print('Error getting Vouchers: $e');
-      return [];
+      return null;
     }
   }
+
 //////////////////////////////////////////////
   static Future<List<Reservation>> getEmployeeOrders(int employeeId) async {
     final String url =
@@ -133,7 +133,7 @@ class GetMethods {
   ////////////////////Get All Locations By ID  ///////////////////////////
 
   static Future<dynamic> getAllLocations(int id) async {
-     String url = 'https://mahllola.online/api/location/showUsersLocation/$id';
+    String url = 'https://mahllola.online/api/location/showUsersLocation/$id';
     try {
       final Response response = await dio.get(
         url,
@@ -152,7 +152,27 @@ class GetMethods {
       return null;
     }
   }
+  ////////////////////////// Get all Used Voucher by User ////////////////
 
+  static Future<dynamic> getUsedVoucher() async {
+    String url = 'https://mahllola.online/api/showVouchersIsUsedByUser/${CacheData.getData(key: "userId")}';
+    try {
+      final Response response = await dio.get(
+        url,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['vouchers'];
+      } else {
+        print('Failed to get used voucher: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error getting used voucher: $e');
+      return null;
+    }
+  }
 ////////////////////////Get Service By Id ////////////
 
   Future<void> getServiceDetails(int serviceId) async {
@@ -175,7 +195,8 @@ class GetMethods {
 
   //////////////////// Get Work Images for employee ///////////////
   Future<Map> getWorkImages(int elmId, int index) async {
-    final String url = 'https://mahllola.online/api/employee/showEmployeeLastWorks/$elmId';
+    final String url =
+        'https://mahllola.online/api/employee/showEmployeeLastWorks/$elmId';
     try {
       final Response response = await dio.get(
         url,
@@ -252,8 +273,7 @@ class GetMethods {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> data = response.data[
-            'message']; 
+        List<dynamic> data = response.data['message'];
         return data.map((json) => EmployeeNotification.fromJson(json)).toList();
       } else {
         print('Failed to get employee notifications: ${response.statusCode}');

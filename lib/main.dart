@@ -15,6 +15,7 @@ import 'package:mahloula/Services/State_Managment/Service%20_Provider_Cubit/Serv
 import 'package:mahloula/Services/State_Managment/User_Cubit/Home_Page_Cubit/home_page_cubit.dart';
 import 'package:mahloula/Services/State_Managment/User_Cubit/Specific_Service_Page_Cubit/specific_service_page_cubit.dart';
 import 'package:mahloula/Services/Notification/NotificationsServices.dart';
+import 'package:mahloula/Services/State_Managment/Voucher_Cubit/voucher_cubit.dart';
 import 'Pages/User_Pages/welcome_page_one.dart';
 import 'Services/State_Managment/cubit.dart';
 
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => ServiceProviderHomePageCubit()),
         BlocProvider(create: (context) => AddressCubit()),
+        BlocProvider(create: (context) => VoucherCubit()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

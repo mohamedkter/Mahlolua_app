@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Functions/date_converter.dart';
 
 class VoucherCard extends StatelessWidget {
   final int index;
@@ -41,8 +42,8 @@ class VoucherCard extends StatelessWidget {
               children: [
                 Container(
                   child: Image.asset("assets/photo/voucher.png"),
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -60,19 +61,19 @@ class VoucherCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "خصم  ${discount} ${vouchertype=="fixed"?"جنيه":"%"}",
+                      "خصم  ${discount} ${vouchertype=="fixed"?"ج.م":"%"}",
                       style: const TextStyle(
                         fontFamily: "Cairo",
-                        fontSize: 19,
+                        fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      "ينتهي بعد ${Jiffy.now().to(Jiffy.parse(voucherDuration)).toString()}",
+                      "ينتهي في ${formatDate(voucherDuration)}",
                       style: TextStyle(
                         fontFamily: "Cairo",
-                        fontSize: 17,
+                        fontSize: 15,
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w300,
                       ),

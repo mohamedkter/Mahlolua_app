@@ -56,3 +56,57 @@ List<String> convertToArabicTimeAndDate(String dateTimeString) {
 
   return [hour, dayAndDate];
 }
+String formatDate(String dateStr) {
+
+  DateTime date = DateTime.parse(dateStr);
+
+
+  Map<int, String> monthsInArabic = {
+    1: 'يناير',
+    2: 'فبراير',
+    3: 'مارس',
+    4: 'أبريل',
+    5: 'مايو',
+    6: 'يونيو',
+    7: 'يوليو',
+    8: 'أغسطس',
+    9: 'سبتمبر',
+    10: 'أكتوبر',
+    11: 'نوفمبر',
+    12: 'ديسمبر'
+  };
+
+  int day = date.day;
+  int month = date.month;
+  int year = date.year;
+
+
+  String monthInArabic = '';
+  if (month == 1) {
+    monthInArabic = 'يناير';
+  } else if (month == 2) {
+    monthInArabic = 'فبراير';
+  } else if (month == 3) {
+    monthInArabic = 'مارس';
+  } else if (month == 4) {
+    monthInArabic = 'أبريل';
+  } else if (month == 5) {
+    monthInArabic = 'مايو';
+  } else if (month == 6) {
+    monthInArabic = 'يونيو';
+  } else if (month == 7) {
+    monthInArabic = 'يوليو';
+  } else if (month == 8) {
+    monthInArabic = 'أغسطس';
+  } else if (month == 9) {
+    monthInArabic = 'سبتمبر';
+  } else if (month == 10) {
+    monthInArabic = 'أكتوبر';
+  } else if (month == 11) {
+    monthInArabic = 'نوفمبر';
+  } else if (month == 12) {
+    monthInArabic = 'ديسمبر';
+  }
+
+  return '$day $monthInArabic $year';
+}

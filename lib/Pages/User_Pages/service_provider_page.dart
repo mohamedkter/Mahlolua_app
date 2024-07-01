@@ -77,8 +77,14 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
               slivers: [
                 SliverToBoxAdapter(
                   child: Container(
-                    height: MediaQuery.sizeOf(context).height / 3.5,
+                    height:200,
                     color: MainColor,
+                    child: Center(child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      widget.serviceProvider.user?.image==null?CircleAvatar(backgroundImage: AssetImage("assets/photo/profileImage.jpg",),radius: 60,): CircleAvatar(backgroundImage: NetworkImage(PartImagePath+(widget.serviceProvider.user!.image??""),),radius: 70,),
+                      ],
+                    )),
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -486,9 +492,15 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: Container(
-                    height: MediaQuery.sizeOf(context).height / 3.5,
+                  child:Container(
+                    height:200,
                     color: MainColor,
+                    child: Center(child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      widget.serviceProvider.user?.image==null?CircleAvatar(backgroundImage: AssetImage("assets/photo/profileImage.jpg",),radius: 60,): CircleAvatar(backgroundImage: NetworkImage(PartImagePath+(widget.serviceProvider.user!.image??""),),radius: 70,),
+                      ],
+                    )),
                   ),
                 ),
                 SliverToBoxAdapter(

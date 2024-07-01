@@ -25,24 +25,15 @@ class _ReservationPageState extends State<ReservationPage> {
   Voucher? selectedVouche;
   TextEditingController addVoucher = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
-  dynamic vouchers;
+  Voucher? vouchers;
   String code = '';
-  String DateAndTime = '';
+  String Date = '';
+  String Time='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: IconButton(
-          onPressed: () {},
-          icon: CircleAvatar(
-            radius: 17,
-            child: Icon(
-              Icons.more_horiz,
-            ),
-            backgroundColor: Colors.grey.shade200,
-          ),
-        ),
         automaticallyImplyLeading: false,
         actions: [
           Text(
@@ -93,10 +84,10 @@ class _ReservationPageState extends State<ReservationPage> {
                                 DateTime.now().add(Duration(days: 7)))) {
                           String x = value.toString();
                           print(x.substring(0, 10));
-                          DateAndTime = x.substring(0, 10) + ' ';
+                          Date = x.substring(0, 10) + ' ';
                         } else {
                           setState(() {
-                            DateAndTime = '';
+                            Date = '';
                           });
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
@@ -176,7 +167,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                   builder: (context) => AddDiscountPage()));
                           setState(() {
                             if (vouchers != null) {
-                              addVoucher.text = vouchers?['code'];
+                              addVoucher.text = vouchers!.code;
                             }
                           });
                         },
@@ -235,17 +226,17 @@ class _ReservationPageState extends State<ReservationPage> {
       ),
       bottomNavigationBar: CustomBottomAppBar(
         buttonText:
-            "${vouchers == null ? widget.obj?.price : widget.obj!.price! - vouchers["discount"]}\$  الحجز ",
+            "${vouchers == null ? widget.obj?.price : widget.obj!.price! - vouchers!.discount }\$  الحجز ",
         buttonFunction: () {
-          if (key.currentState!.validate() && DateAndTime != '') {
-            widget.obj?.dateOfDelivery = DateAndTime;
+          if (key.currentState!.validate() && Date != '') {
+            widget.obj?.dateOfDelivery = Date+Time;
             if (vouchers != null) {
               code = addVoucher.text;
             }
             if (vouchers!=null) {
                 Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
-                    GetOrderDescription(myOrder: widget.obj, serviceProvider: widget.serviceprovider,voucher: Voucher.fromJson(vouchers),)));
+                    GetOrderDescription(myOrder: widget.obj, serviceProvider: widget.serviceprovider,voucher: vouchers)));
             }else{
                 Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) =>
@@ -295,7 +286,7 @@ class _ReservationPageState extends State<ReservationPage> {
       setState(() {
         String x = pickedTime.toString();
         _controller.text = x.substring(10, 15);
-        DateAndTime += _controller.text;
+        Time += _controller.text;
       });
     }
   }
