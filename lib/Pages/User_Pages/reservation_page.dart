@@ -27,7 +27,6 @@ class _ReservationPageState extends State<ReservationPage> {
   GlobalKey<FormState> key = GlobalKey();
   dynamic vouchers;
   String code = '';
-
   String DateAndTime = '';
   @override
   Widget build(BuildContext context) {

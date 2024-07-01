@@ -8,6 +8,7 @@ import 'package:mahloula/Models/service_provider_model.dart';
 import 'package:mahloula/Models/voucher_model.dart';
 import 'package:mahloula/Pages/General_Pages/not_found_page.dart';
 import 'package:mahloula/Pages/Loading_Pages/generel_loading_page.dart';
+import 'package:mahloula/Pages/User_Pages/get_location_page.dart';
 import 'package:mahloula/Pages/User_Pages/home_page.dart';
 import 'package:mahloula/Services/Api/post_methods.dart';
 import 'package:mahloula/Services/Data/cache_data.dart';
@@ -33,7 +34,7 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   @override
   void initState() {
-    // TODO: implement initState
+    print(widget.voucher?.code);
     super.initState();
     BlocProvider.of<AddressCubit>(context).getAllAddresses();
   }
@@ -83,6 +84,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               dynamic respo = await PostMethods().makeOrderWithVoucher(
                   widget.myOrder!,
                   code: widget.voucher!.code);
+              print("With voucher");
               if (respo == true) {
                 NotificationServices.showNotification(
                     "تم بنجاح ", "لقد تم حجز موعدك بنجاح ");
@@ -212,8 +214,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         decoration: BoxDecoration(
                             image: widget.serviceProvider.user?.image != null
                                 ? DecorationImage(
-                                    image: NetworkImage(PartImagePath +
-                                        "${widget.serviceProvider.user?.image}"),
+                                    image: NetworkImage(
+                                        "$PartImagePath${widget.serviceProvider.user?.image}"),
                                     fit: BoxFit.cover)
                                 : const DecorationImage(
                                     image: AssetImage(
@@ -221,7 +223,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     fit: BoxFit.cover),
                             color: MainColor,
                             borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
+                                const BorderRadius.all(Radius.circular(30))),
                       )
                     ],
                   ),
@@ -436,10 +438,45 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                     );
                   } else if (state is LoadingAddressState) {
-                    return const Text("تحميل"); //GenerelLoadingPage();
+                    return const Text("تحميل");
                   } else {
-                    return const NotFoundPage(
-                      Message: "قم لا يوجد عناوين حتي الان",
+                    return Column(
+                      children: [
+                        const NotFoundPage(
+                          Message: " لا يوجد عناوين حتي الان",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const GetLocationPage()));
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "اضافة عنوان",
+                                  style: TextStyle(
+                                    color: MainColor,
+                                    fontFamily: "Cairo",
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Icon(
+                                  Icons.add_location_alt_outlined,
+                                  color: MainColor,
+                                ),
+                              ],
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     );
                   }
                 },
@@ -476,15 +513,15 @@ class CustomPayRow extends StatelessWidget {
                     fontFamily: 'cairo',
                     fontSize: fontsize,
                   )),
-              Text(price.toString() + ".00",
-                  style: TextStyle(
+              Text("$price.00",
+                  style: const TextStyle(
                     fontFamily: 'cairo',
                     fontSize: 15,
                   ))
             ],
           ),
           Text(title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'cairo',
                 fontSize: 15,
               )),

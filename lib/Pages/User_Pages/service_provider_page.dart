@@ -53,7 +53,7 @@ class _ServiceProviderPageState extends State<ServiceProviderPage> {
                         fixedSize: Size(MediaQuery.of(context).size.width/1.2, 50)),
                     onPressed: () {
                       Order obj = Order();
-                      obj.price = int.parse(widget.serviceProvider.minPrice!.substring(0,2));
+                      obj.price =double.parse(widget.serviceProvider.minPrice??"100.00").toInt();
                       obj.employeeId = widget.serviceProvider.id;
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ReservationPage(obj: obj, serviceprovider: widget.serviceProvider,)));
