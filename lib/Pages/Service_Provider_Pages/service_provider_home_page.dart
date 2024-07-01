@@ -42,7 +42,7 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
 
           int countOfOrders =
               BlocProvider.of<ServiceProviderHomePageCubit>(context)
-                  .countOfOrders;
+                  .countOfOrders??0;
           List<Reservation> orders =
               BlocProvider.of<ServiceProviderHomePageCubit>(context)
                   .waitingOrders;

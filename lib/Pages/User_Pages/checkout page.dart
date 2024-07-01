@@ -450,7 +450,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         ),
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(
                                   builder: (context) => const GetLocationPage()));
                             },
                             child: const Row(
