@@ -26,7 +26,7 @@ class VoucherCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Container(
-        height: 110,
+        height: 90,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 0.4),
           color: Colors.transparent,
