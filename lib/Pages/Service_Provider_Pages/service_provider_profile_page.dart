@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -194,9 +195,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
               ),
               OptionCardtext: "الاشعارات",
               OptionFunction: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return NotificationSettingsScreen();
-                }));
+                AppSettings.openAppSettings(type: AppSettingsType.notification);
               },
             ),
             OptionCard(

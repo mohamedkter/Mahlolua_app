@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -175,9 +176,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
               OptionCardtext: "الاشعارات",
               OptionFunction: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return UserNotificationSettingsScreen();
-                }));
+               AppSettings.openAppSettings(type: AppSettingsType.notification);
               },
             ),
             OptionCard(

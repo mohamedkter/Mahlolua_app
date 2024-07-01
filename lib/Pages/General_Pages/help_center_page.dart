@@ -118,8 +118,12 @@ class ContactUsTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           GestureDetector(
-              onTap: () {
-                // _launchUrl("");
+              onTap: () async {
+                final Uri launchUri = Uri(
+                  scheme: 'tel',
+                  path: "01558867955",
+                );
+                await launchUrl(launchUri);
               },
               child: HelpCenterBox(text: "خدمة العملاء")),
           GestureDetector(
