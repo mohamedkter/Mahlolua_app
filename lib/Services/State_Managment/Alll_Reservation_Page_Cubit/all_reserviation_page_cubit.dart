@@ -10,16 +10,16 @@ class AllReservitionPageCubit extends Cubit<AllReservationPageStatus> {
   AllReservitionPageCubit() : super(InitialState());
   List<Reservation> data = [];
   List<Reservation> employeeOrders = [];
-  Future<void> getAllReservationForUser(int userId) async {
+  Future<void> getAllReservationForUser() async {
     emit(AllReservationPageLoadingStatus());
-    data = await GetMethods.getUserOrders(userId);
+    data = await GetMethods.getUserOrders(CacheData.getData(key: "userId"));
     emit(AllReservationPageSuccessStatus());
   }
 
   Future<void> changeOrderStatusForUser(int orderId, String newStatus) async {
     emit(AllReservationPageLoadingStatus());
     await PostMethods.changeOrderStatus(orderId, newStatus);
-    await getAllReservationForUser(CacheData.getData(key: "userId"));
+    await getAllReservationForUser();
     emit(AllReservationPageSuccessStatus());
   }
 

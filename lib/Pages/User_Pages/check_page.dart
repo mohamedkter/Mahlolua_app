@@ -35,7 +35,13 @@ class CheckPage extends StatelessWidget {
                 SizedBox(height: 16),
                 _buildDetailItem('الموقع', reservation.location.city, fontSize),
                 SizedBox(height: 16),
-                _buildDetailItem('اسم العميل', reservation.username.toString(), fontSize), // تفترض أن السعر قيمة رقمية
+                _buildDetailItem('اسم العميل', reservation.username.toString(), fontSize),
+                  SizedBox(height: 16),
+                _buildDetailItem('السعر ', reservation.price.toString(), fontSize),
+                  SizedBox(height: 16),
+                _buildDetailItem('خصم ', reservation.total_discount??"0", fontSize),
+                  SizedBox(height: 16),
+                _buildDetailItem('السعر بعد الخصم ', reservation.price_after_discount??reservation.price, fontSize), // تفترض أن السعر قيمة رقمية
               ],
             ),
           ),

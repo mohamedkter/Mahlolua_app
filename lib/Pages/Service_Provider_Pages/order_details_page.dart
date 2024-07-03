@@ -87,14 +87,21 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       title: "اسم العميل",
                       value: widget.reservation.username,
                     ),
-                    RowOfData(
-                        title: "السعر",
-                        value: "${widget.reservation.price} ج.م"),
+                  
                     RowOfData(
                         title: "الخدمه",
                         value: "${widget.reservation.serviceName}"),
                     RowOfData(title: "الساعه", value: DayAndHoures[0]),
                     RowOfData(title: "اليوم", value: DayAndHoures[1]),
+                      RowOfData(
+                        title: "السعر",
+                        value: "${widget.reservation.price} ج.م"),
+                          RowOfData(
+                        title: "الخصم",
+                        value: "${widget.reservation.total_discount??0} ج.م"),
+                        RowOfData(
+                        title: "السعر بعد الخصم",
+                        value: "${widget.reservation.price_after_discount??widget.reservation.price} ج.م"),
                   ],
                 ),
               ),
@@ -239,7 +246,7 @@ class RowOfData extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: MediaQuery.of(context).size.width / 1.7,
+          width: MediaQuery.of(context).size.width / 2.1,
           child: Text(
             value,
             style: const TextStyle(

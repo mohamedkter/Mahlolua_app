@@ -184,7 +184,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                 borderRadius: BorderRadius.circular(100.0)))),
                     Container(
                       padding: EdgeInsets.only(right: 10),
-                      width: 290,
+                      width: MediaQuery.of(context).size.width/1.4,
                       height: 50,
                       decoration: BoxDecoration(
                           color: Color(0xfff1E7ff),

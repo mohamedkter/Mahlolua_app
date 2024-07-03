@@ -73,6 +73,7 @@ class _ServiceCardState extends State<ServiceCard> {
             Padding(
               padding: const EdgeInsets.only(right: 15),
               child: Container(
+                width: MediaQuery.of(context).size.width/3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -114,25 +115,30 @@ class _ServiceCardState extends State<ServiceCard> {
                           fontWeight: FontWeight.w600),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Text(
-                          "تقييم",
-                          style: TextStyle(
-                              fontFamily: "Cairo",
-                              fontSize: 15,
-                              color: Colors.grey),
+                        Row(
+                          children: [
+                            const Text(
+                              "تقييم",
+                              style: TextStyle(
+                                  fontFamily: "Cairo",
+                                  fontSize: 15,
+                                  color: Colors.grey),
+                            ),
+                            Text(
+                              "${widget.NumberResidents}| ${widget.rate}",
+                              style: TextStyle(
+                                  fontFamily: "Cairo",
+                                  fontSize: 15,
+                                  color: Colors.grey),
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            )
+                          ],
                         ),
-                        Text(
-                          "${widget.NumberResidents}| ${widget.rate}",
-                          style: TextStyle(
-                              fontFamily: "Cairo",
-                              fontSize: 15,
-                              color: Colors.grey),
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        )
                       ],
                     )
                   ],
@@ -140,7 +146,7 @@ class _ServiceCardState extends State<ServiceCard> {
               ),
             ),
             Container(
-              width: 120,
+              width: MediaQuery.of(context).size.width/3.4,
               height: 120,
               decoration: BoxDecoration(
                   image: widget.image != null

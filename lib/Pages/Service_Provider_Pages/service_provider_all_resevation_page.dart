@@ -190,7 +190,7 @@ class CompletedAndCanceledReserveButton extends StatelessWidget {
             backgroundColor: MainColor,
             side: const BorderSide(color: MainColor),
             elevation: 0,
-            fixedSize: const Size(320, 25),
+            fixedSize: const Size(270, 25),
           ),
           child: Text(
             btnText,

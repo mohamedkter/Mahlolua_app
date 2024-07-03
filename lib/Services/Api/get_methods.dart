@@ -48,6 +48,7 @@ class GetMethods {
       );
 
       if (response.statusCode == 200) {
+        print("object");
         List<dynamic> data = response
             .data['message']; // Assuming the orders are under 'message' key
         return data.map((json) => Reservation.fromJson(json)).toList();
@@ -155,7 +156,8 @@ class GetMethods {
   ////////////////////////// Get all Used Voucher by User ////////////////
 
   static Future<dynamic> getUsedVoucher() async {
-    String url = 'https://mahllola.online/api/showVouchersIsUsedByUser/${CacheData.getData(key: "userId")}';
+    String url =
+        'https://mahllola.online/api/showVouchersIsUsedByUser/${CacheData.getData(key: "userId")}';
     try {
       final Response response = await dio.get(
         url,

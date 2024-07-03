@@ -29,7 +29,7 @@ class _AllReservationPageState extends State<AllReservationPage>
     _tabController = TabController(length: 3, vsync: this);
     _tabController.index = 2;
     BlocProvider.of<AllReservitionPageCubit>(context)
-        .getAllReservationForUser(CacheData.getData(key: "userId"));
+        .getAllReservationForUser();
   }
 
   List<List<Reservation>> filterReservations(List<Reservation> reservations) {

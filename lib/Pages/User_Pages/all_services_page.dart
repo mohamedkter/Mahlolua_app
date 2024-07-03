@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Models/service_model.dart';
 import 'package:mahloula/Widgets/custom_all_services.dart';
 
 class AllServicesPage extends StatelessWidget {
-  const AllServicesPage({Key? key}) : super(key: key);
-
+  const AllServicesPage({Key? key, required this.services}) : super(key: key);
+  final List<Service> services;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,14 +15,14 @@ class AllServicesPage extends StatelessWidget {
           icon: CircleAvatar(
             radius: 17,
             backgroundColor: Colors.grey.shade200,
-            child:const Icon(
+            child: const Icon(
               Icons.more_horiz,
             ),
           ),
         ),
         automaticallyImplyLeading: false,
         actions: [
-         const Text(
+          const Text(
             'الخدمات',
             style: TextStyle(
               fontFamily: 'cairo',
@@ -38,9 +39,12 @@ class AllServicesPage extends StatelessWidget {
               ))
         ],
       ),
-      body:  Padding(
+      body: Padding(
         padding: EdgeInsets.all(8.0),
-        child: CustomAllSercivces(services: [],),
+        child: CustomAllSercivces(
+          services:services,
+          dev: 100,
+        ),
       ),
     );
   }

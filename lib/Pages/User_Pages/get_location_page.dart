@@ -252,7 +252,7 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                   backgroundColor: MainColor,
                                   shadowColor: Colors.black,
                                   elevation: 1,
-                                  fixedSize: Size(350, 50)),
+                                  fixedSize: Size(MediaQuery.of(context).size.width/1.2, 50)),
                               onPressed: () {
                                 showDialog(
                                     context: context,

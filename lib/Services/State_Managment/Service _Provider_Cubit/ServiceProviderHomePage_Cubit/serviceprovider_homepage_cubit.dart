@@ -8,7 +8,7 @@ import 'package:mahloula/Models/reservation_model.dart';
 class ServiceProviderHomePageCubit
     extends Cubit<ServiceProviderHomePageStates> {
   ServiceProviderHomePageCubit() : super(InitialState());
-  late int countOfOrders;
+   int? countOfOrders;
   List<Reservation> waitingOrders = [];
   late int total_rates;
   late String? average_rating;

@@ -83,8 +83,8 @@ String? validateDescription(String? value) {
   if (value == "") {
     return 'الرجاء إدخال وصف الفني.';
   }
-  if (value!.length < 100) {
-    return 'يجب أن يتكون الوصف من 100 حرف على الأقل.';
+  if (value!.length < 50) {
+    return 'يجب أن يتكون الوصف من 50 حرف على الأقل.';
   }
   if (value!.length > 200) {
     return 'يجب أن لا يزيد الوصف عن 200 حرف.';

@@ -58,7 +58,7 @@ class OriginalPage extends StatelessWidget {
                           builder: (context) =>
                               UserNotificationSettingsScreen()));
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.notifications_none,
                   size: 27,
                 )),
@@ -154,7 +154,7 @@ class OriginalPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OffersPage()));
+                                builder: (context) => OffersPage(sponsors: sponsors,)));
                       },
                       child: const Text(
                         'الكل',
@@ -193,7 +193,7 @@ class OriginalPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AllServicesPage()));
+                                builder: (context) => AllServicesPage(services: services,)));
                       },
                       child: const Text(
                         'الكل',
@@ -222,6 +222,7 @@ class OriginalPage extends StatelessWidget {
                 ),
                 CustomAllSercivces(
                   services: services,
+                  dev: 8,
                 )
               ],
             ),
