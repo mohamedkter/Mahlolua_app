@@ -217,10 +217,13 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                             height: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(70),
-                                image: DecorationImage(
+                                image: CacheData.getData(key: "image")!=null? DecorationImage(
+                                    fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        "$PartImagePath${CacheData.getData(key: "image")}"),
-                                    fit: BoxFit.cover)),
+                                        "$PartImagePath${CacheData.getData(key: "image")}")):DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        "assets/photo/profileImage.jpg"))),
                           ),
                         ],
                       ),

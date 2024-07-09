@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mahloula/Constants/Color_Constants.dart';
+import 'package:mahloula/Models/sponsor_model.dart';
 import 'package:mahloula/Widgets/custom_offer_item.dart';
 
 class OffersPage extends StatelessWidget {
-  const OffersPage({Key? key}) : super(key: key);
+  const OffersPage({Key? key, required this.sponsors}) : super(key: key);
+  final List<Sponsor> sponsors;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +42,8 @@ class OffersPage extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        itemBuilder: (context, index) => CustomOfferItem(text1: 'text1', text2: 'text2', text3: 'text3'),
-        itemCount: 10,
+        itemBuilder: (context, index) => CustomOfferItem(text1: '${sponsors[index].title}',bgImage:PartImagePath+sponsors[index].image,),
+        itemCount: sponsors.length,
       ),
     );
   }

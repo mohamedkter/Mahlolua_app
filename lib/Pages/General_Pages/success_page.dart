@@ -20,7 +20,7 @@ final String lowerMessage;
                 width: 250,
                 height: 250,
                 child: Lottie.asset(
-                  'assets/photo/doneAnamition.json',
+                  'assets/photo/DoneAnamition.json',
                   fit: BoxFit.cover,
                 )),
              Text(

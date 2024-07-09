@@ -285,7 +285,7 @@ class CompletedAndCanceledReserveButton extends StatelessWidget {
             backgroundColor: MainColor,
             side: const BorderSide(color: MainColor),
             elevation: 0,
-            fixedSize: const Size(320, 25),
+            fixedSize: const Size(270, 25),
           ),
           child: Text(
             btnText,
@@ -419,7 +419,7 @@ class CardButton extends StatelessWidget {
         backgroundColor: btn_backgroung,
         side: BorderSide(color: mainColor),
         elevation: 0,
-        fixedSize: const Size(155, 25),
+        fixedSize: const Size(135, 25),
       ),
       child: Text(
         btn_text,

@@ -90,14 +90,19 @@ class GetOrderDescription extends StatelessWidget {
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(top: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      "حدد الغرفة أو المكان الذي تحدث فيه المشكلة",
-                      style: TextStyle(fontFamily: 'cairo', fontSize: 18),
+                    Container(
+                      width: 300,
+                      child: Text(
+                        "حدد الغرفة أو المكان الذي تحدث فيه المشكلة",
+                        style: TextStyle(fontFamily: 'cairo', fontSize: 18),
+                        softWrap: true,
+                        textAlign: TextAlign.right,
+                      ),
                     ),
                   ],
                 ),
@@ -132,7 +137,7 @@ class GetOrderDescription extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      width: 350,
+                      width: 300,
                       child: const Text(
                         "اذكر إذا كنت قد قمت بأي محاولات لإصلاح المشكلة بنفسك",
                         textAlign: TextAlign.right,

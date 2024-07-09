@@ -103,10 +103,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             height: 135,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(75),
-                                image: DecorationImage(
+                                image:CacheData.getData(key: "image")!=null? DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        "$PartImagePath${CacheData.getData(key: "image")}"))),
+                                        "$PartImagePath${CacheData.getData(key: "image")}")):DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        "assets/photo/profileImage.jpg"))),
                           ),
                         ],
                       ),

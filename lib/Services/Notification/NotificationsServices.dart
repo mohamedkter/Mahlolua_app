@@ -24,7 +24,7 @@ class NotificationServices {
   static void showNotificationRepeated() {
     NotificationDetails details = const NotificationDetails(
         android: AndroidNotificationDetails('id 2', "my channel two",priority: Priority.high,importance: Importance.max));
-    flutterNotification.periodicallyShow(0,"هيا بنا", "مقدمين الخدمه علي استعداد لمساعدتك",RepeatInterval.daily, details,
+    flutterNotification.periodicallyShow(0,"هيا بنا", "مقدمين الخدمه علي استعداد لمساعدتك",RepeatInterval.everyMinute, details,
         payload: "hi there is Mahlola");
 }
 static void cancelNotification(int id){

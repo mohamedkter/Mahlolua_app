@@ -95,8 +95,8 @@ class _OrderCardState extends State<OrderCard> {
                     ],
                   ),
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: MediaQuery.of(context).size.width/5,
+                    height: 80,
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: NetworkImage(
@@ -291,7 +291,7 @@ class OredrCardButton extends StatelessWidget {
             backgroundColor: btn_backgroung,
             side: BorderSide(color: mainColor),
             elevation: 0,
-            fixedSize: Size(160, 25)),
+            fixedSize: Size(140, 25)),
         child: Text(
           btn_text,
           style: TextStyle(

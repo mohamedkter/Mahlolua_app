@@ -23,15 +23,16 @@ final String buttonText;
                     backgroundColor:MainColor,
                     shadowColor: Colors.black,
                     elevation: 1,
-                    fixedSize: Size(350, 50)),
+                    fixedSize: Size(MediaQuery.of(context).size.width/1.2, 50)),
                 onPressed: buttonFunction,
                 child:  Text(
                   buttonText,
                   style:const TextStyle(
                     fontFamily: "Cairo",
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Color.fromARGB(255, 241, 242, 243),
                   ),
+                  textAlign: TextAlign.center,
                 )),
           ],
         ),
