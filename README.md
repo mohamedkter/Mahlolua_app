@@ -46,17 +46,6 @@ cd mahloula
 flutter pub get
 # Run the application
 flutter run
-Usage
-Instructions on how to use Mahloula or any commands needed.
-
-Examples
-Provide example commands or usage scenarios for Mahloula.
-
-Contributing
-Guidelines for contributing to Mahloula, including how to report issues and submit pull requests.
-
-License
-Specify the license under which Mahloula is distributed.
 
 Contact
 For any questions or inquiries, please contact:
