@@ -27,15 +27,8 @@ Screenshots
 Technologies Used
 Flutter: Used for building the frontend UI.
 Dart: Programming language used with Flutter.
-Other dependencies or plugins you may have used.
-Getting Started
-Instructions for how to get a copy of Mahloula up and running on a local machine for development and testing purposes.
-
-Prerequisites
-List any software or tools that users need to have installed before they can use Mahloula.
 
 Installing
-Step-by-step instructions on how to install and configure Mahloula.
 
 bash
 Copy code
